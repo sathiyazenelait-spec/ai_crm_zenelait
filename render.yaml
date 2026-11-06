@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: zenelait-ai-crm-frontend
+    runtime: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://trustworthy-liberation-production-90f6.up.railway.app
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
