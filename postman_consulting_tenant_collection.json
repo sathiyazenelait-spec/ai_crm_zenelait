@@ -1,0 +1,750 @@
+{
+  "info": {
+    "name": "Zenelait AI CRM — Consulting Tenant APIs",
+    "_postman_id": "c7f99841-a67b-4028-912b-36f92d47ce11",
+    "description": "Comprehensive Postman collection for the Consulting Companies Tenant covering Sales Manager, Sales Executive, and Customer Support roles.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "YOUR_JWT_ACCESS_TOKEN",
+      "type": "string"
+    },
+    {
+      "key": "tenantId",
+      "value": "tenant-6",
+      "type": "string"
+    }
+  ],
+  "event": [
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "if (pm.response.code !== 204) {",
+          "    pm.test('Response uses the standard envelope', function () {",
+          "        const body = pm.response.json();",
+          "        pm.expect(body).to.have.property('success');",
+          "        pm.expect(body).to.have.property('message');",
+          "        pm.expect(body).to.have.property('requestId');",
+          "    });",
+          "}"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "01 — Authentication and Tenant Isolation",
+      "item": [
+        {
+          "name": "Verify Tenant Isolation via X-Tenant-Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-manager/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-manager", "dashboard"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 — Sales Manager Dashboard",
+      "item": [
+        {
+          "name": "Get Sales Manager Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-manager/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-manager", "dashboard"]
+            }
+          }
+        },
+        {
+          "name": "Get Sales Metrics",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-manager/metrics",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-manager", "metrics"]
+            }
+          }
+        },
+        {
+          "name": "Get Revenue Forecast",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-manager/forecast?period=QUARTERLY",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-manager", "forecast"],
+              "query": [{ "key": "period", "value": "QUARTERLY" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 — Sales Manager Leads and Assignments",
+      "item": [
+        {
+          "name": "Create Consulting Lead",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"companyName\": \"Example Manufacturing Ltd\",\n  \"contactName\": \"Arun Kumar\",\n  \"email\": \"arun@example.com\",\n  \"phone\": \"+91-9000000000\",\n  \"industry\": \"MANUFACTURING\",\n  \"serviceInterest\": \"DIGITAL_TRANSFORMATION\",\n  \"source\": \"WEBSITE\",\n  \"description\": \"Looking for consulting services to modernize internal business processes.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-manager/leads",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-manager", "leads"]
+            }
+          }
+        },
+        {
+          "name": "Assign Lead to Sales Executive",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assigneeId\": \"USR-EXEC-101\",\n  \"reason\": \"Relevant experience in digital transformation consulting\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-manager/leads/CLD-1001/assign",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-manager", "leads", "CLD-1001", "assign"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 — Sales Manager Opportunities and Targets",
+      "item": [
+        {
+          "name": "Retrieve Consulting Pipeline",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-manager/pipeline?stage=PROPOSAL&size=20&page=0",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-manager", "pipeline"],
+              "query": [
+                { "key": "stage", "value": "PROPOSAL" },
+                { "key": "size", "value": "20" },
+                { "key": "page", "value": "0" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Sales Target",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetName\": \"November Consulting Sales\",\n  \"periodType\": \"MONTHLY\",\n  \"periodStart\": \"2026-11-01\",\n  \"periodEnd\": \"2026-11-30\",\n  \"targetType\": \"CLOSED_WON_VALUE\",\n  \"targetValue\": 2500000,\n  \"currency\": \"INR\",\n  \"teamId\": \"TEAM-CONSULTING-01\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-manager/targets",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-manager", "targets"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 — Sales Manager Proposal Approvals",
+      "item": [
+        {
+          "name": "Get Pending Proposal Approvals",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-manager/proposals/pending-approval",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-manager", "proposals", "pending-approval"]
+            }
+          }
+        },
+        {
+          "name": "Approve Proposal Decision",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"decision\": \"APPROVED\",\n  \"comments\": \"Approved within the configured commercial authority.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-manager/proposals/PROP-4001/decision",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-manager", "proposals", "PROP-4001", "decision"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 — Sales Executive Clients and Leads",
+      "item": [
+        {
+          "name": "Get Executive Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-executive/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-executive", "dashboard"]
+            }
+          }
+        },
+        {
+          "name": "Get Assigned Leads",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-executive/my-leads?page=0&size=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-executive", "my-leads"],
+              "query": [
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "20" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 — Sales Executive Discovery and Requirements",
+      "item": [
+        {
+          "name": "Create Discovery Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": \"CLD-1001\",\n  \"clientId\": \"CLI-1001\",\n  \"meetingType\": \"BUSINESS_DISCOVERY\",\n  \"scheduledAt\": \"2026-10-30T10:00:00+05:30\",\n  \"objective\": \"Understand business challenges and consulting requirements.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-executive/discovery-sessions",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-executive", "discovery-sessions"]
+            }
+          }
+        },
+        {
+          "name": "Record Discovery Requirements",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"businessChallenge\": \"Manual processes cause reporting delays.\",\n  \"desiredOutcomes\": [\n    \"Reduce reporting time\",\n    \"Improve process visibility\"\n  ],\n  \"currentSystems\": [\n    \"Legacy ERP\",\n    \"Spreadsheet-based reporting\"\n  ],\n  \"budgetRange\": {\n    \"minimum\": 500000,\n    \"maximum\": 1500000,\n    \"currency\": \"INR\"\n  },\n  \"targetCompletionDate\": \"2027-03-31\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-executive/discovery-sessions/DISC-1001/requirements",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-executive", "discovery-sessions", "DISC-1001", "requirements"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 — Sales Executive Opportunities and Proposals",
+      "item": [
+        {
+          "name": "Create Opportunity",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": \"CLD-1001\",\n  \"opportunityName\": \"Business Process Modernization\",\n  \"serviceId\": \"CSVC-1001\",\n  \"estimatedValue\": 1200000,\n  \"currency\": \"INR\",\n  \"expectedCloseDate\": \"2026-11-30\",\n  \"requirementId\": \"REQ-1001\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-executive/opportunities",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-executive", "opportunities"]
+            }
+          }
+        },
+        {
+          "name": "Create Proposal Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"opportunityId\": \"OPP-2001\",\n  \"proposalTitle\": \"Business Process Modernization Proposal\",\n  \"serviceId\": \"CSVC-1001\",\n  \"scopeSummary\": \"Assess existing processes and recommend a phased modernization plan.\",\n  \"deliverables\": [\n    \"Current-state assessment\",\n    \"Gap analysis\",\n    \"Target-state recommendations\",\n    \"Implementation roadmap\"\n  ],\n  \"assumptions\": [\n    \"The client will provide access to relevant stakeholders.\"\n  ],\n  \"exclusions\": [\n    \"Software licensing costs\",\n    \"Implementation work not explicitly included in the final scope\"\n  ],\n  \"currency\": \"INR\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-executive/proposals",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-executive", "proposals"]
+            }
+          }
+        },
+        {
+          "name": "Send Approved Proposal",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel\": \"EMAIL\",\n  \"recipientContactId\": \"CONT-1001\",\n  \"message\": \"Please review the attached consulting proposal and share your feedback.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-executive/proposals/PROP-4001/send",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-executive", "proposals", "PROP-4001", "send"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 — Sales Executive Pricing and Follow-ups",
+      "item": [
+        {
+          "name": "Calculate Pricing Estimate",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"proposalId\": \"PROP-4001\",\n  \"pricingModel\": \"FIXED_FEE\",\n  \"currency\": \"INR\",\n  \"costComponents\": [\n    {\n      \"componentType\": \"DISCOVERY_AND_ASSESSMENT\",\n      \"quantity\": 1,\n      \"unit\": \"PROJECT\"\n    },\n    {\n      \"componentType\": \"CONSULTING_DAYS\",\n      \"quantity\": 20,\n      \"unit\": \"DAY\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-executive/pricing/estimates",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-executive", "pricing", "estimates"]
+            }
+          }
+        },
+        {
+          "name": "Create Follow-up",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": \"CLD-1001\",\n  \"opportunityId\": \"OPP-2001\",\n  \"followUpType\": \"PROPOSAL_REVIEW\",\n  \"dueAt\": \"2026-10-31T10:00:00+05:30\",\n  \"notes\": \"Follow up with the client regarding proposal feedback.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-executive/follow-ups",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-executive", "follow-ups"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 — Customer Support Tickets",
+      "item": [
+        {
+          "name": "Get Support Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/customer-support/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "customer-support", "dashboard"]
+            }
+          }
+        },
+        {
+          "name": "Create Support Ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientId\": \"CLI-1001\",\n  \"engagementId\": \"ENG-2001\",\n  \"category\": \"PROJECT_STATUS\",\n  \"subject\": \"Request for project progress update\",\n  \"description\": \"The client would like an update on the current engagement status.\",\n  \"priority\": \"MEDIUM\",\n  \"source\": \"EMAIL\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/customer-support/tickets",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "customer-support", "tickets"]
+            }
+          }
+        },
+        {
+          "name": "Assign Support Ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assigneeId\": \"USR-SUPPORT-101\",\n  \"reason\": \"Requires engagement-status coordination\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/customer-support/tickets/TKT-7001/assign",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "customer-support", "tickets", "TKT-7001", "assign"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "11 — Customer Support Engagements and Invoices",
+      "item": [
+        {
+          "name": "Get Engagement Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/customer-support/engagements/ENG-2001/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "customer-support", "engagements", "ENG-2001", "status"]
+            }
+          }
+        },
+        {
+          "name": "Get Engagement Milestones (Client-Visible Only)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/customer-support/engagements/ENG-2001/milestones",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "customer-support", "engagements", "ENG-2001", "milestones"]
+            }
+          }
+        },
+        {
+          "name": "Get Invoice Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/customer-support/invoices/INV-3001/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "customer-support", "invoices", "INV-3001", "status"]
+            }
+          }
+        },
+        {
+          "name": "Create Billing Enquiry",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientId\": \"CLI-1001\",\n  \"invoiceId\": \"INV-3001\",\n  \"category\": \"INVOICE_CLARIFICATION\",\n  \"description\": \"The client requests clarification of the services included in the invoice.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/customer-support/billing-enquiries",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "customer-support", "billing-enquiries"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "12 — Customer Support SLA and Escalations",
+      "item": [
+        {
+          "name": "Get Ticket SLA",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/customer-support/tickets/TKT-7001/sla",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "customer-support", "tickets", "TKT-7001", "sla"]
+            }
+          }
+        },
+        {
+          "name": "Escalate Ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Client reports a potential contractual or delivery commitment issue\",\n  \"targetTeam\": \"ENGAGEMENT_MANAGEMENT\",\n  \"description\": \"The client needs a review of commitments that Customer Support cannot independently change.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/customer-support/tickets/TKT-7001/escalate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "customer-support", "tickets", "TKT-7001", "escalate"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "13 — AI Assistance and Knowledge Base",
+      "item": [
+        {
+          "name": "Draft AI-Assisted Support Response",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ticketId\": \"TKT-7001\",\n  \"clientMessage\": \"Can you provide an update on our project?\",\n  \"includeEngagementStatus\": true,\n  \"includeKnowledgeBase\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/customer-support/ai/draft-response",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "customer-support", "ai", "draft-response"]
+            }
+          }
+        },
+        {
+          "name": "Record Client Feedback",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ticketId\": \"TKT-7001\",\n  \"rating\": 5,\n  \"comment\": \"The support team provided a clear update.\",\n  \"channel\": \"EMAIL\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/customer-support/feedback",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "customer-support", "feedback"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "14 — Role Authorization Tests",
+      "item": [
+        {
+          "name": "Sales Executive Cannot Approve Proposal Directly",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel\": \"EMAIL\",\n  \"recipientContactId\": \"CONT-1001\",\n  \"message\": \"Please review the proposal\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-executive/proposals/PROP-4001/send",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-executive", "proposals", "PROP-4001", "send"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "15 — Cross-Tenant Access Tests",
+      "item": [
+        {
+          "name": "Attempt Cross-Tenant Access to Another Tenant's Opportunity",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-999-unauthorized" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-manager/opportunities/OPP-2001",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-manager", "opportunities", "OPP-2001"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "16 — Validation and Workflow Conflicts",
+      "item": [
+        {
+          "name": "Missing Opportunity Name Returns 400 Bad Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": \"CLD-1001\",\n  \"opportunityName\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-manager/opportunities",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-manager", "opportunities"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "17 — End-to-End Consulting Workflow",
+      "item": [
+        {
+          "name": "Initiate Delivery Handoff (Sales-to-Delivery Handover)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"opportunityId\": \"OPP-2001\",\n  \"contractId\": \"CON-5001\",\n  \"receivingTeamId\": \"TEAM-DELIVERY-01\",\n  \"handoffSummary\": \"Client has accepted the consulting proposal and the engagement is ready for delivery planning.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consulting/sales-manager/engagement-handoffs",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "consulting", "sales-manager", "engagement-handoffs"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

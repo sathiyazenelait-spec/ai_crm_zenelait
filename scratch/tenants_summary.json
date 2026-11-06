@@ -1,0 +1,515 @@
+{
+  "platform": {
+    "title": "Platform Master Roles (SaaS God Mode & Infrastructure)",
+    "roles": [
+      {
+        "name": "Ultra Super Admin",
+        "badge": "👑 Root Master God-Mode",
+        "description": "Omnipotent root master with total maintenance control over all companies, global AI engines, cross-tenant database overrides, billing engines, and infrastructure lockdown.",
+        "permissions": [
+          "Omnipotent Cross-Tenant Control",
+          "1-Click Tenant Impersonation",
+          "Global AI Fleet Gateway",
+          "Financial MRR/ARR Engine",
+          "Infrastructure Lockdown & Backups",
+          "Universal Quota Master"
+        ]
+      },
+      {
+        "name": "Super Admin",
+        "badge": "Zenelait Platform",
+        "description": "Full root access to platform infrastructure, all tenant workspaces, billing engines, and global AI model configurations.",
+        "permissions": [
+          "All Tenants Control",
+          "Global AI Models",
+          "Billing & Invoicing",
+          "Security & Audit Logs",
+          "Tenant Provisioning"
+        ]
+      },
+      {
+        "name": "Platform Admin",
+        "badge": "Zenelait Platform",
+        "description": "Manages multi-tenant onboarding, platform feature flags, API integrations, and system monitoring.",
+        "permissions": [
+          "Tenant Onboarding",
+          "Feature Toggles",
+          "API Gateway",
+          "System Health",
+          "User Management"
+        ]
+      },
+      {
+        "name": "Billing Admin",
+        "badge": "Zenelait Platform",
+        "description": "Oversees SaaS subscriptions, invoice generation, revenue analytics, and tenant payment gateways.",
+        "permissions": [
+          "Subscription Plans",
+          "Stripe/Razorpay Gateways",
+          "MRR & ARR Analytics",
+          "Refunds & Invoices"
+        ]
+      },
+      {
+        "name": "Support Admin",
+        "badge": "Zenelait Platform",
+        "description": "Cross-tenant technical support, issue escalation, AI agent debugging, and customer SLA monitoring.",
+        "permissions": [
+          "Cross-Tenant Support",
+          "AI Agent Logs",
+          "Ticket Escalations",
+          "Knowledge Base Maintenance"
+        ]
+      }
+    ]
+  },
+  "tenants": {
+    "software_it": {
+      "name": "Software / IT Company",
+      "tagline": "We build innovative software solutions for businesses worldwide.",
+      "aiAgents": [
+        {
+          "name": "AI Sales Agent",
+          "role": "Inbound Qualification & Demo Booking",
+          "description": "Qualifies SaaS enquiries, identifies HRMS/LMS/ERP/CRM product requirements, calculates lead score, offers demo slots, and prepares handover notes."
+        },
+        {
+          "name": "AI Support Agent",
+          "role": "Technical L1/L2 Support & API Docs",
+          "description": "Answers HRMS, LMS, ERP, and CRM product questions, searches verified documentation, triages tickets, detects frustrated customers, and manages escalations."
+        },
+        {
+          "name": "AI Follow-up Agent",
+          "role": "Trial Drip & POC Re-engagement",
+          "description": "Automates personalized multi-step follow-ups after demos, stops sequences on reply, enforces quiet hours and limits, and re-engages dormant leads."
+        },
+        {
+          "name": "Appointment Agent",
+          "role": "Calendar Sync & Meeting Booking",
+          "description": "Handling 3 conversations, demo booking, meeting links, and rescheduling."
+        }
+      ],
+      "humanRoles": [
+        {
+          "name": "Company Admin",
+          "dept": "Admin",
+          "access": "Full Workspace Access"
+        },
+        {
+          "name": "Sales Manager",
+          "dept": "Sales",
+          "access": "Pipeline & Deals Approval"
+        },
+        {
+          "name": "Sales Executive",
+          "dept": "Sales",
+          "access": "Lead Demos & Quotations"
+        },
+        {
+          "name": "Support Manager",
+          "dept": "Support",
+          "access": "Escalations & SLA Management"
+        },
+        {
+          "name": "Support Agent",
+          "dept": "Support",
+          "access": "Ticket Resolution & Docs"
+        },
+        {
+          "name": "Marketing Manager",
+          "dept": "Marketing",
+          "access": "Campaigns & Lead Attribution"
+        },
+        {
+          "name": "Analyst",
+          "dept": "Marketing",
+          "access": "BI Reports & Conversion Metrics"
+        }
+      ]
+    },
+    "real_estate": {
+      "name": "Real Estate Companies",
+      "tagline": "Residential Communities, Luxury Villas & Commercial Realty",
+      "aiAgents": [
+        {
+          "name": "AI Property Sales Agent",
+          "role": "Property Matchmaker & Requirement Extractor",
+          "description": "Understands complex property queries (BHK, carpet area, budget, amenities, ready-to-move vs under-construction) and recommends matching units."
+        },
+        {
+          "name": "AI Appointment Agent",
+          "role": "Site Visit Booking & Cab Coordinator",
+          "description": "Schedules on-site project walkthroughs, confirms visitor slots, syncs with Site Visit Coordinator, and dispatches Google Maps directions."
+        },
+        {
+          "name": "AI Follow-up Agent",
+          "role": "Post-Visit Feedback & Price Drop Alerts",
+          "description": "Follows up within 2 hours after site visits, captures buyer sentiment, triggers home loan pre-checks, and shares limited-period developer discounts."
+        }
+      ],
+      "humanRoles": [
+        {
+          "name": "Company Admin",
+          "dept": "Executive",
+          "access": "Full Realty Workspace"
+        },
+        {
+          "name": "Sales Manager",
+          "dept": "Sales",
+          "access": "Inventory & Deals Approval"
+        },
+        {
+          "name": "Property Sales Executive",
+          "dept": "Sales",
+          "access": "Site Visits & Negotiations"
+        },
+        {
+          "name": "Customer Relationship Manager",
+          "dept": "CRM",
+          "access": "Buyer Onboarding & Loan Docs"
+        },
+        {
+          "name": "Site Visit Coordinator",
+          "dept": "Operations",
+          "access": "Cab Dispatch & Site Passes"
+        },
+        {
+          "name": "Support Agent",
+          "dept": "Support",
+          "access": "Possession Queries & Maintenance"
+        }
+      ]
+    },
+    "education": {
+      "name": "Education / Training Companies",
+      "tagline": "EdTech Bootcamps, Universities, Certifications & Coaching",
+      "aiAgents": [
+        {
+          "name": "AI Admission Agent",
+          "role": "Course Advisor & Syllabus Guide",
+          "description": "Answers course fees, placement records, syllabus breakdown, weekend vs weekday batches, and collects candidate graduation status."
+        },
+        {
+          "name": "AI Follow-up Agent",
+          "role": "Webinar Invites & Batch Deadline Reminders",
+          "description": "Sends automated reminders for free live masterclasses, early-bird scholarship deadlines, and EMI loan pre-approvals."
+        }
+      ],
+      "humanRoles": [
+        {
+          "name": "Admin",
+          "dept": "Executive",
+          "access": "Full Academy Workspace"
+        },
+        {
+          "name": "Admission Manager",
+          "dept": "Admissions",
+          "access": "Batch Allocation & Fee Approvals"
+        },
+        {
+          "name": "Admission Executive",
+          "dept": "Admissions",
+          "access": "Counseling & Enrollment Calls"
+        },
+        {
+          "name": "Counsellor",
+          "dept": "Student Success",
+          "access": "Career Guidance & Skill Assessment"
+        },
+        {
+          "name": "Student Support Agent",
+          "dept": "Support",
+          "access": "LMS Access & Certification Inquiries"
+        }
+      ]
+    },
+    "hospitals": {
+      "name": "Hospitals / Clinics",
+      "tagline": "Multi-Speciality Hospitals, Diagnostic Centers & Dental Clinics",
+      "aiAgents": [
+        {
+          "name": "AI Receptionist",
+          "role": "Patient Triage & Department Router",
+          "description": "Listens to patient symptoms, determines appropriate clinical department (Cardiology, Ortho, Dermatology, Pediatrics), and checks emergency red flags."
+        },
+        {
+          "name": "AI Appointment Agent",
+          "role": "Doctor Slot Booking & Fast Check-in",
+          "description": "Checks real-time doctor availability across OPD consultation chambers, locks appointment time, and issues digital QR token."
+        }
+      ],
+      "humanRoles": [
+        {
+          "name": "Hospital Admin",
+          "dept": "Executive",
+          "access": "Hospital Master Config"
+        },
+        {
+          "name": "Reception Manager",
+          "dept": "Front Desk",
+          "access": "Queue Management & Patient Check-in"
+        },
+        {
+          "name": "Receptionist",
+          "dept": "Front Desk",
+          "access": "Desk Registration & Token Generation"
+        },
+        {
+          "name": "Appointment Coordinator",
+          "dept": "OPD Services",
+          "access": "Doctor Schedules & Rescheduling"
+        },
+        {
+          "name": "Doctor / Staff User",
+          "dept": "Clinical",
+          "access": "Patient History & Prescription Notes"
+        },
+        {
+          "name": "Customer Support",
+          "dept": "Support",
+          "access": "Insurance & Lab Report Queries"
+        }
+      ]
+    },
+    "ecommerce": {
+      "name": "E-commerce Companies",
+      "tagline": "Online Stores, D2C Brands & Multi-Vendor Marketplaces",
+      "aiAgents": [
+        {
+          "name": "AI Sales Agent",
+          "role": "Product Recommendation & Upsell Bot",
+          "description": "Recommends products (e.g. \"Which laptop is good for 4K video editing?\"), compares specifications, and applies active coupon codes."
+        },
+        {
+          "name": "AI Support Agent",
+          "role": "Order Tracking & Delivery Status",
+          "description": "Instantly checks courier API (\"Where is my order?\") and gives live GPS transit location, delivery ETA, and driver contact."
+        },
+        {
+          "name": "AI Order Agent",
+          "role": "Returns, Exchanges & Instant Refunds",
+          "description": "Validates return window policy, generates reverse-pickup barcodes, and automatically triggers UPI refund upon pickup confirmation."
+        }
+      ],
+      "humanRoles": [
+        {
+          "name": "Store Admin",
+          "dept": "Executive",
+          "access": "Full Store Workspace"
+        },
+        {
+          "name": "Sales Manager",
+          "dept": "Growth",
+          "access": "Promotions & High-Value Baskets"
+        },
+        {
+          "name": "Customer Support Manager",
+          "dept": "Support",
+          "access": "Disputes & Refund Authorizations"
+        },
+        {
+          "name": "Support Agent",
+          "dept": "Support",
+          "access": "Live Chat & Return Approvals"
+        },
+        {
+          "name": "Order Manager",
+          "dept": "Fulfillment",
+          "access": "Warehouse Dispatch & Courier Tracking"
+        }
+      ]
+    },
+    "hospitality": {
+      "name": "Hotels / Hospitality",
+      "tagline": "Boutique Hotels, Luxury Resorts & Villa Stays",
+      "aiAgents": [
+        {
+          "name": "AI Reservation Agent",
+          "role": "Room Availability & Direct Booking Engine",
+          "description": "Collects check-in/out dates, guest counts, room preferences (Ocean View, Presidential Suite), checks PMS availability and locks direct bookings."
+        },
+        {
+          "name": "AI Support Agent",
+          "role": "In-Stay Concierge & Amenities Guide",
+          "description": "Answers breakfast timings, infinity pool rules, spa bookings, candlelight beach dinner setups, and airport cab transfers."
+        },
+        {
+          "name": "AI Follow-up Agent",
+          "role": "Post-Checkout Feedback & Loyalty Upgrades",
+          "description": "Collects Google/TripAdvisor reviews after checkout and shares exclusive anniversary & return stay discount vouchers."
+        }
+      ],
+      "humanRoles": [
+        {
+          "name": "Hotel Admin",
+          "dept": "Executive",
+          "access": "Property Master Settings"
+        },
+        {
+          "name": "Reservation Manager",
+          "dept": "Reservations",
+          "access": "Yield Pricing & Group Allocations"
+        },
+        {
+          "name": "Reservation Executive",
+          "dept": "Reservations",
+          "access": "Direct Bookings & Special Requests"
+        },
+        {
+          "name": "Front Desk",
+          "dept": "Guest Experience",
+          "access": "Key Cards & Room Allocation"
+        },
+        {
+          "name": "Customer Support",
+          "dept": "Support",
+          "access": "Airport Transfer & Spa Booking"
+        }
+      ]
+    },
+    "travel": {
+      "name": "Travel Companies",
+      "tagline": "International Tour Operators, Custom Holidays & Visa Services",
+      "aiAgents": [
+        {
+          "name": "AI Travel Sales Agent",
+          "role": "Itinerary Discovery & Requirement Qualifier",
+          "description": "Understands customer dream trips, parses destination, pax count, budget, flight preferences, 4-star vs 5-star hotels, and preferred excursions."
+        },
+        {
+          "name": "AI Booking Agent",
+          "role": "Visa Checklist & Document Collection",
+          "description": "Collects passport scans, assists with visa application forms, and dispatches confirmed flight & hotel confirmation vouchers."
+        },
+        {
+          "name": "AI Follow-up Agent",
+          "role": "Pre-Departure Briefing & Weather Alerts",
+          "description": "Sends automated luggage packing checklists, local currency exchange tips, and destination weather updates 48h before flight departure."
+        }
+      ],
+      "humanRoles": [
+        {
+          "name": "Admin",
+          "dept": "Executive",
+          "access": "Full Agency Workspace"
+        },
+        {
+          "name": "Sales Manager",
+          "dept": "Sales",
+          "access": "Supplier Contracts & Quotation Margins"
+        },
+        {
+          "name": "Travel Consultant",
+          "dept": "Sales",
+          "access": "Custom Itinerary Building & Flight PNRs"
+        },
+        {
+          "name": "Booking Executive",
+          "dept": "Operations",
+          "access": "Hotel Vouchers & Visa Processing"
+        },
+        {
+          "name": "Customer Support",
+          "dept": "Support",
+          "access": "Emergency In-Trip Assistance 24/7"
+        }
+      ]
+    },
+    "manufacturing_b2b": {
+      "name": "Manufacturing / B2B Companies",
+      "tagline": "Industrial Equipment, OEM Parts, Wholesale & Heavy Machinery",
+      "aiAgents": [
+        {
+          "name": "AI B2B Sales Agent",
+          "role": "Bulk RFQ Collector & Specification Scorer",
+          "description": "Interprets bulk orders (\"We need 500 units of Hydraulic Valves\"), extracts material grade, tolerance, delivery timeline, and generates sales opportunity."
+        },
+        {
+          "name": "AI Support Agent",
+          "role": "Technical Datasheets & Warranty Assist",
+          "description": "Serves machine operating manuals, CAD dimensional specs, ISO test certificates, and coordinates warranty field replacements."
+        }
+      ],
+      "humanRoles": [
+        {
+          "name": "Company Admin",
+          "dept": "Executive",
+          "access": "Plant & ERP Master Settings"
+        },
+        {
+          "name": "Sales Manager",
+          "dept": "Sales",
+          "access": "Commercial Pricing & Margin Approvals"
+        },
+        {
+          "name": "Sales Executive",
+          "dept": "B2B Sales",
+          "access": "Client RFQs & Technical Quotations"
+        },
+        {
+          "name": "Dealer Manager",
+          "dept": "Distribution",
+          "access": "Dealer Network & Territory Quotas"
+        },
+        {
+          "name": "Technical Support",
+          "dept": "Engineering",
+          "access": "CAD Drawings & Spec Compliance"
+        },
+        {
+          "name": "Customer Support",
+          "dept": "Support",
+          "access": "Order Dispatch & Warranty Claims"
+        }
+      ]
+    },
+    "financial_services": {
+      "name": "Financial / Professional Services",
+      "tagline": "Insurance, Wealth Advisory, Accounting, Consulting & Legal Services",
+      "aiAgents": [
+        {
+          "name": "AI Lead Qualification Agent",
+          "role": "Risk Assessment & Financial Needs Screener",
+          "description": "Screens loan eligibility, insurance coverage requirements, and investment risk profiles while enforcing regulatory disclaimers."
+        },
+        {
+          "name": "AI Support Agent",
+          "role": "Portfolio Statements & Policy Status",
+          "description": "Answers policy renewal dates, NAV updates, tax deduction 80C queries, and audit documentation checklists."
+        },
+        {
+          "name": "AI Follow-up Agent",
+          "role": "Policy Renewal & Compliance Drips",
+          "description": "Automates insurance renewal reminders, tax filing deadlines, and mandatory KYC periodic re-verification alerts."
+        }
+      ],
+      "humanRoles": [
+        {
+          "name": "Company Admin",
+          "dept": "Executive",
+          "access": "Full Compliance & Firm Settings"
+        },
+        {
+          "name": "Sales Manager",
+          "dept": "Advisory",
+          "access": "Portfolio & Deal Underwriting"
+        },
+        {
+          "name": "Relationship Manager",
+          "dept": "Wealth Advisory",
+          "access": "Client Portfolio & Mandatory Approvals"
+        },
+        {
+          "name": "Sales Executive",
+          "dept": "Sales",
+          "access": "Insurance & Loan Proposals"
+        },
+        {
+          "name": "Customer Support",
+          "dept": "Support",
+          "access": "KYC & Statement Inquiries"
+        }
+      ]
+    }
+  }
+}

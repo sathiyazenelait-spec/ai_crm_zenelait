@@ -1,0 +1,1078 @@
+{
+  "info": {
+    "name": "Zenelait AI CRM — Travel Tenant APIs",
+    "_postman_id": "c1a2b3c4-travel-tenant-v1",
+    "description": "Complete API Catalogue and End-to-End Postman Collection for Zenelait AI CRM — Travel Company Tenant (Wanderlust Expeditions, tenant-7) covering Sales Manager, Travel Consultant, Customer Support, and Booking Executive.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080/api/v1", "type": "string" },
+    { "key": "token", "value": "YOUR_JWT_ACCESS_TOKEN", "type": "string" },
+    { "key": "leadId", "value": "LEAD-1001", "type": "string" },
+    { "key": "customerId", "value": "CUST-1001", "type": "string" },
+    { "key": "itineraryId", "value": "ITIN-1001", "type": "string" },
+    { "key": "quoteId", "value": "TQUOTE-1001", "type": "string" },
+    { "key": "bookingId", "value": "TBOOK-1001", "type": "string" },
+    { "key": "ticketId", "value": "TTICKET-1001", "type": "string" },
+    { "key": "handoffId", "value": "HANDOFF-1001", "type": "string" },
+    { "key": "refundRef", "value": "REF-1001", "type": "string" },
+    { "key": "supplierBookingId", "value": "SB-1001", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "01 - Authentication and Tenant Isolation",
+      "item": [
+        {
+          "name": "Authenticate Travel Employee",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"rajesh.verma@wanderlusttours.com\",\n  \"password\": \"TravelPass@2026\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Verify Tenant Isolation - Cross-Tenant Access Prevention",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-9" }
+            ],
+            "url": { "raw": "{{baseUrl}}/travel/sales-manager/leads/LEAD-1001", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "leads", "LEAD-1001"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 - Sales Manager",
+      "item": [
+        {
+          "name": "Dashboard and Metrics",
+          "item": [
+            {
+              "name": "Get Sales Dashboard",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/travel/sales-manager/dashboard", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "dashboard"] }
+              }
+            },
+            {
+              "name": "Get Pipeline Summary",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/travel/sales-manager/dashboard/pipeline", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "dashboard", "pipeline"] }
+              }
+            },
+            {
+              "name": "Get Conversion Metrics",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/travel/sales-manager/dashboard/conversion", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "dashboard", "conversion"] }
+              }
+            },
+            {
+              "name": "Get Revenue Summary",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/travel/sales-manager/dashboard/revenue", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "dashboard", "revenue"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Lead Management",
+          "item": [
+            {
+              "name": "Create Travel Lead",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customer\": {\n    \"firstName\": \"Arun\",\n    \"lastName\": \"Kumar\",\n    \"email\": \"arun@example.com\",\n    \"phone\": \"+919876543210\"\n  },\n  \"travelRequirements\": {\n    \"destination\": \"Bali\",\n    \"departureDate\": \"2026-12-10\",\n    \"returnDate\": \"2026-12-15\",\n    \"adults\": 2,\n    \"children\": 0,\n    \"budget\": 120000,\n    \"currency\": \"INR\",\n    \"travelType\": \"HOLIDAY_PACKAGE\"\n  },\n  \"leadSource\": \"WEBSITE\",\n  \"notes\": \"Interested in a five-night holiday package\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/sales-manager/leads", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "leads"] }
+              }
+            },
+            {
+              "name": "Get Lead Details",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/travel/sales-manager/leads/{{leadId}}", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "leads", "{{leadId}}"] }
+              }
+            },
+            {
+              "name": "Qualify Lead",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"qualification\": {\n    \"destinationConfirmed\": true,\n    \"travelDatesConfirmed\": true,\n    \"budgetDiscussed\": true,\n    \"travellerCountConfirmed\": true\n  },\n  \"notes\": \"Customer confirmed travel dates and budget.\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/sales-manager/leads/{{leadId}}/qualify", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "leads", "{{leadId}}", "qualify"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consultant Assignment",
+          "item": [
+            {
+              "name": "Assign Lead to Consultant",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"consultantId\": \"EMP-201\",\n  \"reason\": \"Bali holiday package enquiry\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/sales-manager/leads/{{leadId}}/assign", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "leads", "{{leadId}}", "assign"] }
+              }
+            },
+            {
+              "name": "Reassign Lead",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"newConsultantId\": \"EMP-202\",\n  \"reason\": \"Workload balancing\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/sales-manager/leads/{{leadId}}/reassign", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "leads", "{{leadId}}", "reassign"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Pipeline and Targets",
+          "item": [
+            {
+              "name": "Create Sales Target",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"November Travel Sales Target\",\n  \"targetType\": \"REVENUE\",\n  \"employeeId\": \"EMP-201\",\n  \"periodStart\": \"2026-11-01\",\n  \"periodEnd\": \"2026-11-30\",\n  \"targetValue\": 500000,\n  \"currency\": \"INR\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/sales-manager/targets", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "targets"] }
+              }
+            },
+            {
+              "name": "Update Lead Stage",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"stage\": \"QUOTATION_SENT\",\n  \"reason\": \"Quotation shared with customer\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/sales-manager/leads/{{leadId}}/stage", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "leads", "{{leadId}}", "stage"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Quotation Approval",
+          "item": [
+            {
+              "name": "Request Quotation Approval",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"Discount exceeds consultant limit\",\n  \"requestedDiscountPercent\": 12\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/sales-manager/quotations/{{quoteId}}/approval-requests", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "quotations", "{{quoteId}}", "approval-requests"] }
+              }
+            },
+            {
+              "name": "Approve Quotation",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"decision\": \"APPROVE\",\n  \"comment\": \"Discount approved within authorized limits\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/sales-manager/quotations/{{quoteId}}/approve", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "quotations", "{{quoteId}}", "approve"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sales Reports",
+          "item": [
+            {
+              "name": "Destination Performance Report",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/travel/sales-manager/reports/destination-performance", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "reports", "destination-performance"] }
+              }
+            },
+            {
+              "name": "Overdue Follow-ups",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/travel/sales-manager/follow-ups/overdue", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "follow-ups", "overdue"] }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03 - Travel Consultant",
+      "item": [
+        {
+          "name": "Assigned Leads",
+          "item": [
+            {
+              "name": "Get Assigned Leads",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/travel/consultant/leads?stage=QUALIFIED&page=0&size=20", "host": ["{{baseUrl}}"], "path": ["travel", "consultant", "leads"], "query": [{ "key": "stage", "value": "QUALIFIED" }, { "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Travel Requirements",
+          "item": [
+            {
+              "name": "Record Travel Requirements",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"destination\": \"Bali\",\n  \"departureDate\": \"2026-12-10\",\n  \"returnDate\": \"2026-12-15\",\n  \"adults\": 2,\n  \"children\": 0,\n  \"departureCity\": \"Chennai\",\n  \"budget\": 120000,\n  \"currency\": \"INR\",\n  \"hotelCategory\": \"FOUR_STAR\",\n  \"preferredTravelStyle\": \"RELAXED\",\n  \"specialRequirements\": [\"Airport transfers\", \"Breakfast\"]\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/consultant/leads/{{leadId}}/requirements", "host": ["{{baseUrl}}"], "path": ["travel", "consultant", "leads", "{{leadId}}", "requirements"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Destination and Package Search",
+          "item": [
+            {
+              "name": "Travel Search",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"destination\": \"Bali\",\n  \"departureDate\": \"2026-12-10\",\n  \"returnDate\": \"2026-12-15\",\n  \"travellers\": { \"adults\": 2, \"children\": 0 },\n  \"budget\": { \"amount\": 120000, \"currency\": \"INR\" },\n  \"productTypes\": [\"HOLIDAY_PACKAGE\", \"HOTEL\", \"TRANSFER\", \"ACTIVITY\"]\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/consultant/travel-search", "host": ["{{baseUrl}}"], "path": ["travel", "consultant", "travel-search"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Itinerary Management",
+          "item": [
+            {
+              "name": "Create Itinerary",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"leadId\": \"{{leadId}}\",\n  \"customerId\": \"{{customerId}}\",\n  \"title\": \"Bali Five-Night Holiday\",\n  \"destination\": \"Bali\",\n  \"startDate\": \"2026-12-10\",\n  \"endDate\": \"2026-12-15\",\n  \"travellers\": { \"adults\": 2, \"children\": 0 },\n  \"currency\": \"INR\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/consultant/itineraries", "host": ["{{baseUrl}}"], "path": ["travel", "consultant", "itineraries"] }
+              }
+            },
+            {
+              "name": "Add Itinerary Item",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dayNumber\": 1,\n  \"date\": \"2026-12-10\",\n  \"itemType\": \"TRANSFER\",\n  \"title\": \"Airport transfer\",\n  \"description\": \"Transfer from airport to hotel\",\n  \"supplierId\": \"SUP-101\",\n  \"estimatedPrice\": 2500,\n  \"currency\": \"INR\",\n  \"confirmationStatus\": \"NOT_BOOKED\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/consultant/itineraries/{{itineraryId}}/items", "host": ["{{baseUrl}}"], "path": ["travel", "consultant", "itineraries", "{{itineraryId}}", "items"] }
+              }
+            },
+            {
+              "name": "Validate Itinerary",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"validateDates\": true,\n  \"validateTravellerRequirements\": true,\n  \"validateSupplierReferences\": true\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/consultant/itineraries/{{itineraryId}}/validate", "host": ["{{baseUrl}}"], "path": ["travel", "consultant", "itineraries", "{{itineraryId}}", "validate"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Quotation Management",
+          "item": [
+            {
+              "name": "Create Quotation",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"leadId\": \"{{leadId}}\",\n  \"customerId\": \"{{customerId}}\",\n  \"itineraryId\": \"{{itineraryId}}\",\n  \"currency\": \"INR\",\n  \"items\": [\n    { \"description\": \"Hotel accommodation\", \"quantity\": 5, \"unitPrice\": 12000 },\n    { \"description\": \"Airport transfers\", \"quantity\": 2, \"unitPrice\": 2500 }\n  ],\n  \"discountAmount\": 2000,\n  \"validUntil\": \"2026-11-05\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/consultant/quotations", "host": ["{{baseUrl}}"], "path": ["travel", "consultant", "quotations"] }
+              }
+            },
+            {
+              "name": "Recalculate Quotation",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refreshSupplierPrices\": true,\n  \"currency\": \"INR\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/consultant/quotations/{{quoteId}}/recalculate", "host": ["{{baseUrl}}"], "path": ["travel", "consultant", "quotations", "{{quoteId}}", "recalculate"] }
+              }
+            },
+            {
+              "name": "Send Quotation",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"channel\": \"EMAIL\",\n  \"recipientReference\": \"VERIFIED_CUSTOMER_CONTACT\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/consultant/quotations/{{quoteId}}/send", "host": ["{{baseUrl}}"], "path": ["travel", "consultant", "quotations", "{{quoteId}}", "send"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Booking Handoff",
+          "item": [
+            {
+              "name": "Submit Handoff to Booking Team",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quoteId\": \"{{quoteId}}\",\n  \"itineraryId\": \"{{itineraryId}}\",\n  \"customerAcceptanceReference\": \"ACCEPTANCE-1001\",\n  \"notes\": \"Customer accepted the itinerary and requests booking processing\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/consultant/leads/{{leadId}}/handoff-to-booking", "host": ["{{baseUrl}}"], "path": ["travel", "consultant", "leads", "{{leadId}}", "handoff-to-booking"] }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "04 - Customer Support",
+      "item": [
+        {
+          "name": "Support Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/travel/customer-support/dashboard", "host": ["{{baseUrl}}"], "path": ["travel", "customer-support", "dashboard"] }
+          }
+        },
+        {
+          "name": "Guest Verification",
+          "item": [
+            {
+              "name": "Start Verification Session",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phone\": \"+919876543210\",\n  \"channel\": \"SMS_OTP\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/customer-support/guest-verification/sessions", "host": ["{{baseUrl}}"], "path": ["travel", "customer-support", "guest-verification", "sessions"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Booking Lookup",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/travel/customer-support/bookings/{{bookingId}}", "host": ["{{baseUrl}}"], "path": ["travel", "customer-support", "bookings", "{{bookingId}}"] }
+          }
+        },
+        {
+          "name": "Support Tickets",
+          "item": [
+            {
+              "name": "Create Support Ticket",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"bookingId\": \"{{bookingId}}\",\n  \"category\": \"ITINERARY_CHANGE\",\n  \"subject\": \"Request to change travel date\",\n  \"description\": \"Customer wants to move the departure date by one day\",\n  \"priority\": \"HIGH\",\n  \"channel\": \"EMAIL\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/customer-support/tickets", "host": ["{{baseUrl}}"], "path": ["travel", "customer-support", "tickets"] }
+              }
+            },
+            {
+              "name": "Classify Support Ticket",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"useConversationContext\": true\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/customer-support/tickets/{{ticketId}}/classify", "host": ["{{baseUrl}}"], "path": ["travel", "customer-support", "tickets", "{{ticketId}}", "classify"] }
+              }
+            },
+            {
+              "name": "Generate Reply Draft",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tone\": \"POLITE\",\n  \"includeNextSteps\": true\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/customer-support/tickets/{{ticketId}}/reply-drafts", "host": ["{{baseUrl}}"], "path": ["travel", "customer-support", "tickets", "{{ticketId}}", "reply-drafts"] }
+              }
+            },
+            {
+              "name": "Escalate Ticket",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"Departure approaching and customer needs urgent assistance\",\n  \"targetRole\": \"SUPPORT_MANAGER\",\n  \"summary\": \"Urgent review needed for date change.\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/customer-support/tickets/{{ticketId}}/escalate", "host": ["{{baseUrl}}"], "path": ["travel", "customer-support", "tickets", "{{ticketId}}", "escalate"] }
+              }
+            },
+            {
+              "name": "Resolve Ticket",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"resolutionSummary\": \"Customer informed of change request outcome\",\n  \"resolutionReference\": \"CHG-1001\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/customer-support/tickets/{{ticketId}}/resolve", "host": ["{{baseUrl}}"], "path": ["travel", "customer-support", "tickets", "{{ticketId}}", "resolve"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Change and Cancellation Requests",
+          "item": [
+            {
+              "name": "Create Change Request",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bookingId\": \"{{bookingId}}\",\n  \"changeType\": \"DEPARTURE_DATE\",\n  \"requestedChanges\": {\n    \"departureDate\": \"2026-12-11\",\n    \"returnDate\": \"2026-12-16\"\n  },\n  \"reason\": \"Customer travel schedule changed\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/customer-support/change-requests", "host": ["{{baseUrl}}"], "path": ["travel", "customer-support", "change-requests"] }
+              }
+            },
+            {
+              "name": "Create Cancellation Request",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bookingId\": \"{{bookingId}}\",\n  \"reason\": \"Customer no longer wishes to travel\",\n  \"requestedBy\": \"CUSTOMER\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/customer-support/cancellation-requests", "host": ["{{baseUrl}}"], "path": ["travel", "customer-support", "cancellation-requests"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Refund Status",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/travel/customer-support/refunds/{{refundRef}}/status", "host": ["{{baseUrl}}"], "path": ["travel", "customer-support", "refunds", "{{refundRef}}", "status"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 - Booking Executive",
+      "item": [
+        {
+          "name": "Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/travel/booking-executive/dashboard", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "dashboard"] }
+          }
+        },
+        {
+          "name": "Booking Handoffs",
+          "item": [
+            {
+              "name": "List Pending Handoffs",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/travel/booking-executive/handoffs?status=PENDING_BOOKING_REVIEW&page=0&size=20", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "handoffs"], "query": [{ "key": "status", "value": "PENDING_BOOKING_REVIEW" }, { "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+              }
+            },
+            {
+              "name": "Accept Booking Handoff",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notes\": \"Booking details reviewed; supplier availability must be verified\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/booking-executive/handoffs/{{handoffId}}/accept", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "handoffs", "{{handoffId}}", "accept"] }
+              }
+            },
+            {
+              "name": "Return Handoff to Consultant",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"Supplier booking cannot proceed until required traveller details are provided\",\n  \"missingInformation\": [\"Required traveller details\"]\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/booking-executive/handoffs/{{handoffId}}/return-to-consultant", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "handoffs", "{{handoffId}}", "return-to-consultant"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Booking Management",
+          "item": [
+            {
+              "name": "Validate Booking Readiness",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"checkQuotationValidity\": true,\n  \"checkTravellerDetails\": true,\n  \"checkSupplierAvailability\": true,\n  \"checkPaymentRequirements\": true\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/booking-executive/bookings/{{bookingId}}/validate", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "bookings", "{{bookingId}}", "validate"] }
+              }
+            },
+            {
+              "name": "Create Internal Booking Record",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Idempotency-Key", "value": "travel-booking-create-1001" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"handoffId\": \"{{handoffId}}\",\n  \"quoteId\": \"{{quoteId}}\",\n  \"itineraryId\": \"{{itineraryId}}\",\n  \"customerId\": \"{{customerId}}\",\n  \"currency\": \"INR\",\n  \"travellers\": { \"adults\": 2, \"children\": 0 }\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/booking-executive/bookings", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "bookings"] }
+              }
+            },
+            {
+              "name": "Confirm Booking",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/travel/booking-executive/bookings/{{bookingId}}/confirm", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "bookings", "{{bookingId}}", "confirm"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Supplier Bookings",
+          "item": [
+            {
+              "name": "Submit Supplier Booking",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Idempotency-Key", "value": "supplier-booking-1001" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bookingId\": \"{{bookingId}}\",\n  \"supplierId\": \"SUP-101\",\n  \"productType\": \"HOTEL\",\n  \"supplierOfferReference\": \"OFFER-1001\",\n  \"travellerReference\": \"TRAVELLER-SET-1001\",\n  \"currency\": \"INR\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/booking-executive/supplier-bookings", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "supplier-bookings"] }
+              }
+            },
+            {
+              "name": "Get Supplier Booking Status",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/travel/booking-executive/supplier-bookings/{{supplierBookingId}}/status", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "supplier-bookings", "{{supplierBookingId}}", "status"] }
+              }
+            },
+            {
+              "name": "Reconcile Supplier Booking",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/travel/booking-executive/supplier-bookings/{{supplierBookingId}}/reconcile", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "supplier-bookings", "{{supplierBookingId}}", "reconcile"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Payments and Invoices",
+          "item": [
+            {
+              "name": "Create Checkout Session",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bookingId\": \"{{bookingId}}\",\n  \"amount\": 63000,\n  \"currency\": \"INR\",\n  \"purpose\": \"BOOKING_PAYMENT\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/booking-executive/payments/checkout-sessions", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "payments", "checkout-sessions"] }
+              }
+            },
+            {
+              "name": "Get Payment Status",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/travel/booking-executive/payments/PAY-1001/status", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "payments", "PAY-1001", "status"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Vouchers and Documents",
+          "item": [
+            {
+              "name": "Generate Booking Voucher",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"voucherType\": \"HOTEL_CONFIRMATION\",\n  \"includeSupplierReference\": true\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/booking-executive/bookings/{{bookingId}}/vouchers/generate", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "bookings", "{{bookingId}}", "vouchers", "generate"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cancellations and Refunds",
+          "item": [
+            {
+              "name": "Request Supplier Cancellation",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"Customer requested cancellation\",\n  \"cancellationPolicyReference\": \"POLICY-1001\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/travel/booking-executive/supplier-bookings/{{supplierBookingId}}/cancel-requests", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "supplier-bookings", "{{supplierBookingId}}", "cancel-requests"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Exceptions",
+          "item": [
+            {
+              "name": "List Booking Exceptions",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/travel/booking-executive/exceptions", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "exceptions"] }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "06 - Authorization Tests",
+      "item": [
+        {
+          "name": "Consultant Forbidden from Approving Quotations",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\"decision\": \"APPROVE\"}" },
+            "url": { "raw": "{{baseUrl}}/travel/sales-manager/quotations/{{quoteId}}/approve", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "quotations", "{{quoteId}}", "approve"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 - Tenant Isolation Tests",
+      "item": [
+        {
+          "name": "Prevent Cross Tenant Read on Bookings",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-4" }
+            ],
+            "url": { "raw": "{{baseUrl}}/travel/booking-executive/bookings/{{bookingId}}", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "bookings", "{{bookingId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 - Validation and Business Rule Tests",
+      "item": [
+        {
+          "name": "Reject Lead Creation with Departure After Return Date",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer\": { \"firstName\": \"Test\", \"lastName\": \"Error\", \"email\": \"err@test.com\", \"phone\": \"+919999999999\" },\n  \"travelRequirements\": { \"destination\": \"Bali\", \"departureDate\": \"2026-12-20\", \"returnDate\": \"2026-12-10\", \"adults\": 2, \"children\": 0, \"budget\": 10000 }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/travel/sales-manager/leads", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "leads"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 - Duplicate Request and Idempotency Tests",
+      "item": [
+        {
+          "name": "Duplicate Booking Create with Same Idempotency Key",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Idempotency-Key", "value": "travel-booking-create-1001" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"handoffId\": \"{{handoffId}}\",\n  \"quoteId\": \"{{quoteId}}\",\n  \"customerId\": \"{{customerId}}\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/travel/booking-executive/bookings", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "bookings"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 - Supplier and Payment Integration Failures",
+      "item": [
+        {
+          "name": "Supplier Search Timeout / Fallback Test",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"destination\": \"InvalidDestination999\",\n  \"departureDate\": \"2026-12-10\",\n  \"returnDate\": \"2026-12-15\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/travel/consultant/travel-search", "host": ["{{baseUrl}}"], "path": ["travel", "consultant", "travel-search"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "11 - End-to-End Travel Booking Workflow",
+      "item": [
+        {
+          "name": "Step 1: Create Lead (Sales Manager)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer\": { \"firstName\": \"Arun\", \"lastName\": \"Kumar\", \"email\": \"arun@example.com\", \"phone\": \"+919876543210\" },\n  \"travelRequirements\": { \"destination\": \"Bali\", \"departureDate\": \"2026-12-10\", \"returnDate\": \"2026-12-15\", \"adults\": 2, \"children\": 0, \"budget\": 120000, \"currency\": \"INR\" },\n  \"leadSource\": \"WEBSITE\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/travel/sales-manager/leads", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "leads"] }
+          }
+        },
+        {
+          "name": "Step 2: Assign Lead to Consultant",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\"consultantId\": \"EMP-201\", \"reason\": \"Bali enquiry\"}" },
+            "url": { "raw": "{{baseUrl}}/travel/sales-manager/leads/{{leadId}}/assign", "host": ["{{baseUrl}}"], "path": ["travel", "sales-manager", "leads", "{{leadId}}", "assign"] }
+          }
+        },
+        {
+          "name": "Step 3: Record Requirements (Consultant)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"destination\": \"Bali\",\n  \"departureDate\": \"2026-12-10\",\n  \"returnDate\": \"2026-12-15\",\n  \"adults\": 2,\n  \"children\": 0,\n  \"budget\": 120000,\n  \"currency\": \"INR\",\n  \"hotelCategory\": \"FOUR_STAR\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/travel/consultant/leads/{{leadId}}/requirements", "host": ["{{baseUrl}}"], "path": ["travel", "consultant", "leads", "{{leadId}}", "requirements"] }
+          }
+        },
+        {
+          "name": "Step 4: Create Itinerary (Consultant)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": \"{{leadId}}\",\n  \"customerId\": \"{{customerId}}\",\n  \"title\": \"Bali Five-Night Holiday\",\n  \"destination\": \"Bali\",\n  \"startDate\": \"2026-12-10\",\n  \"endDate\": \"2026-12-15\",\n  \"currency\": \"INR\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/travel/consultant/itineraries", "host": ["{{baseUrl}}"], "path": ["travel", "consultant", "itineraries"] }
+          }
+        },
+        {
+          "name": "Step 5: Create Quotation (Consultant)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": \"{{leadId}}\",\n  \"customerId\": \"{{customerId}}\",\n  \"itineraryId\": \"{{itineraryId}}\",\n  \"currency\": \"INR\",\n  \"items\": [{ \"description\": \"Hotel accommodation\", \"quantity\": 5, \"unitPrice\": 12000 }],\n  \"discountAmount\": 2000,\n  \"validUntil\": \"2026-11-05\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/travel/consultant/quotations", "host": ["{{baseUrl}}"], "path": ["travel", "consultant", "quotations"] }
+          }
+        },
+        {
+          "name": "Step 6: Handoff to Booking Team (Consultant)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quoteId\": \"{{quoteId}}\",\n  \"itineraryId\": \"{{itineraryId}}\",\n  \"customerAcceptanceReference\": \"ACCEPTANCE-1001\",\n  \"notes\": \"Customer accepted quotation\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/travel/consultant/leads/{{leadId}}/handoff-to-booking", "host": ["{{baseUrl}}"], "path": ["travel", "consultant", "leads", "{{leadId}}", "handoff-to-booking"] }
+          }
+        },
+        {
+          "name": "Step 7: Accept Handoff (Booking Executive)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\"notes\": \"Accepted for processing\"}" },
+            "url": { "raw": "{{baseUrl}}/travel/booking-executive/handoffs/{{handoffId}}/accept", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "handoffs", "{{handoffId}}", "accept"] }
+          }
+        },
+        {
+          "name": "Step 8: Submit Supplier Booking (Booking Executive)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookingId\": \"{{bookingId}}\",\n  \"supplierId\": \"SUP-101\",\n  \"productType\": \"HOTEL\",\n  \"supplierOfferReference\": \"OFFER-1001\",\n  \"travellerReference\": \"TRAVELLER-SET-1001\",\n  \"currency\": \"INR\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/travel/booking-executive/supplier-bookings", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "supplier-bookings"] }
+          }
+        },
+        {
+          "name": "Step 9: Confirm Booking (Booking Executive)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/travel/booking-executive/bookings/{{bookingId}}/confirm", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "bookings", "{{bookingId}}", "confirm"] }
+          }
+        },
+        {
+          "name": "Step 10: Generate Voucher (Booking Executive)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\"voucherType\": \"HOTEL_CONFIRMATION\", \"includeSupplierReference\": true}" },
+            "url": { "raw": "{{baseUrl}}/travel/booking-executive/bookings/{{bookingId}}/vouchers/generate", "host": ["{{baseUrl}}"], "path": ["travel", "booking-executive", "bookings", "{{bookingId}}", "vouchers", "generate"] }
+          }
+        },
+        {
+          "name": "Step 11: Create Support Change Request (Customer Support)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookingId\": \"{{bookingId}}\",\n  \"changeType\": \"DEPARTURE_DATE\",\n  \"requestedChanges\": { \"departureDate\": \"2026-12-11\", \"returnDate\": \"2026-12-16\" },\n  \"reason\": \"Schedule change\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/travel/customer-support/change-requests", "host": ["{{baseUrl}}"], "path": ["travel", "customer-support", "change-requests"] }
+          }
+        },
+        {
+          "name": "Step 12: Check Refund Status (Customer Support)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/travel/customer-support/refunds/{{refundRef}}/status", "host": ["{{baseUrl}}"], "path": ["travel", "customer-support", "refunds", "{{refundRef}}", "status"] }
+          }
+        }
+      ]
+    }
+  ]
+}

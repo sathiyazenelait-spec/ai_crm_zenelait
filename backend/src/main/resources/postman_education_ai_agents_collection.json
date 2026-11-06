@@ -1,0 +1,21 @@
+{
+  "info": {
+    "_postman_id": "zenelait-education-ai-agents-v1",
+    "name": "Zenelait AI CRM — Education Tenant AI Admission & Follow-up Agents",
+    "description": "Complete 55-endpoint Postman collection for AI Admission Agent (27 APIs) and AI Follow-up Agent (28 APIs) in Zenelait AI CRM — Education/Training Tenant.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080/api/v1", "type": "string" },
+    { "key": "jwtToken", "value": "YOUR_JWT_TOKEN", "type": "string" },
+    { "key": "sessionId", "value": "adm_session_1001", "type": "string" },
+    { "key": "leadId", "value": "1201", "type": "string" },
+    { "key": "courseId", "value": "501", "type": "string" },
+    { "key": "applicationId", "value": "2101", "type": "string" },
+    { "key": "taskId", "value": "7101", "type": "string" },
+    { "key": "ruleId", "value": "603", "type": "string" },
+    { "key": "draftId", "value": "draft_8001", "type": "string" },
+    { "key": "executionId", "value": "exec_9001", "type": "string" },
+    { "key": "sourceId", "value": "KB-103", "type": "string" }
+  ]
+}

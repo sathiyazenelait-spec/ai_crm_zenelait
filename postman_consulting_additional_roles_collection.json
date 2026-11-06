@@ -1,0 +1,1234 @@
+{
+  "info": {
+    "name": "Zenelait Consulting CRM — Additional Roles (Relationship Manager, AI Lead Qualification, Customer AI Support, Customer AI Follow-up)",
+    "_postman_id": "c88b9a21-9964-442a-a921-65b1192788e2",
+    "description": "Complete Postman testing suite for the 4 additional roles in Zenelait AI CRM Consulting Companies Tenant: Relationship Manager, AI Lead Qualification Agent, Customer AI Support Agent, and Customer AI Follow-up Agent.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080", "type": "string" },
+    { "key": "accessToken", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.example", "type": "string" },
+    { "key": "accountId", "value": "ACC-1001", "type": "string" },
+    { "key": "leadId", "value": "LEAD-1001", "type": "string" },
+    { "key": "proposalId", "value": "PROP-1001", "type": "string" },
+    { "key": "conversationId", "value": "CONV-1001", "type": "string" },
+    { "key": "ticketId", "value": "TKT-1001", "type": "string" },
+    { "key": "contactId", "value": "CONTACT-101", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "1. Relationship Manager",
+      "item": [
+        {
+          "name": "API 1 — Relationship Manager Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Correlation-ID", "value": "{{$guid}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/relationship-manager/dashboard", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "relationship-manager", "dashboard"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.success).to.eql(true);",
+                  "pm.expect(res.data.assignedAccounts).to.eql(35);",
+                  "pm.expect(res.data.activeEngagements).to.eql(18);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 2 — Retrieve Assigned Accounts",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/relationship-manager/my-accounts?page=0&size=10", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "relationship-manager", "my-accounts"], "query": [{ "key": "page", "value": "0" }, { "key": "size", "value": "10" }] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.success).to.eql(true);",
+                  "pm.expect(res.data.content[0].accountId).to.eql('ACC-1001');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 3 — View Account Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/relationship-manager/accounts/{{accountId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "relationship-manager", "accounts", "{{accountId}}"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.accountId).to.eql('ACC-1001');",
+                  "pm.expect(res.data.primaryContact.email).to.eql('contact@example.com');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 4 — Record Client Interaction",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"activityType\": \"CLIENT_CALL\",\n  \"subject\": \"Monthly account review\",\n  \"description\": \"Discussed engagement progress and upcoming business requirements.\",\n  \"occurredAt\": \"2026-10-29T10:00:00+05:30\",\n  \"nextAction\": \"Schedule technical review\",\n  \"nextActionDueDate\": \"2026-11-02\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/relationship-manager/accounts/{{accountId}}/activities", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "relationship-manager", "accounts", "{{accountId}}", "activities"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 201 Created', function () { pm.response.to.have.status(201); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.activityType).to.eql('CLIENT_CALL');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 5 — Record Account Health Assessment",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assessmentPeriod\": \"2026-10\",\n  \"deliveryHealth\": \"YELLOW\",\n  \"communicationHealth\": \"GREEN\",\n  \"satisfactionHealth\": \"YELLOW\",\n  \"commercialHealth\": \"GREEN\",\n  \"notes\": \"Client requested clearer weekly delivery updates.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/relationship-manager/accounts/{{accountId}}/health-assessments", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "relationship-manager", "accounts", "{{accountId}}", "health-assessments"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 201 Created', function () { pm.response.to.have.status(201); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.assessmentId).to.eql('HLA-3001');",
+                  "pm.expect(res.data.overallHealth).to.eql('AT_RISK');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 6 — Create Relationship Risk",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"riskCategory\": \"CLIENT_SATISFACTION\",\n  \"title\": \"Client concerned about delivery communication\",\n  \"description\": \"Client has requested more frequent delivery status updates.\",\n  \"severity\": \"MEDIUM\",\n  \"ownerId\": \"USER-RM-101\",\n  \"dueDate\": \"2026-11-02\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/relationship-manager/accounts/{{accountId}}/risks", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "relationship-manager", "accounts", "{{accountId}}", "risks"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 201 Created', function () { pm.response.to.have.status(201); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.riskId).to.eql('RSK-4001');",
+                  "pm.expect(res.data.severity).to.eql('MEDIUM');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 7 — Request Client Review Meeting",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Quarterly Business Review\",\n  \"agenda\": [\"Engagement progress\", \"Client feedback\", \"Upcoming business requirements\"],\n  \"requestedDateTime\": \"2026-11-05T11:00:00+05:30\",\n  \"durationMinutes\": 45,\n  \"attendeeContactIds\": [\"CONTACT-101\"]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/relationship-manager/accounts/{{accountId}}/review-meetings", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "relationship-manager", "accounts", "{{accountId}}", "review-meetings"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 201 Created', function () { pm.response.to.have.status(201); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.meetingId).to.eql('MTG-5001');",
+                  "pm.expect(res.data.status).to.eql('PENDING_CONFIRMATION');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 8 — Generate AI Account Summary",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountId\": \"{{accountId}}\",\n  \"include\": [\"engagements\", \"recentActivities\", \"openRisks\", \"complaints\", \"renewals\"]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/relationship-manager/ai/account-summary", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "relationship-manager", "ai", "account-summary"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.riskLevel).to.eql('MEDIUM');",
+                  "pm.expect(res.data.requiresHumanReview).to.eql(true);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 9 — Create Growth Opportunity",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"opportunityName\": \"Cloud Cost Optimization Consulting\",\n  \"serviceCategory\": \"CLOUD_CONSULTING\",\n  \"businessNeed\": \"Client requested a review of cloud operating costs.\",\n  \"source\": \"CLIENT_REVIEW\",\n  \"estimatedValue\": 250000,\n  \"currency\": \"INR\",\n  \"nextAction\": \"Discuss requirements with Sales\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/relationship-manager/accounts/{{accountId}}/growth-opportunities", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "relationship-manager", "accounts", "{{accountId}}", "growth-opportunities"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 201 Created', function () { pm.response.to.have.status(201); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.opportunityId).to.eql('GRO-6001');",
+                  "pm.expect(res.data.status).to.eql('IDENTIFIED');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 10 — Hand Opportunity to Sales",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"salesTeamId\": \"TEAM-CONSULTING-SALES\",\n  \"assignedUserId\": \"USER-SE-201\",\n  \"handoffNotes\": \"Client requested an initial cloud cost optimization discussion.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/relationship-manager/growth-opportunities/GRO-6001/handoff", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "relationship-manager", "growth-opportunities", "GRO-6001", "handoff"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.status).to.eql('HANDED_OFF');",
+                  "pm.expect(res.data.assignedUserId).to.eql('USER-SE-201');"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2. AI Lead Qualification Agent",
+      "item": [
+        {
+          "name": "API 1 — View Qualification Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-lead-qualification/dashboard", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-lead-qualification", "dashboard"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.pendingLeads).to.eql(24);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 2 — Submit Lead for Qualification (202 Accepted)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": \"{{leadId}}\",\n  \"requestedChecks\": [\"SERVICE_FIT\", \"BUSINESS_NEED\", \"INFORMATION_COMPLETENESS\", \"DUPLICATE_CHECK\", \"NEXT_ACTION\"],\n  \"priority\": \"NORMAL\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-lead-qualification/jobs", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-lead-qualification", "jobs"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 202 Accepted', function () { pm.response.to.have.status(202); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.status).to.eql('QUEUED');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 3 — Retrieve Qualification Job Result",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-lead-qualification/jobs/LQ-JOB-1001", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-lead-qualification", "jobs", "LQ-JOB-1001"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.qualification.score).to.eql(82);",
+                  "pm.expect(res.data.qualification.recommendation).to.eql('PRIORITIZE_FOR_SALES_REVIEW');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 4 — Retrieve Outstanding Questions",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-lead-qualification/leads/{{leadId}}/questions", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-lead-qualification", "leads", "{{leadId}}", "questions"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.questions.length).to.be.at.least(2);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 5 — Record Qualification Answers",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"answers\": [\n    { \"questionId\": \"Q-101\", \"answer\": \"We want to modernize our internal business application.\" },\n    { \"questionId\": \"Q-102\", \"answer\": \"We expect to begin discovery next quarter.\" }\n  ],\n  \"source\": \"CLIENT_RESPONSE\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-lead-qualification/leads/{{leadId}}/answers", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-lead-qualification", "leads", "{{leadId}}", "answers"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 201 Created', function () { pm.response.to.have.status(201); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.qualificationStatus).to.eql('READY_FOR_REASSESSMENT');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 6 — Check for Duplicate Leads",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"matchFields\": [\"email\", \"companyName\", \"phone\"]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-lead-qualification/leads/{{leadId}}/duplicate-check", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-lead-qualification", "leads", "{{leadId}}", "duplicate-check"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.potentialDuplicates[0].candidateLeadId).to.eql('LEAD-0998');",
+                  "pm.expect(res.data.automaticMergeAllowed).to.eql(false);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 7 — Retrieve Score Explanation",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-lead-qualification/leads/{{leadId}}/explanations", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-lead-qualification", "leads", "{{leadId}}", "explanations"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.score).to.eql(82);",
+                  "pm.expect(res.data.factors.length).to.eql(3);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 8 — Generate Next-Step Recommendation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"objective\": \"PREPARE_FOR_DISCOVERY\",\n  \"includeMissingInformation\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-lead-qualification/leads/{{leadId}}/recommendations", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-lead-qualification", "leads", "{{leadId}}", "recommendations"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.recommendedAction).to.eql('SCHEDULE_DISCOVERY');",
+                  "pm.expect(res.data.requiresHumanApproval).to.eql(true);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 9 — Route Lead to Sales Executive",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetRole\": \"SALES_EXECUTIVE\",\n  \"routingReason\": \"High service fit and clear business need\",\n  \"preferredTeamId\": \"TEAM-CONSULTING-SALES\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-lead-qualification/leads/{{leadId}}/route", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-lead-qualification", "leads", "{{leadId}}", "route"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.routingStatus).to.eql('ASSIGNED');",
+                  "pm.expect(res.data.assignedUserId).to.eql('USER-SE-201');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 10 — Record Human Review Decision",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"decision\": \"APPROVE_QUALIFICATION\",\n  \"comments\": \"The business need matches our consulting services.\",\n  \"nextAction\": \"CREATE_SALES_TASK\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-lead-qualification/leads/{{leadId}}/review-decisions", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-lead-qualification", "leads", "{{leadId}}", "review-decisions"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 201 Created', function () { pm.response.to.have.status(201); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.reviewId).to.eql('LQ-REVIEW-1001');",
+                  "pm.expect(res.data.decision).to.eql('APPROVE_QUALIFICATION');"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3. Customer AI Support Agent",
+      "item": [
+        {
+          "name": "API 1 — View AI Support Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-support/dashboard", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-support", "dashboard"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.activeConversations).to.eql(32);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 2 — Start Client Support Conversation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientId\": \"CLIENT-1001\",\n  \"channel\": \"WEB_CHAT\",\n  \"subject\": \"Cloud migration project status\",\n  \"initialMessage\": \"Can you provide an update on our cloud migration?\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-support/conversations", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-support", "conversations"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 201 Created', function () { pm.response.to.have.status(201); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.status).to.eql('OPEN');",
+                  "pm.expect(res.data.assignedAgent).to.eql('AI_SUPPORT_AGENT');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 3 — Submit Message for AI Processing",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Can you provide an update on our cloud migration?\",\n  \"messageType\": \"TEXT\",\n  \"language\": \"en\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-support/conversations/{{conversationId}}/messages", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-support", "conversations", "{{conversationId}}", "messages"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.classification.category).to.eql('PROJECT_STATUS');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 4 — Generate Grounded Answer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"conversationId\": \"{{conversationId}}\",\n  \"question\": \"What is the current status of our cloud migration?\",\n  \"context\": { \"clientId\": \"CLIENT-1001\", \"engagementId\": \"ENG-1001\" },\n  \"responseMode\": \"GROUNDED\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-support/ai/answer", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-support", "ai", "answer"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.groundingStatus).to.eql('GROUNDED');",
+                  "pm.expect(res.data.sourceReferences[0].sourceId).to.eql('ENG-1001');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 5 — Search Approved Knowledge Articles",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"What is the support escalation process?\",\n  \"filters\": { \"category\": \"SUPPORT_POLICY\", \"publishedOnly\": true },\n  \"limit\": 5\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-support/knowledge/search", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-support", "knowledge", "search"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.results[0].articleId).to.eql('KB-1001');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 6 — Create Support Ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientId\": \"CLIENT-1001\",\n  \"conversationId\": \"{{conversationId}}\",\n  \"subject\": \"Unable to access project dashboard\",\n  \"description\": \"The client reports that the project dashboard does not load.\",\n  \"category\": \"TECHNICAL_SUPPORT\",\n  \"priority\": \"NORMAL\",\n  \"source\": \"AI_SUPPORT_AGENT\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-support/tickets", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-support", "tickets"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 201 Created', function () { pm.response.to.have.status(201); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.ticketId).to.eql('TKT-1001');",
+                  "pm.expect(res.data.humanAssignmentRequired).to.eql(true);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 7 — Classify Ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"include\": [\"category\", \"priority\", \"sentiment\", \"escalationRisk\"]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-support/tickets/{{ticketId}}/classify", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-support", "tickets", "{{ticketId}}", "classify"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.category).to.eql('TECHNICAL_SUPPORT');",
+                  "pm.expect(res.data.escalationRisk).to.eql('LOW');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 8 — Request Missing Information (202 Accepted)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestedInformation\": [\n    \"Approximate time the issue started\",\n    \"Error message displayed\",\n    \"Whether the issue affects other authorized users\"\n  ],\n  \"channel\": \"WEB_CHAT\",\n  \"requiresHumanApproval\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-support/tickets/{{ticketId}}/request-information", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-support", "tickets", "{{ticketId}}", "request-information"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 202 Accepted', function () { pm.response.to.have.status(202); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.status).to.eql('PENDING_APPROVAL');",
+                  "pm.expect(res.data.requestedInformationCount).to.eql(3);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 9 — Escalate Ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"CLIENT_REQUEST\",\n  \"targetTeam\": \"TECHNICAL_SUPPORT\",\n  \"summary\": \"Client requests technical assistance with the project dashboard.\",\n  \"priority\": \"HIGH\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-support/tickets/{{ticketId}}/escalate", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-support", "tickets", "{{ticketId}}", "escalate"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.status).to.eql('ESCALATED');",
+                  "pm.expect(res.data.escalationId).to.eql('ESC-1001');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 10 — Hand Conversation to Human Support",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"COMPLEX_TECHNICAL_ISSUE\",\n  \"targetTeam\": \"TECHNICAL_SUPPORT\",\n  \"summary\": \"The client needs help investigating a project dashboard issue.\",\n  \"conversationSummary\": \"Client reported that the project dashboard does not load.\",\n  \"urgency\": \"NORMAL\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-support/conversations/{{conversationId}}/handoff", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-support", "conversations", "{{conversationId}}", "handoff"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 201 Created', function () { pm.response.to.have.status(201); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.handoffId).to.eql('HO-SUP-1001');",
+                  "pm.expect(res.data.status).to.eql('PENDING_ASSIGNMENT');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 11 — Record Client Feedback",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"conversationId\": \"{{conversationId}}\",\n  \"rating\": 4,\n  \"comments\": \"The response was helpful.\",\n  \"source\": \"WEB_CHAT\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-support/feedback", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-support", "feedback"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 201 Created', function () { pm.response.to.have.status(201); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.feedbackId).to.eql('FB-SUP-1001');",
+                  "pm.expect(res.data.rating).to.eql(4);"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4. Customer AI Follow-up Agent",
+      "item": [
+        {
+          "name": "API 1 — View Follow-up Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-follow-up/dashboard", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-follow-up", "dashboard"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.scheduledTasks).to.eql(42);",
+                  "pm.expect(res.data.tasksDueToday).to.eql(15);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 2 — Create Proposal Follow-up",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"followUpType\": \"PROPOSAL_STATUS_CHECK\",\n  \"scheduledAt\": \"2026-11-02T10:00:00+05:30\",\n  \"channel\": \"EMAIL\",\n  \"purpose\": \"Check whether the client needs clarification about the proposal.\",\n  \"actionMode\": \"DRAFT_FOR_APPROVAL\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-follow-up/proposals/{{proposalId}}/follow-ups", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-follow-up", "proposals", "{{proposalId}}", "follow-ups"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 201 Created', function () { pm.response.to.have.status(201); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.taskId).to.eql('FU-1001');",
+                  "pm.expect(res.data.status).to.eql('DRAFT');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 3 — Check Eligibility for Follow-up",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contactId\": \"{{contactId}}\",\n  \"channel\": \"EMAIL\",\n  \"purpose\": \"PROPOSAL_STATUS_CHECK\",\n  \"relatedRecordType\": \"PROPOSAL\",\n  \"relatedRecordId\": \"{{proposalId}}\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-follow-up/ai/check-eligibility", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-follow-up", "ai", "check-eligibility"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.eligible).to.eql(true);",
+                  "pm.expect(res.data.checks.optOut).to.eql('PASSED');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 4 — Generate Follow-up Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"relatedRecordType\": \"PROPOSAL\",\n  \"relatedRecordId\": \"{{proposalId}}\",\n  \"contactId\": \"{{contactId}}\",\n  \"channel\": \"EMAIL\",\n  \"purpose\": \"PROPOSAL_STATUS_CHECK\",\n  \"tone\": \"PROFESSIONAL\",\n  \"includeCallToAction\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-follow-up/ai/draft-message", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-follow-up", "ai", "draft-message"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.draftId).to.eql('DRAFT-1001');",
+                  "pm.expect(res.data.status).to.eql('DRAFT');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 5 — Schedule Follow-up Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"relatedRecordType\": \"PROPOSAL\",\n  \"relatedRecordId\": \"{{proposalId}}\",\n  \"contactId\": \"{{contactId}}\",\n  \"followUpType\": \"PROPOSAL_STATUS_CHECK\",\n  \"scheduledAt\": \"2026-11-02T10:00:00+05:30\",\n  \"channel\": \"EMAIL\",\n  \"actionMode\": \"DRAFT_FOR_APPROVAL\",\n  \"draftId\": \"DRAFT-1001\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-follow-up/tasks", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-follow-up", "tasks"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 201 Created', function () { pm.response.to.have.status(201); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.taskId).to.eql('FU-1002');",
+                  "pm.expect(res.data.status).to.eql('SCHEDULED');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 6 — Retrieve Scheduled Task",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-follow-up/tasks/FU-1002", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-follow-up", "tasks", "FU-1002"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.taskId).to.eql('FU-1002');",
+                  "pm.expect(res.data.status).to.eql('SCHEDULED');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 7 — Approve Follow-up Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"decision\": \"APPROVE\",\n  \"comments\": \"Reviewed and approved for sending.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-follow-up/approvals/APR-FU-1001/approve", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-follow-up", "approvals", "APR-FU-1001", "approve"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.status).to.eql('APPROVED');",
+                  "pm.expect(res.data.nextAction).to.eql('ELIGIBILITY_RECHECK_REQUIRED');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 8 — Record Opt-Out Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel\": \"EMAIL\",\n  \"scope\": \"MARKETING_AND_AUTOMATED_FOLLOW_UP\",\n  \"reason\": \"CONTACT_REQUEST\",\n  \"source\": \"CLIENT_REQUEST\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-follow-up/contacts/{{contactId}}/opt-outs", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-follow-up", "contacts", "{{contactId}}", "opt-outs"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 201 Created', function () { pm.response.to.have.status(201); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.status).to.eql('ACTIVE');",
+                  "pm.expect(res.data.effectiveImmediately).to.eql(true);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 9 — Retrieve Communication Eligibility",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-follow-up/contacts/{{contactId}}/communication-status?channel=EMAIL", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-follow-up", "contacts", "{{contactId}}", "communication-status"], "query": [{ "key": "channel", "value": "EMAIL" }] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.eligible).to.eql(false);",
+                  "pm.expect(res.data.reason).to.eql('CONTACT_OPTED_OUT');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 10 — Cancel Scheduled Follow-up",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"CONTACT_OPTED_OUT\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-follow-up/tasks/FU-1002/cancel", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-follow-up", "tasks", "FU-1002", "cancel"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.status).to.eql('CANCELLED');",
+                  "pm.expect(res.data.reason).to.eql('CONTACT_OPTED_OUT');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "API 11 — Retrieve Message Delivery Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/v1/consulting/ai-follow-up/messages/MSG-FU-1001", "host": ["{{baseUrl}}"], "path": ["api", "v1", "consulting", "ai-follow-up", "messages", "MSG-FU-1001"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "const res = pm.response.json();",
+                  "pm.expect(res.data.status).to.eql('DELIVERED');",
+                  "pm.expect(res.data.providerMessageId).to.eql('provider-message-example');"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1030 @@
+{
+  "info": {
+    "name": "Zenelait AI CRM — Manufacturing Tenant APIs",
+    "_postman_id": "mfg-tenant-v1-2026",
+    "description": "Complete API Catalogue, Role Permissions, Business Guardrails, and End-to-End Workflow Postman Collection for Zenelait AI CRM — Manufacturing Company Tenant (Apex Precision Engineering & Hydraulics, tenant-4) covering Sales Manager, Sales Executive, Dealer Manager, and Customer Support.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080/api/v1", "type": "string" },
+    { "key": "token", "value": "YOUR_JWT_ACCESS_TOKEN", "type": "string" },
+    { "key": "leadId", "value": "mfg_lead_1001", "type": "string" },
+    { "key": "opportunityId", "value": "mfg_opp_1001", "type": "string" },
+    { "key": "quotationId", "value": "mfg_quote_1001", "type": "string" },
+    { "key": "approvalId", "value": "mfg_approval_1001", "type": "string" },
+    { "key": "dealerId", "value": "mfg_dealer_1001", "type": "string" },
+    { "key": "territoryId", "value": "territory_south_01", "type": "string" },
+    { "key": "priceRequestId", "value": "dealer_price_request_1001", "type": "string" },
+    { "key": "ticketId", "value": "mfg_ticket_1001", "type": "string" },
+    { "key": "warrantyClaimId", "value": "mfg_warranty_1001", "type": "string" },
+    { "key": "returnRequestId", "value": "mfg_return_1001", "type": "string" },
+    { "key": "productId", "value": "mfg_product_101", "type": "string" },
+    { "key": "customerId", "value": "mfg_customer_101", "type": "string" },
+    { "key": "orderId", "value": "mfg_order_2001", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "01 Authentication and Tenant Isolation",
+      "item": [
+        {
+          "name": "Authenticate Manufacturing User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"vikram.singh@apexindustrialgear.com\",\n  \"password\": \"ApexPass@2026\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Verify Tenant Isolation - Cross-Tenant Access Prevention",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-9" }
+            ],
+            "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/leads/{{leadId}}", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "leads", "{{leadId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 Sales Manager",
+      "item": [
+        {
+          "name": "Dashboard and Reports",
+          "item": [
+            {
+              "name": "Get Sales Dashboard",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/dashboard?period=MONTH", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "dashboard"], "query": [{ "key": "period", "value": "MONTH" }] }
+              }
+            },
+            {
+              "name": "Get Sales Performance Metrics",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/metrics?period=MONTH", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "metrics"], "query": [{ "key": "period", "value": "MONTH" }] }
+              }
+            },
+            {
+              "name": "Get Revenue and Margin Report",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/reports/revenue?period=MONTH", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "reports", "revenue"], "query": [{ "key": "period", "value": "MONTH" }] }
+              }
+            },
+            {
+              "name": "Get Pipeline Report",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/reports/pipeline", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "reports", "pipeline"] }
+              }
+            },
+            {
+              "name": "Get Conversion Report",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/reports/conversion", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "reports", "conversion"] }
+              }
+            },
+            {
+              "name": "Get Executive Performance",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/team/user_sales_exec_101/performance?period=MONTH", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "team", "user_sales_exec_101", "performance"], "query": [{ "key": "period", "value": "MONTH" }] }
+              }
+            },
+            {
+              "name": "Get Product Performance",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/reports/product-performance", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "reports", "product-performance"] }
+              }
+            },
+            {
+              "name": "Get Forecast Report",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/reports/forecast", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "reports", "forecast"] }
+              }
+            },
+            {
+              "name": "Get Overdue Follow-ups",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/reports/overdue-follow-ups", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "reports", "overdue-follow-ups"] }
+              }
+            },
+            {
+              "name": "Get Activity Logs",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/activity-logs", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "activity-logs"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Leads and Opportunities",
+          "item": [
+            {
+              "name": "Create Manufacturing Lead",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"companyName\": \"ABC Industrial Solutions\",\n  \"contactName\": \"Ravi Kumar\",\n  \"email\": \"ravi@example.com\",\n  \"phone\": \"+919876543210\",\n  \"industry\": \"INDUSTRIAL_EQUIPMENT\",\n  \"source\": \"WEBSITE_ENQUIRY\",\n  \"requirement\": \"Industrial pumps for a manufacturing plant\",\n  \"estimatedQuantity\": 50,\n  \"estimatedBudget\": {\n    \"amount\": 500000,\n    \"currency\": \"INR\"\n  }\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/leads", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "leads"] }
+              }
+            },
+            {
+              "name": "Assign Lead to Sales Executive",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"salesExecutiveId\": \"user_sales_exec_101\",\n  \"reason\": \"Industrial equipment enquiry\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/leads/{{leadId}}/assign", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "leads", "{{leadId}}", "assign"] }
+              }
+            },
+            {
+              "name": "Create Sales Opportunity",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"leadId\": \"{{leadId}}\",\n  \"title\": \"Industrial Pump Supply\",\n  \"expectedValue\": {\n    \"amount\": 500000,\n    \"currency\": \"INR\"\n  },\n  \"expectedCloseDate\": \"2026-11-30\",\n  \"stage\": \"QUALIFICATION\",\n  \"probabilityPercent\": 25\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/opportunities", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "opportunities"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Team Assignments",
+          "item": [
+            {
+              "name": "List Permitted Sales Team",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/team", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "team"] }
+              }
+            },
+            {
+              "name": "Bulk Assign Leads",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"leadIds\": [\"{{leadId}}\"],\n  \"salesExecutiveId\": \"user_sales_exec_101\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/assignments/bulk", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "assignments", "bulk"] }
+              }
+            },
+            {
+              "name": "Get Team Workload",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/workload", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "workload"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Targets and Forecasts",
+          "item": [
+            {
+              "name": "Create Sales Target",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"November Industrial Equipment Target\",\n  \"period\": \"MONTH\",\n  \"startDate\": \"2026-11-01\",\n  \"endDate\": \"2026-11-30\",\n  \"userId\": \"user_sales_exec_101\",\n  \"targetAmount\": {\n    \"amount\": 1000000,\n    \"currency\": \"INR\"\n  },\n  \"targetOrders\": 10\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/targets", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "targets"] }
+              }
+            },
+            {
+              "name": "List Sales Targets",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/targets", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "targets"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Quotation Approvals",
+          "item": [
+            {
+              "name": "Get Pending Quotation Approvals",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/quotation-approvals?status=PENDING_REVIEW&page=0&size=20", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "quotation-approvals"], "query": [{ "key": "status", "value": "PENDING_REVIEW" }, { "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+              }
+            },
+            {
+              "name": "Approve Quotation Decision",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"decision\": \"APPROVE\",\n  \"comment\": \"Approved according to the configured discount policy.\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/quotation-approvals/{{approvalId}}/decision", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "quotation-approvals", "{{approvalId}}", "decision"] }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03 Sales Executive",
+      "item": [
+        {
+          "name": "Assigned Leads",
+          "item": [
+            {
+              "name": "Get My Assigned Leads",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-executive/my-leads?status=ASSIGNED&page=0&size=20", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-executive", "my-leads"], "query": [{ "key": "status", "value": "ASSIGNED" }, { "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+              }
+            },
+            {
+              "name": "Record Lead Activity",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"MEETING\",\n  \"summary\": \"On-site pump requirements review with plant head.\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-executive/leads/{{leadId}}/activities", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-executive", "leads", "{{leadId}}", "activities"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Product Requirements",
+          "item": [
+            {
+              "name": "Create Product Requirements",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"leadId\": \"{{leadId}}\",\n  \"application\": \"INDUSTRIAL_WATER_TRANSFER\",\n  \"productCategory\": \"INDUSTRIAL_PUMP\",\n  \"quantity\": 50,\n  \"requiredSpecifications\": {\n    \"flowRate\": {\n      \"value\": 100,\n      \"unit\": \"M3_PER_HOUR\"\n    },\n    \"material\": \"STAINLESS_STEEL\"\n  },\n  \"requiredByDate\": \"2026-12-15\",\n  \"notes\": \"Final specifications to be confirmed by the customer.\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-executive/product-requirements", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-executive", "product-requirements"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Product Catalogue",
+          "item": [
+            {
+              "name": "Search Industrial Products",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-executive/products?category=INDUSTRIAL_PUMP&search=water&page=0&size=20", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-executive", "products"], "query": [{ "key": "category", "value": "INDUSTRIAL_PUMP" }, { "key": "search", "value": "water" }, { "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+              }
+            },
+            {
+              "name": "Get Product Technical Specs",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-executive/products/{{productId}}/specifications", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-executive", "products", "{{productId}}", "specifications"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Inventory Checks",
+          "item": [
+            {
+              "name": "Check Inventory Availability",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"items\": [\n    {\n      \"productId\": \"{{productId}}\",\n      \"quantity\": 50\n    }\n  ],\n  \"requiredByDate\": \"2026-12-15\",\n  \"fulfilmentLocationId\": \"warehouse_101\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-executive/inventory/availability-checks", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-executive", "inventory", "availability-checks"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Quotations",
+          "item": [
+            {
+              "name": "Create Quotation Draft",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"leadId\": \"{{leadId}}\",\n  \"customerId\": \"{{customerId}}\",\n  \"currency\": \"INR\",\n  \"paymentTerms\": \"NET_30\",\n  \"validUntil\": \"2026-11-15\",\n  \"items\": [\n    {\n      \"productId\": \"{{productId}}\",\n      \"quantity\": 50,\n      \"unitPrice\": 10000\n    }\n  ]\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-executive/quotations", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-executive", "quotations"] }
+              }
+            },
+            {
+              "name": "Request Quotation Approval",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"Approval required for the proposed customer pricing.\",\n  \"requestedDiscountPercent\": 5,\n  \"comment\": \"Please review the commercial terms.\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-executive/quotations/{{quotationId}}/request-approval", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-executive", "quotations", "{{quotationId}}", "request-approval"] }
+              }
+            },
+            {
+              "name": "Send Quotation",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"channel\": \"EMAIL\",\n  \"templateId\": \"manufacturing_quotation_v1\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-executive/quotations/{{quotationId}}/send", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-executive", "quotations", "{{quotationId}}", "send"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Order Handoffs",
+          "item": [
+            {
+              "name": "Create Order Handoff",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customerAcceptanceReference\": \"verified-customer-acceptance\",\n  \"requestedDeliveryDate\": \"2026-12-15\",\n  \"notes\": \"Verify production capacity and inventory before order confirmation.\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/sales-executive/quotations/{{quotationId}}/order-handoffs", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-executive", "quotations", "{{quotationId}}", "order-handoffs"] }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "04 Dealer Manager",
+      "item": [
+        {
+          "name": "Dealer Registration",
+          "item": [
+            {
+              "name": "Register Dealer",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"businessName\": \"Southern Industrial Distributors\",\n  \"businessType\": \"AUTHORIZED_DISTRIBUTOR\",\n  \"registrationNumber\": \"DEALER-REG-1001\",\n  \"primaryContact\": {\n    \"name\": \"Karthik Raj\",\n    \"email\": \"karthik@example.com\",\n    \"phone\": \"+919876543210\"\n  },\n  \"address\": {\n    \"country\": \"IN\",\n    \"state\": \"Tamil Nadu\",\n    \"city\": \"Chennai\",\n    \"postalCode\": \"600001\"\n  },\n  \"requestedTerritoryId\": \"{{territoryId}}\",\n  \"productCategories\": [\n    \"INDUSTRIAL_PUMP\",\n    \"INDUSTRIAL_MOTOR\"\n  ]\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/dealer-manager/dealers", "host": ["{{baseUrl}}"], "path": ["manufacturing", "dealer-manager", "dealers"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "item": [
+            {
+              "name": "Submit Dealer Verification",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"documentReferences\": [\n    \"dealer-document-registration-001\",\n    \"dealer-document-tax-001\"\n  ],\n  \"declarationAccepted\": true\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/dealer-manager/dealers/{{dealerId}}/submit-verification", "host": ["{{baseUrl}}"], "path": ["manufacturing", "dealer-manager", "dealers", "{{dealerId}}", "submit-verification"] }
+              }
+            },
+            {
+              "name": "Record Verification Decision",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"decision\": \"APPROVE\",\n  \"comment\": \"Required dealer documents verified according to company policy.\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/dealer-manager/dealers/{{dealerId}}/verification-decision", "host": ["{{baseUrl}}"], "path": ["manufacturing", "dealer-manager", "dealers", "{{dealerId}}", "verification-decision"] }
+              }
+            },
+            {
+              "name": "Activate Dealer",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/dealer-manager/dealers/{{dealerId}}/activate", "host": ["{{baseUrl}}"], "path": ["manufacturing", "dealer-manager", "dealers", "{{dealerId}}", "activate"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Territory Management",
+          "item": [
+            {
+              "name": "Assign Dealer to Territory",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dealerId\": \"{{dealerId}}\",\n  \"effectiveFrom\": \"2026-11-01\",\n  \"effectiveUntil\": null,\n  \"productCategories\": [\n    \"INDUSTRIAL_PUMP\",\n    \"INDUSTRIAL_MOTOR\"\n  ]\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/dealer-manager/territories/{{territoryId}}/dealers", "host": ["{{baseUrl}}"], "path": ["manufacturing", "dealer-manager", "territories", "{{territoryId}}", "dealers"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Dealer Pricing",
+          "item": [
+            {
+              "name": "Request Dealer-Specific Pricing",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dealerId\": \"{{dealerId}}\",\n  \"productId\": \"{{productId}}\",\n  \"currency\": \"INR\",\n  \"requestedDiscountPercent\": 8,\n  \"effectiveFrom\": \"2026-11-01\",\n  \"effectiveUntil\": \"2027-03-31\",\n  \"reason\": \"Quarterly distributor sales programme\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/dealer-manager/dealer-price-requests", "host": ["{{baseUrl}}"], "path": ["manufacturing", "dealer-manager", "dealer-price-requests"] }
+              }
+            },
+            {
+              "name": "Decide Dealer Pricing Request",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"decision\": \"REJECT\",\n  \"reason\": \"The requested discount exceeds the manager's authorized threshold.\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/dealer-manager/dealer-price-requests/{{priceRequestId}}/decision", "host": ["{{baseUrl}}"], "path": ["manufacturing", "dealer-manager", "dealer-price-requests", "{{priceRequestId}}", "decision"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Dealer Agreements",
+          "item": [
+            {
+              "name": "List Dealer Agreements",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/dealer-manager/dealer-agreements", "host": ["{{baseUrl}}"], "path": ["manufacturing", "dealer-manager", "dealer-agreements"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Dealer Performance",
+          "item": [
+            {
+              "name": "Create Dealer Sales Target",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Q4 Industrial Pump Sales Target\",\n  \"period\": \"QUARTER\",\n  \"startDate\": \"2026-10-01\",\n  \"endDate\": \"2026-12-31\",\n  \"targetAmount\": {\n    \"amount\": 2500000,\n    \"currency\": \"INR\"\n  },\n  \"targetUnits\": 200\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/dealer-manager/dealers/{{dealerId}}/targets", "host": ["{{baseUrl}}"], "path": ["manufacturing", "dealer-manager", "dealers", "{{dealerId}}", "targets"] }
+              }
+            },
+            {
+              "name": "Get Dealer Performance Metrics",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/dealer-manager/dealers/{{dealerId}}/performance?period=QUARTER", "host": ["{{baseUrl}}"], "path": ["manufacturing", "dealer-manager", "dealers", "{{dealerId}}", "performance"], "query": [{ "key": "period", "value": "QUARTER" }] }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "05 Customer Support",
+      "item": [
+        {
+          "name": "Tickets",
+          "item": [
+            {
+              "name": "Get Support Dashboard",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/customer-support/dashboard", "host": ["{{baseUrl}}"], "path": ["manufacturing", "customer-support", "dashboard"] }
+              }
+            },
+            {
+              "name": "Create Support Ticket",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"orderId\": \"{{orderId}}\",\n  \"productId\": \"{{productId}}\",\n  \"category\": \"TECHNICAL_ISSUE\",\n  \"subject\": \"Industrial pump overheating\",\n  \"description\": \"The pump becomes unusually hot during operation.\",\n  \"priority\": \"HIGH\",\n  \"channel\": \"EMAIL\",\n  \"serialNumber\": \"SERIAL-EXAMPLE-001\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/customer-support/tickets", "host": ["{{baseUrl}}"], "path": ["manufacturing", "customer-support", "tickets"] }
+              }
+            },
+            {
+              "name": "Classify Ticket (AI Suggestion)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"includePriorityRecommendation\": true,\n  \"includeSafetyRiskAssessment\": true\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/customer-support/tickets/{{ticketId}}/classify", "host": ["{{baseUrl}}"], "path": ["manufacturing", "customer-support", "tickets", "{{ticketId}}", "classify"] }
+              }
+            },
+            {
+              "name": "Generate AI Reply Draft",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tone\": \"PROFESSIONAL\",\n  \"language\": \"en\",\n  \"includeKnowledgeReferences\": true\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/customer-support/tickets/{{ticketId}}/draft-reply", "host": ["{{baseUrl}}"], "path": ["manufacturing", "customer-support", "tickets", "{{ticketId}}", "draft-reply"] }
+              }
+            },
+            {
+              "name": "Resolve Ticket with Confirmation",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"resolutionCode\": \"TECHNICAL_GUIDANCE_PROVIDED\",\n  \"resolutionSummary\": \"Approved technical support instructions were provided.\",\n  \"customerConfirmationReceived\": true\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/customer-support/tickets/{{ticketId}}/resolve", "host": ["{{baseUrl}}"], "path": ["manufacturing", "customer-support", "tickets", "{{ticketId}}", "resolve"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Customer and Order Lookup",
+          "item": [
+            {
+              "name": "Lookup Customer Context",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customerId\": \"{{customerId}}\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/customer-support/customer-context/lookup", "host": ["{{baseUrl}}"], "path": ["manufacturing", "customer-support", "customer-context", "lookup"] }
+              }
+            },
+            {
+              "name": "Get Customer Order Delivery Status",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{baseUrl}}/manufacturing/customer-support/orders/{{orderId}}/delivery-status", "host": ["{{baseUrl}}"], "path": ["manufacturing", "customer-support", "orders", "{{orderId}}", "delivery-status"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Technical Knowledge",
+          "item": [
+            {
+              "name": "Search Approved Technical Documentation",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"industrial pump overheating troubleshooting\",\n  \"productId\": \"{{productId}}\",\n  \"language\": \"en\",\n  \"limit\": 5\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/customer-support/knowledge/search", "host": ["{{baseUrl}}"], "path": ["manufacturing", "customer-support", "knowledge", "search"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Warranty Claims",
+          "item": [
+            {
+              "name": "Create Warranty Claim",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ticketId\": \"{{ticketId}}\",\n  \"customerId\": \"{{customerId}}\",\n  \"orderId\": \"{{orderId}}\",\n  \"productId\": \"{{productId}}\",\n  \"serialNumber\": \"SERIAL-EXAMPLE-001\",\n  \"purchaseDate\": \"2026-06-15\",\n  \"issueDescription\": \"Product overheating during operation\",\n  \"evidenceReferences\": [\"authorized-evidence-reference-001\"]\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/customer-support/warranty-claims", "host": ["{{baseUrl}}"], "path": ["manufacturing", "customer-support", "warranty-claims"] }
+              }
+            },
+            {
+              "name": "Validate Warranty Claim Eligibility",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"checkPurchaseRecord\": true,\n  \"checkSerialNumber\": true,\n  \"checkWarrantyPeriod\": true,\n  \"checkProductEligibility\": true\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/customer-support/warranty-claims/{{warrantyClaimId}}/validate", "host": ["{{baseUrl}}"], "path": ["manufacturing", "customer-support", "warranty-claims", "{{warrantyClaimId}}", "validate"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Returns and Repairs",
+          "item": [
+            {
+              "name": "Create Return Request (RMA)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"orderId\": \"{{orderId}}\",\n  \"customerId\": \"{{customerId}}\",\n  \"items\": [\n    {\n      \"productId\": \"{{productId}}\",\n      \"quantity\": 1,\n      \"reason\": \"PRODUCT_DEFECT\"\n    }\n  ],\n  \"description\": \"Product requires inspection due to reported overheating.\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/customer-support/return-requests", "host": ["{{baseUrl}}"], "path": ["manufacturing", "customer-support", "return-requests"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Escalations",
+          "item": [
+            {
+              "name": "Escalate Ticket to Technical Safety Team",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"POTENTIAL_PRODUCT_SAFETY_ISSUE\",\n  \"priority\": \"URGENT\",\n  \"targetTeam\": \"TECHNICAL_SAFETY_TEAM\",\n  \"summary\": \"Product overheating requires qualified technical assessment.\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/manufacturing/customer-support/tickets/{{ticketId}}/escalate", "host": ["{{baseUrl}}"], "path": ["manufacturing", "customer-support", "tickets", "{{ticketId}}", "escalate"] }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "06 Role Authorization Tests",
+      "item": [
+        {
+          "name": "Reject Sales Executive Attempt to Approve Own Quotation (403/409)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"decision\": \"APPROVE\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/manufacturing/sales-executive/quotations/{{quotationId}}/approve", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-executive", "quotations", "{{quotationId}}", "approve"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 Cross-Tenant Access Tests",
+      "item": [
+        {
+          "name": "Reject Cross-Tenant Access to Leads",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-other" }
+            ],
+            "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/leads/{{leadId}}", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "leads", "{{leadId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 Validation and Business Rules",
+      "item": [
+        {
+          "name": "Prevent Sending Unapproved Quotation (409 Conflict)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel\": \"EMAIL\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/manufacturing/sales-executive/quotations/mfg_quote_1001/send", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-executive", "quotations", "mfg_quote_1001", "send"] }
+          }
+        },
+        {
+          "name": "Prevent Order Handoff for Unaccepted Quotation (409 Conflict)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerAcceptanceReference\": \"verified-customer-acceptance\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/manufacturing/sales-executive/quotations/mfg_quote_1001/order-handoffs", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-executive", "quotations", "mfg_quote_1001", "order-handoffs"] }
+          }
+        },
+        {
+          "name": "Prevent Resolving Ticket without Customer Confirmation (409 Conflict)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resolutionCode\": \"TECHNICAL_GUIDANCE_PROVIDED\",\n  \"customerConfirmationReceived\": false\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/manufacturing/customer-support/tickets/{{ticketId}}/resolve", "host": ["{{baseUrl}}"], "path": ["manufacturing", "customer-support", "tickets", "{{ticketId}}", "resolve"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 Duplicate Requests and Idempotency",
+      "item": [
+        {
+          "name": "Prevent Duplicate Lead Creation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"companyName\": \"ABC Industrial Solutions\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/leads", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "leads"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 AI and External Integration Failures",
+      "item": [
+        {
+          "name": "Handle Unreachable ERP During Fulfilment Estimate",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"mfg_product_101\",\n  \"quantity\": 500\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/manufacturing/sales-executive/fulfilment-estimates", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-executive", "fulfilment-estimates"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "11 End-to-End Manufacturing Workflow",
+      "item": [
+        {
+          "name": "Step 1: Sales Manager Assigns Lead",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"salesExecutiveId\": \"user_sales_exec_101\",\n  \"reason\": \"Industrial pump supply enquiry\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/leads/{{leadId}}/assign", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "leads", "{{leadId}}", "assign"] }
+          }
+        },
+        {
+          "name": "Step 2: Sales Executive Checks Inventory Availability",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"productId\": \"mfg_product_101\",\n      \"quantity\": 50\n    }\n  ],\n  \"requiredByDate\": \"2026-12-15\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/manufacturing/sales-executive/inventory/availability-checks", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-executive", "inventory", "availability-checks"] }
+          }
+        },
+        {
+          "name": "Step 3: Sales Executive Prepares Quotation Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": \"{{leadId}}\",\n  \"customerId\": \"{{customerId}}\",\n  \"currency\": \"INR\",\n  \"items\": [\n    {\n      \"productId\": \"mfg_product_101\",\n      \"quantity\": 50,\n      \"unitPrice\": 10000\n    }\n  ]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/manufacturing/sales-executive/quotations", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-executive", "quotations"] }
+          }
+        },
+        {
+          "name": "Step 4: Sales Manager Approves Quotation Discount",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"decision\": \"APPROVE\",\n  \"comment\": \"Approved by Sales Manager\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/manufacturing/sales-manager/quotation-approvals/{{approvalId}}/decision", "host": ["{{baseUrl}}"], "path": ["manufacturing", "sales-manager", "quotation-approvals", "{{approvalId}}", "decision"] }
+          }
+        },
+        {
+          "name": "Step 5: Dealer Manager Verifies Territory Terms",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/manufacturing/dealer-manager/dealers/{{dealerId}}", "host": ["{{baseUrl}}"], "path": ["manufacturing", "dealer-manager", "dealers", "{{dealerId}}"] }
+          }
+        },
+        {
+          "name": "Step 6: Customer Support Resolves Technical Query with Confirmation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resolutionCode\": \"TECHNICAL_GUIDANCE_PROVIDED\",\n  \"resolutionSummary\": \"Client confirmed thermal coupling adjusted to factory specification.\",\n  \"customerConfirmationReceived\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/manufacturing/customer-support/tickets/{{ticketId}}/resolve", "host": ["{{baseUrl}}"], "path": ["manufacturing", "customer-support", "tickets", "{{ticketId}}", "resolve"] }
+          }
+        }
+      ]
+    }
+  ]
+}

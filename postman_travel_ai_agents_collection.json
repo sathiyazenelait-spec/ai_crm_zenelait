@@ -1,0 +1,905 @@
+{
+  "info": {
+    "name": "Zenelait AI CRM — Travel Tenant AI Agents (Sales, Follow-up & Booking)",
+    "_postman_id": "zenelait-travel-ai-agents-v1",
+    "description": "Complete production API test collection for the 3 Autonomous AI Agents in Zenelait AI CRM Travel Tenant:\n1. AI Travel Sales Agent (/api/v1/travel/ai-sales-agent)\n2. AI Follow-up Agent (/api/v1/travel/ai-follow-up-agent)\n3. AI Booking Agent (/api/v1/travel/ai-booking-agent)\nIncludes individual endpoint suites, security policies, and the complete End-to-End Autonomous Agent Lifecycle Journey.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "eyJhbGciOiJIUzI1NiJ9.test-travel-ai-agent-token",
+      "type": "string"
+    },
+    {
+      "key": "leadId",
+      "value": "LEAD-1001",
+      "type": "string"
+    },
+    {
+      "key": "quotationId",
+      "value": "QUOTE-1001",
+      "type": "string"
+    },
+    {
+      "key": "itineraryId",
+      "value": "ITIN-1001",
+      "type": "string"
+    },
+    {
+      "key": "handoffId",
+      "value": "handoff_travel_1001",
+      "type": "string"
+    },
+    {
+      "key": "taskId",
+      "value": "TASK-1001",
+      "type": "string"
+    },
+    {
+      "key": "bookingId",
+      "value": "TBOOK-1001",
+      "type": "string"
+    },
+    {
+      "key": "reservationId",
+      "value": "supplier_reservation_2001",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "1. AI Travel Sales Agent",
+      "item": [
+        {
+          "name": "Dashboard & Configuration",
+          "item": [
+            {
+              "name": "Get Sales Agent Dashboard",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-sales-agent/dashboard"
+              }
+            },
+            {
+              "name": "Get Sales Agent Settings",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-sales-agent/settings"
+              }
+            },
+            {
+              "name": "Update Sales Agent Settings",
+              "request": {
+                "method": "PATCH",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"maxDiscountWithoutApproval\": 5.0,\n  \"liveSearchEnabled\": true\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-sales-agent/settings"
+              }
+            },
+            {
+              "name": "Check Agent Health Readiness",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-sales-agent/health"
+              }
+            },
+            {
+              "name": "Get Activity Logs",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-sales-agent/activity-logs"
+              }
+            },
+            {
+              "name": "Get Lead & Conversion Metrics",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-sales-agent/metrics"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Lead Discovery & Qualification",
+          "item": [
+            {
+              "name": "List Leads",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-sales-agent/leads"
+              }
+            },
+            {
+              "name": "Create Lead From Enquiry",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"source\": \"WEBSITE_CHAT\",\n  \"customer\": {\n    \"name\": \"Arun Kumar\",\n    \"email\": \"arun@example.com\",\n    \"phone\": \"+919876543210\"\n  },\n  \"message\": \"I want a five-day Bali trip for two adults in December.\",\n  \"preferredLanguage\": \"en\",\n  \"communicationConsent\": {\n    \"channel\": \"EMAIL\",\n    \"status\": \"GRANTED\",\n    \"capturedAt\": \"2026-10-28T10:00:00Z\",\n    \"source\": \"WEBSITE_FORM\"\n  }\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-sales-agent/leads"
+              }
+            },
+            {
+              "name": "Get Lead By ID",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-sales-agent/leads/{{leadId}}"
+              }
+            },
+            {
+              "name": "Qualify Lead",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{}" },
+                "url": "{{baseUrl}}/travel/ai-sales-agent/leads/{{leadId}}/qualify"
+              }
+            },
+            {
+              "name": "Classify Lead Intent",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{}" },
+                "url": "{{baseUrl}}/travel/ai-sales-agent/leads/{{leadId}}/classify"
+              }
+            },
+            {
+              "name": "Extract Requirements from Enquiry Message",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"message\": \"We are two adults planning a five-day Bali trip in December. Our total budget is around INR 100000.\",\n  \"language\": \"en\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-sales-agent/leads/{{leadId}}/extract-requirements"
+              }
+            },
+            {
+              "name": "Handoff Lead to Human Sales Representative",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"CUSTOMER_REQUESTED_HUMAN\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-sales-agent/leads/{{leadId}}/handoff-to-human"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Customer Travel Requirements",
+          "item": [
+            {
+              "name": "Get Travel Requirements",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-sales-agent/leads/{{leadId}}/requirements"
+              }
+            },
+            {
+              "name": "Validate Requirements",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requirementVersion\": 1\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-sales-agent/leads/{{leadId}}/requirements/validate"
+              }
+            },
+            {
+              "name": "Generate Clarification Questions for Missing Info",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-sales-agent/leads/{{leadId}}/requirements/questions"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Destination & Product Discovery",
+          "item": [
+            {
+              "name": "Get Destinations",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-sales-agent/destinations"
+              }
+            },
+            {
+              "name": "Get Packages",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-sales-agent/packages"
+              }
+            },
+            {
+              "name": "Search Connected Travel Inventory",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"destination\": \"Bali\",\n  \"departureCity\": \"Chennai\",\n  \"departureDate\": \"2026-12-10\",\n  \"returnDate\": \"2026-12-15\",\n  \"travellers\": {\n    \"adults\": 2,\n    \"children\": 0\n  },\n  \"budget\": {\n    \"amount\": 100000,\n    \"currency\": \"INR\"\n  },\n  \"components\": [\n    \"FLIGHT\",\n    \"HOTEL\",\n    \"TRANSFER\",\n    \"ACTIVITY\"\n  ]\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-sales-agent/travel-search"
+              }
+            },
+            {
+              "name": "Get Travel Search Results",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-sales-agent/travel-search/search_travel_5001"
+              }
+            },
+            {
+              "name": "Get Suppliers",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-sales-agent/suppliers"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Recommendations & Itinerary Lifecycle",
+          "item": [
+            {
+              "name": "Generate AI Recommendations",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"leadId\": \"{{leadId}}\",\n  \"searchId\": \"search_travel_5001\",\n  \"preferences\": {\n    \"travelStyle\": \"RELAXED\",\n    \"accommodation\": \"FOUR_STAR\",\n    \"priority\": [\n      \"BUDGET\",\n      \"BEACH\",\n      \"CULTURAL_ACTIVITIES\"\n    ]\n  }\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-sales-agent/recommendations"
+              }
+            },
+            {
+              "name": "Create Draft Itinerary",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"leadId\": \"{{leadId}}\",\n  \"recommendationId\": \"rec_travel_1001\",\n  \"title\": \"Bali Five-Day Holiday\",\n  \"currency\": \"INR\",\n  \"days\": [\n    {\n      \"dayNumber\": 1,\n      \"title\": \"Arrival and hotel check-in\",\n      \"items\": []\n    },\n    {\n      \"dayNumber\": 2,\n      \"title\": \"Beach and local sightseeing\",\n      \"items\": []\n    }\n  ]\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-sales-agent/itineraries"
+              }
+            },
+            {
+              "name": "Validate Itinerary",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"checkSupplierAvailability\": true,\n  \"checkDateConflicts\": true,\n  \"checkPriceFreshness\": true\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-sales-agent/itineraries/{{itineraryId}}/validate"
+              }
+            },
+            {
+              "name": "Explain Itinerary Recommendation",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-sales-agent/itineraries/{{itineraryId}}/explain"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Quotations & Approvals",
+          "item": [
+            {
+              "name": "Create Draft Quotation",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"leadId\": \"{{leadId}}\",\n  \"itineraryId\": \"{{itineraryId}}\",\n  \"currency\": \"INR\",\n  \"items\": [\n    {\n      \"description\": \"Hotel accommodation\",\n      \"productReference\": \"supplier_product_101\",\n      \"quantity\": 1,\n      \"unitPrice\": 32000\n    }\n  ],\n  \"validUntil\": \"2026-11-05T23:59:59Z\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-sales-agent/quotations"
+              }
+            },
+            {
+              "name": "Recalculate Quotation",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refreshSupplierPrices\": true,\n  \"applyApprovedDiscountsOnly\": true\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-sales-agent/quotations/{{quotationId}}/recalculate"
+              }
+            },
+            {
+              "name": "Request Quotation Approval",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"Quotation requires review of pricing and missing components.\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-sales-agent/quotations/{{quotationId}}/request-approval"
+              }
+            },
+            {
+              "name": "Send Quotation (Expected Block if Unapproved - 409)",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"channel\": \"EMAIL\",\n  \"templateId\": \"travel_quote_template_v1\",\n  \"idempotencyKey\": \"send-quote-lead-1001-v1\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-sales-agent/quotations/{{quotationId}}/send"
+              }
+            },
+            {
+              "name": "Record Customer Acceptance",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"response\": \"ACCEPTED\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-sales-agent/quotations/{{quotationId}}/record-customer-response"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Booking Handoff & Integrations",
+          "item": [
+            {
+              "name": "Create Booking Handoff",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quotationId\": \"{{quotationId}}\",\n  \"itineraryId\": \"{{itineraryId}}\",\n  \"customerAcceptanceReference\": \"customer-acceptance-reference\",\n  \"notes\": \"Proceed after booking-readiness validation.\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-sales-agent/leads/{{leadId}}/booking-handoffs"
+              }
+            },
+            {
+              "name": "Get Booking Handoff Status",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-sales-agent/booking-handoffs/{{handoffId}}"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2. AI Follow-up Agent",
+      "item": [
+        {
+          "name": "Dashboard & Configuration",
+          "item": [
+            {
+              "name": "Get Follow-up Dashboard",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-follow-up-agent/dashboard"
+              }
+            },
+            {
+              "name": "Get Follow-up Settings",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-follow-up-agent/settings"
+              }
+            },
+            {
+              "name": "Update Follow-up Settings (Quiet Hours)",
+              "request": {
+                "method": "PATCH",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"quietHoursStart\": \"21:00\",\n  \"quietHoursEnd\": \"08:00\",\n  \"maxMessagesPerLeadPerWeek\": 3\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-follow-up-agent/settings"
+              }
+            },
+            {
+              "name": "Check Readiness",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-follow-up-agent/health"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Automation Plans & Tasks",
+          "item": [
+            {
+              "name": "Create Follow-up Plan",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Travel quotation follow-up\",\n  \"trigger\": {\n    \"event\": \"TRAVEL_QUOTATION_SENT\"\n  },\n  \"steps\": [\n    {\n      \"delayMinutes\": 1440,\n      \"channel\": \"EMAIL\",\n      \"templateId\": \"travel_quote_followup_v1\"\n    },\n    {\n      \"delayMinutes\": 4320,\n      \"channel\": \"EMAIL\",\n      \"templateId\": \"travel_quote_followup_v2\"\n    }\n  ],\n  \"rules\": {\n    \"stopOnCustomerReply\": true,\n    \"stopOnQuotationAccepted\": true,\n    \"stopOnOptOut\": true,\n    \"requireConsent\": true,\n    \"maxMessagesPerLeadPerWeek\": 3,\n    \"requireHumanApproval\": true\n  }\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-follow-up-agent/plans"
+              }
+            },
+            {
+              "name": "Preview Follow-up Plan Simulation",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"leadId\": \"{{leadId}}\",\n  \"quotationId\": \"{{quotationId}}\",\n  \"referenceTime\": \"2026-10-28T10:00:00Z\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-follow-up-agent/plans/follow_plan_1001/preview"
+              }
+            },
+            {
+              "name": "Create Follow-up Task",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"leadId\": \"{{leadId}}\",\n  \"quotationId\": \"{{quotationId}}\",\n  \"reason\": \"QUOTATION_PENDING_RESPONSE\",\n  \"scheduledAt\": \"2026-10-29T10:00:00Z\",\n  \"channel\": \"EMAIL\",\n  \"priority\": \"NORMAL\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-follow-up-agent/tasks"
+              }
+            },
+            {
+              "name": "Draft Follow-up Message",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tone\": \"FRIENDLY\",\n  \"language\": \"en\",\n  \"purpose\": \"ASK_IF_CUSTOMER_HAS_QUESTIONS\",\n  \"includeQuotationReference\": true\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-follow-up-agent/tasks/{{taskId}}/draft-message"
+              }
+            },
+            {
+              "name": "Approve Message Draft",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"draftId\": \"follow_draft_1001\",\n  \"decision\": \"APPROVE\",\n  \"comment\": \"Approved after reviewing content and communication policy.\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-follow-up-agent/tasks/{{taskId}}/approve-message"
+              }
+            },
+            {
+              "name": "Send Message (Blocked if Consent Missing - 403)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Content-Type", "value": "application/json" },
+                  { "key": "Idempotency-Key", "value": "follow-task-1001-send-v1" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"draftId\": \"follow_draft_1001\",\n  \"channel\": \"EMAIL\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-follow-up-agent/tasks/{{taskId}}/send"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Customer Preferences & Inbound Classification",
+          "item": [
+            {
+              "name": "Record Customer Opt-Out",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"channel\": \"EMAIL\",\n  \"reason\": \"CUSTOMER_REQUEST\",\n  \"source\": \"INBOUND_EMAIL\",\n  \"providerEventId\": \"provider-event-12345\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-follow-up-agent/customers/CUST-1001/opt-out"
+              }
+            },
+            {
+              "name": "Classify Customer Response (Request Lower Price)",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"leadId\": \"{{leadId}}\",\n  \"messageId\": \"inbound_msg_1001\",\n  \"text\": \"Can you show me a cheaper package?\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-follow-up-agent/responses/classify"
+              }
+            },
+            {
+              "name": "Escalate to Human Consultant",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"CUSTOMER_REQUESTED_HUMAN_ASSISTANCE\",\n  \"priority\": \"HIGH\",\n  \"summary\": \"Customer requested personal assistance with travel options.\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-follow-up-agent/tasks/{{taskId}}/escalate"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3. AI Booking Agent",
+      "item": [
+        {
+          "name": "Dashboard & Readiness Validation",
+          "item": [
+            {
+              "name": "Get Booking Dashboard",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-booking-agent/dashboard"
+              }
+            },
+            {
+              "name": "Get Accepted Handoffs",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-booking-agent/handoffs?status=ACCEPTED&page=0&size=20"
+              }
+            },
+            {
+              "name": "Validate Booking Readiness (Checks Passenger Details)",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"checkAcceptance\": true,\n  \"checkPassengerDetails\": true,\n  \"checkSupplierAvailability\": true,\n  \"checkPriceFreshness\": true,\n  \"checkRequiredApprovals\": true\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-booking-agent/handoffs/{{handoffId}}/validate"
+              }
+            },
+            {
+              "name": "Return Incomplete Handoff to Sales",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"PASSENGER_DETAILS_INCOMPLETE\",\n  \"message\": \"Please collect missing passport numbers and dates of birth before booking.\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-booking-agent/handoffs/{{handoffId}}/return"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Internal Bookings & Supplier Reservations",
+          "item": [
+            {
+              "name": "Create Internal Booking Record",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Content-Type", "value": "application/json" },
+                  { "key": "Idempotency-Key", "value": "booking-handoff-1001-v1" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"handoffId\": \"{{handoffId}}\",\n  \"quotationId\": \"{{quotationId}}\",\n  \"itineraryId\": \"{{itineraryId}}\",\n  \"itineraryVersion\": 1,\n  \"currency\": \"INR\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-booking-agent/bookings"
+              }
+            },
+            {
+              "name": "Start Supplier Verification Search",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bookingId\": \"{{bookingId}}\",\n  \"components\": [\n    {\n      \"type\": \"HOTEL\",\n      \"productReference\": \"supplier_product_101\"\n    }\n  ],\n  \"refreshAvailability\": true,\n  \"refreshPricing\": true\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-booking-agent/supplier-searches"
+              }
+            },
+            {
+              "name": "Submit Supplier Reservation",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Content-Type", "value": "application/json" },
+                  { "key": "Idempotency-Key", "value": "booking-2001-hotel-reservation-v1" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productReference\": \"supplier_product_101\",\n  \"supplierReference\": \"supplier-ref-101\",\n  \"serviceType\": \"HOTEL\",\n  \"travellerCount\": {\n    \"adults\": 2,\n    \"children\": 0\n  },\n  \"customerAcceptanceReference\": \"verified-acceptance-record\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-booking-agent/bookings/{{bookingId}}/supplier-reservations"
+              }
+            },
+            {
+              "name": "Get Supplier Reservation Status",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-booking-agent/supplier-reservations/{{reservationId}}/status"
+              }
+            },
+            {
+              "name": "Reconcile Uncertain Supplier Status",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-booking-agent/supplier-reservations/{{reservationId}}/reconcile"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Payments, Vouchers & Cancellations",
+          "item": [
+            {
+              "name": "Create Payment Checkout Session",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Content-Type", "value": "application/json" },
+                  { "key": "Idempotency-Key", "value": "booking-2001-checkout-v1" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": 32000,\n  \"currency\": \"INR\",\n  \"paymentPurpose\": \"TRAVEL_BOOKING\",\n  \"returnUrl\": \"https://your-frontend.example.com/travel/payment-result\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-booking-agent/bookings/{{bookingId}}/checkout-sessions"
+              }
+            },
+            {
+              "name": "Check Authoritative Payment Status",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "{{baseUrl}}/travel/ai-booking-agent/payments/payment_travel_2001/status"
+              }
+            },
+            {
+              "name": "Generate Official Voucher (Blocked if Unconfirmed - 409)",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reservationId\": \"unconfirmed_res_999\",\n  \"documentType\": \"HOTEL_VOUCHER\",\n  \"deliveryChannel\": \"EMAIL\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-booking-agent/bookings/{{bookingId}}/vouchers"
+              }
+            },
+            {
+              "name": "Generate Voucher for Confirmed Reservation (201)",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reservationId\": \"{{reservationId}}\",\n  \"documentType\": \"HOTEL_VOUCHER\",\n  \"deliveryChannel\": \"EMAIL\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-booking-agent/bookings/{{bookingId}}/vouchers"
+              }
+            },
+            {
+              "name": "Submit Cancellation Request",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"CUSTOMER_REQUEST\",\n  \"reservationIds\": [\n    \"{{reservationId}}\"\n  ],\n  \"customerRequestReference\": \"customer-cancellation-request-2001\"\n}"
+                },
+                "url": "{{baseUrl}}/travel/ai-booking-agent/bookings/{{bookingId}}/cancellation-requests"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4. End-to-End Autonomous Agent Journey",
+      "item": [
+        {
+          "name": "1. Customer Enquiry Received -> Sales Agent Creates Lead",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source\": \"WEBSITE_CHAT\",\n  \"customer\": {\n    \"name\": \"Arun Kumar\",\n    \"email\": \"arun@example.com\",\n    \"phone\": \"+919876543210\"\n  },\n  \"message\": \"I want a five-day Bali holiday for two adults in December, budget INR 100000.\",\n  \"communicationConsent\": {\n    \"channel\": \"EMAIL\",\n    \"status\": \"GRANTED\",\n    \"capturedAt\": \"2026-10-28T10:00:00Z\"\n  }\n}"
+            },
+            "url": "{{baseUrl}}/travel/ai-sales-agent/leads"
+          }
+        },
+        {
+          "name": "2. Sales Agent Extracts Requirements & Questions",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Two adults, five-day Bali trip in December, total budget INR 100000.\"\n}"
+            },
+            "url": "{{baseUrl}}/travel/ai-sales-agent/leads/{{leadId}}/extract-requirements"
+          }
+        },
+        {
+          "name": "3. Search Verified Supplier Products",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"destination\": \"Bali\",\n  \"departureCity\": \"Chennai\",\n  \"departureDate\": \"2026-12-10\",\n  \"returnDate\": \"2026-12-15\",\n  \"travellers\": { \"adults\": 2, \"children\": 0 },\n  \"budget\": { \"amount\": 100000, \"currency\": \"INR\" }\n}"
+            },
+            "url": "{{baseUrl}}/travel/ai-sales-agent/travel-search"
+          }
+        },
+        {
+          "name": "4. Create Grounded Recommendation & Itinerary",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": \"{{leadId}}\",\n  \"title\": \"Bali Five-Day Holiday\",\n  \"currency\": \"INR\"\n}"
+            },
+            "url": "{{baseUrl}}/travel/ai-sales-agent/itineraries"
+          }
+        },
+        {
+          "name": "5. Calculate Server-Side Quotation",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": \"{{leadId}}\",\n  \"itineraryId\": \"{{itineraryId}}\",\n  \"currency\": \"INR\",\n  \"items\": [\n    { \"description\": \"Hotel accommodation\", \"productReference\": \"supplier_product_101\", \"quantity\": 1, \"unitPrice\": 32000 }\n  ]\n}"
+            },
+            "url": "{{baseUrl}}/travel/ai-sales-agent/quotations"
+          }
+        },
+        {
+          "name": "6. Follow-up Agent Schedules Cadence on Event",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"eventType\": \"TRAVEL_QUOTATION_SENT\",\n  \"leadId\": \"{{leadId}}\",\n  \"quotationId\": \"{{quotationId}}\"\n}"
+            },
+            "url": "{{baseUrl}}/travel/ai-follow-up-agent/events"
+          }
+        },
+        {
+          "name": "7. Customer Accepts Quotation",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"response\": \"ACCEPTED\"\n}"
+            },
+            "url": "{{baseUrl}}/travel/ai-sales-agent/quotations/{{quotationId}}/record-customer-response"
+          }
+        },
+        {
+          "name": "8. Sales Agent Hands Off to Booking Agent",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quotationId\": \"{{quotationId}}\",\n  \"itineraryId\": \"{{itineraryId}}\",\n  \"customerAcceptanceReference\": \"verified-acceptance-1001\"\n}"
+            },
+            "url": "{{baseUrl}}/travel/ai-sales-agent/leads/{{leadId}}/booking-handoffs"
+          }
+        },
+        {
+          "name": "9. Booking Agent Validates Readiness & Creates Internal Booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Idempotency-Key", "value": "booking-e2e-1001" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"handoffId\": \"{{handoffId}}\",\n  \"quotationId\": \"{{quotationId}}\",\n  \"itineraryId\": \"{{itineraryId}}\",\n  \"currency\": \"INR\"\n}"
+            },
+            "url": "{{baseUrl}}/travel/ai-booking-agent/bookings"
+          }
+        },
+        {
+          "name": "10. Booking Agent Submits Reservation & Reconciles with Supplier",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{baseUrl}}/travel/ai-booking-agent/supplier-reservations/{{reservationId}}/reconcile"
+          }
+        },
+        {
+          "name": "11. Booking Agent Generates Official Travel Voucher",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reservationId\": \"{{reservationId}}\",\n  \"documentType\": \"HOTEL_VOUCHER\",\n  \"deliveryChannel\": \"EMAIL\"\n}"
+            },
+            "url": "{{baseUrl}}/travel/ai-booking-agent/bookings/{{bookingId}}/vouchers"
+          }
+        }
+      ]
+    }
+  ]
+}

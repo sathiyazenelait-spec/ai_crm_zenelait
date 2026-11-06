@@ -1,0 +1,717 @@
+{
+  "info": {
+    "_postman_id": "zenelait-education-ai-agents-v1",
+    "name": "Zenelait AI CRM — Education Tenant AI Admission & Follow-up Agents",
+    "description": "Complete 55-endpoint Postman collection for AI Admission Agent (27 APIs) and AI Follow-up Agent (28 APIs) in Zenelait AI CRM — Education/Training Tenant.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080/api/v1", "type": "string" },
+    { "key": "jwtToken", "value": "YOUR_JWT_TOKEN", "type": "string" },
+    { "key": "sessionId", "value": "adm_session_1001", "type": "string" },
+    { "key": "leadId", "value": "1201", "type": "string" },
+    { "key": "courseId", "value": "501", "type": "string" },
+    { "key": "applicationId", "value": "2101", "type": "string" },
+    { "key": "taskId", "value": "7101", "type": "string" },
+    { "key": "ruleId", "value": "603", "type": "string" },
+    { "key": "draftId", "value": "draft_8001", "type": "string" },
+    { "key": "executionId", "value": "exec_9001", "type": "string" },
+    { "key": "sourceId", "value": "KB-103", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Part 1 — AI Admission Agent (27 APIs)",
+      "item": [
+        {
+          "name": "01. Get Agent Config",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/config", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "config"] }
+          }
+        },
+        {
+          "name": "02. Update Agent Config",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enabled\": true,\n  \"supportedChannels\": [\"WEBSITE_CHAT\", \"WHATSAPP\"],\n  \"supportedLanguages\": [\"en\", \"ta\"],\n  \"requireHumanApprovalForOutboundMessages\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/config", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "config"] }
+          }
+        },
+        {
+          "name": "03. Start Student Conversation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel\": \"WEBSITE_CHAT\",\n  \"language\": \"en\",\n  \"visitor\": {\n    \"name\": \"Arun Kumar\",\n    \"email\": \"arun@example.com\",\n    \"phone\": \"+919876543210\"\n  },\n  \"initialMessage\": \"I want to learn Java Full Stack Development.\",\n  \"consent\": {\n    \"conversationProcessing\": true,\n    \"marketingFollowUps\": false\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/sessions", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "sessions"] }
+          }
+        },
+        {
+          "name": "04. List Admission Sessions",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/sessions?page=0&size=20", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "sessions"], "query": [{ "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+          }
+        },
+        {
+          "name": "05. Get Session Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/sessions/{{sessionId}}", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "sessions", "{{sessionId}}"] }
+          }
+        },
+        {
+          "name": "06. Send Message to Agent",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"What is the duration and fee of the Java Full Stack course?\",\n  \"messageId\": \"client_msg_1001\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/sessions/{{sessionId}}/messages", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "sessions", "{{sessionId}}", "messages"] }
+          }
+        },
+        {
+          "name": "07. Retrieve Conversation History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/sessions/{{sessionId}}/messages?page=0&size=20", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "sessions", "{{sessionId}}", "messages"], "query": [{ "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+          }
+        },
+        {
+          "name": "08. Qualify Prospective Student",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"educationLevel\": \"BSC\",\n  \"programmingExperience\": \"BEGINNER\",\n  \"interestedCourseId\": 501,\n  \"preferredLearningMode\": \"WEEKEND\",\n  \"expectedJoiningDate\": \"2026-11-15\",\n  \"qualificationAnswers\": {\n    \"careerGoal\": \"Become a Java developer\",\n    \"preferredDuration\": \"ABOUT_SIX_MONTHS\"\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/sessions/{{sessionId}}/qualify", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "sessions", "{{sessionId}}", "qualify"] }
+          }
+        },
+        {
+          "name": "09. Recommend Courses",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"{{sessionId}}\",\n  \"educationLevel\": \"BSC\",\n  \"interests\": [\"JAVA\", \"BACKEND_DEVELOPMENT\", \"WEB_DEVELOPMENT\"],\n  \"preferredLearningMode\": \"WEEKEND\",\n  \"maxDurationWeeks\": 30,\n  \"budget\": { \"amount\": 35000, \"currency\": \"INR\" }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/course-recommendations", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "course-recommendations"] }
+          }
+        },
+        {
+          "name": "10. Search Published Courses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/courses?search=Java&learningMode=WEEKEND&page=0&size=10", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "courses"], "query": [{ "key": "search", "value": "Java" }, { "key": "learningMode", "value": "WEEKEND" }, { "key": "page", "value": "0" }, { "key": "size", "value": "10" }] }
+          }
+        },
+        {
+          "name": "11. Get Verified Course Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/courses/{{courseId}}", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "courses", "{{courseId}}"] }
+          }
+        },
+        {
+          "name": "12. Create Admission Lead",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Arun Kumar\",\n  \"email\": \"arun@example.com\",\n  \"phone\": \"+919876543210\",\n  \"interestedCourseId\": 501,\n  \"source\": \"WEBSITE_CHAT\",\n  \"consent\": {\n    \"contactForAdmission\": true,\n    \"marketingFollowUps\": false\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/sessions/{{sessionId}}/create-lead", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "sessions", "{{sessionId}}", "create-lead"] }
+          }
+        },
+        {
+          "name": "13. List Admission Leads",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/leads?status=NEW&page=0&size=10", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "leads"], "query": [{ "key": "status", "value": "NEW" }, { "key": "page", "value": "0" }, { "key": "size", "value": "10" }] }
+          }
+        },
+        {
+          "name": "14. Retrieve Admission Lead",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/leads/{{leadId}}", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "leads", "{{leadId}}"] }
+          }
+        },
+        {
+          "name": "15. Update Admission Lead",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"interestedCourseId\": 501,\n  \"status\": \"CONTACTED\",\n  \"notes\": \"Student asked for published curriculum\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/leads/{{leadId}}", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "leads", "{{leadId}}"] }
+          }
+        },
+        {
+          "name": "16. Start Application Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": {{leadId}},\n  \"courseId\": {{courseId}},\n  \"academicYear\": \"2026-2027\",\n  \"intake\": \"NOVEMBER_2026\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/sessions/{{sessionId}}/create-application", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "sessions", "{{sessionId}}", "create-application"] }
+          }
+        },
+        {
+          "name": "17. Retrieve Application Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/applications/{{applicationId}}", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "applications", "{{applicationId}}"] }
+          }
+        },
+        {
+          "name": "18. Request Counselling Appointment",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": {{leadId}},\n  \"preferredDate\": \"2026-10-30\",\n  \"preferredTime\": \"11:00\",\n  \"timeZone\": \"Asia/Kolkata\",\n  \"meetingMode\": \"ONLINE\",\n  \"reason\": \"Course and career guidance\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/sessions/{{sessionId}}/schedule-counselling", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "sessions", "{{sessionId}}", "schedule-counselling"] }
+          }
+        },
+        {
+          "name": "19. Create Admission Follow-up Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": {{leadId}},\n  \"taskType\": \"COURSE_INFORMATION\",\n  \"dueAt\": \"2026-10-29T11:00:00+05:30\",\n  \"timeZone\": \"Asia/Kolkata\",\n  \"reason\": \"Student requested time to review course information\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/sessions/{{sessionId}}/create-follow-up", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "sessions", "{{sessionId}}", "create-follow-up"] }
+          }
+        },
+        {
+          "name": "20. Transfer Conversation to Staff (Handoff)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"STUDENT_REQUESTED_HUMAN\",\n  \"summary\": \"Student wants to discuss course fee and eligibility with admission executive\",\n  \"preferredTeam\": \"ADMISSIONS\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/sessions/{{sessionId}}/handoff", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "sessions", "{{sessionId}}", "handoff"] }
+          }
+        },
+        {
+          "name": "21. Close Admission Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"STUDENT_ENQUIRY_COMPLETED\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/sessions/{{sessionId}}/close", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "sessions", "{{sessionId}}", "close"] }
+          }
+        },
+        {
+          "name": "22. Retrieve Session Events",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/sessions/{{sessionId}}/events?page=0&size=20", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "sessions", "{{sessionId}}", "events"], "query": [{ "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+          }
+        },
+        {
+          "name": "23. List Knowledge Sources",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/knowledge/sources?page=0&size=20", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "knowledge", "sources"], "query": [{ "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+          }
+        },
+        {
+          "name": "24. Register Knowledge Source",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Java Course Information\",\n  \"sourceType\": \"DOCUMENT\",\n  \"storageKey\": \"knowledge/java-course-information.pdf\",\n  \"language\": \"en\",\n  \"enabled\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/knowledge/sources", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "knowledge", "sources"] }
+          }
+        },
+        {
+          "name": "25. Synchronize Knowledge Source",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reindex\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/knowledge/sources/{{sourceId}}/sync", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "knowledge", "sources", "{{sourceId}}", "sync"] }
+          }
+        },
+        {
+          "name": "26. Get AI Admission Metrics",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/metrics?from=2026-10-01&to=2026-10-31", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "metrics"], "query": [{ "key": "from", "value": "2026-10-01" }, { "key": "to", "value": "2026-10-31" }] }
+          }
+        },
+        {
+          "name": "27. Retrieve AI Audit Events",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-admission/audit-events?page=0&size=20", "host": ["{{baseUrl}}"], "path": ["education", "ai-admission", "audit-events"], "query": [{ "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Part 2 — AI Follow-up Agent (28 APIs)",
+      "item": [
+        {
+          "name": "01. Get Follow-up Config",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/config", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "config"] }
+          }
+        },
+        {
+          "name": "02. Update Follow-up Config",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enabled\": true,\n  \"defaultChannel\": \"EMAIL\",\n  \"humanApprovalRequired\": true,\n  \"respectContactPreferences\": true,\n  \"stopAfterStudentReply\": true,\n  \"maxAutomatedMessagesPerLeadPerWeek\": 3,\n  \"minimumHoursBetweenMessages\": 24,\n  \"permittedContactHours\": {\n    \"start\": \"09:00\",\n    \"end\": \"18:00\",\n    \"timeZone\": \"Asia/Kolkata\"\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/config", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "config"] }
+          }
+        },
+        {
+          "name": "03. List Follow-up Rules",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/rules?status=ACTIVE&page=0&size=20", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "rules"], "query": [{ "key": "status", "value": "ACTIVE" }, { "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+          }
+        },
+        {
+          "name": "04. Create Follow-up Rule",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Admission Enquiry Follow-up\",\n  \"triggerType\": \"ENQUIRY_CREATED\",\n  \"delayMinutes\": 1440,\n  \"channel\": \"EMAIL\",\n  \"conditions\": {\n    \"leadStatusIn\": [\"NEW\", \"CONTACTED\"],\n    \"marketingConsentRequired\": true,\n    \"stopIfApplicationSubmitted\": true,\n    \"stopIfStudentReplies\": true\n  },\n  \"messageTemplateId\": \"EDU_ADMISSION_FOLLOWUP_01\",\n  \"requiresApproval\": true,\n  \"maxExecutionsPerLead\": 1\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/rules", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "rules"] }
+          }
+        },
+        {
+          "name": "05. Retrieve Follow-up Rule",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/rules/{{ruleId}}", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "rules", "{{ruleId}}"] }
+          }
+        },
+        {
+          "name": "06. Update Follow-up Rule",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"delayMinutes\": 2880,\n  \"channel\": \"EMAIL\",\n  \"requiresApproval\": true,\n  \"maxExecutionsPerLead\": 1\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/rules/{{ruleId}}", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "rules", "{{ruleId}}"] }
+          }
+        },
+        {
+          "name": "07. Activate Follow-up Rule",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"confirmation\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/rules/{{ruleId}}/activate", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "rules", "{{ruleId}}", "activate"] }
+          }
+        },
+        {
+          "name": "08. Pause Follow-up Rule",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Reviewing follow-up message content\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/rules/{{ruleId}}/pause", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "rules", "{{ruleId}}", "pause"] }
+          }
+        },
+        {
+          "name": "09. Create Follow-up Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": {{leadId}},\n  \"applicationId\": null,\n  \"taskType\": \"COURSE_INFORMATION\",\n  \"channel\": \"EMAIL\",\n  \"scheduledAt\": \"2026-10-29T11:00:00+05:30\",\n  \"timeZone\": \"Asia/Kolkata\",\n  \"reason\": \"Student requested time to review course information\",\n  \"requiresApproval\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/tasks", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "tasks"] }
+          }
+        },
+        {
+          "name": "10. List Follow-up Tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/tasks?status=SCHEDULED&page=0&size=20", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "tasks"], "query": [{ "key": "status", "value": "SCHEDULED" }, { "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+          }
+        },
+        {
+          "name": "11. Retrieve Follow-up Task",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/tasks/{{taskId}}", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "tasks", "{{taskId}}"] }
+          }
+        },
+        {
+          "name": "12. Update Follow-up Task",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scheduledAt\": \"2026-10-30T11:00:00+05:30\",\n  \"reason\": \"Rescheduled according to student preference\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/tasks/{{taskId}}", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "tasks", "{{taskId}}"] }
+          }
+        },
+        {
+          "name": "13. Complete Follow-up Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"outcome\": \"STUDENT_REPLIED\",\n  \"notes\": \"Student requested course syllabus\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/tasks/{{taskId}}/complete", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "tasks", "{{taskId}}", "complete"] }
+          }
+        },
+        {
+          "name": "14. Cancel Follow-up Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Student has already submitted application\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/tasks/{{taskId}}/cancel", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "tasks", "{{taskId}}", "cancel"] }
+          }
+        },
+        {
+          "name": "15. Snooze Follow-up Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newScheduledAt\": \"2026-11-02T11:00:00+05:30\",\n  \"reason\": \"Student requested contact next week\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/tasks/{{taskId}}/snooze", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "tasks", "{{taskId}}", "snooze"] }
+          }
+        },
+        {
+          "name": "16. Generate Follow-up Message Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": {{leadId}},\n  \"taskId\": {{taskId}},\n  \"channel\": \"EMAIL\",\n  \"purpose\": \"COURSE_INFORMATION_FOLLOW_UP\",\n  \"tone\": \"FRIENDLY\",\n  \"language\": \"en\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/drafts", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "drafts"] }
+          }
+        },
+        {
+          "name": "17. List Follow-up Drafts",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/drafts?status=PENDING_APPROVAL&page=0&size=20", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "drafts"], "query": [{ "key": "status", "value": "PENDING_APPROVAL" }, { "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+          }
+        },
+        {
+          "name": "18. Retrieve Draft Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/drafts/{{draftId}}", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "drafts", "{{draftId}}"] }
+          }
+        },
+        {
+          "name": "19. Edit Draft Content",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subject\": \"Your course enquiry — can we help?\",\n  \"body\": \"Hello Arun, thank you for your interest in our course. Would you like us to share the published curriculum or help you explore the available batches?\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/drafts/{{draftId}}", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "drafts", "{{draftId}}"] }
+          }
+        },
+        {
+          "name": "20. Approve Follow-up Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"decision\": \"APPROVE\",\n  \"reviewComment\": \"Reviewed the message and verified its content\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/drafts/{{draftId}}/approve", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "drafts", "{{draftId}}", "approve"] }
+          }
+        },
+        {
+          "name": "21. Send Approved Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idempotencyKey\": \"edu-followup-draft-8001-send-001\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/drafts/{{draftId}}/send", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "drafts", "{{draftId}}", "send"] }
+          }
+        },
+        {
+          "name": "22. List Automation Executions",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/executions?status=QUEUED&page=0&size=20", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "executions"], "query": [{ "key": "status", "value": "QUEUED" }, { "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+          }
+        },
+        {
+          "name": "23. Retrieve Execution Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/executions/{{executionId}}", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "executions", "{{executionId}}"] }
+          }
+        },
+        {
+          "name": "24. Retry Failed Execution",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Temporary messaging provider error\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/executions/{{executionId}}/retry", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "executions", "{{executionId}}", "retry"] }
+          }
+        },
+        {
+          "name": "25. Stop Automated Contact (Suppression)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": {{leadId}},\n  \"channel\": \"EMAIL\",\n  \"reason\": \"STUDENT_OPTED_OUT\",\n  \"scope\": \"MARKETING_MESSAGES\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/stop-contact", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "stop-contact"] }
+          }
+        },
+        {
+          "name": "26. Retrieve Suppression List",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/suppression-list?channel=EMAIL&page=0&size=20", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "suppression-list"], "query": [{ "key": "channel", "value": "EMAIL" }, { "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+          }
+        },
+        {
+          "name": "27. Retrieve Follow-up Metrics",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/metrics?from=2026-10-01&to=2026-10-31", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "metrics"], "query": [{ "key": "from", "value": "2026-10-01" }, { "key": "to", "value": "2026-10-31" }] }
+          }
+        },
+        {
+          "name": "28. Retrieve Follow-up Audit Events",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{jwtToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/education/ai-follow-ups/audit-events?page=0&size=20", "host": ["{{baseUrl}}"], "path": ["education", "ai-follow-ups", "audit-events"], "query": [{ "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+          }
+        }
+      ]
+    }
+  ]
+}

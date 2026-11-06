@@ -1,0 +1,619 @@
+# Zenelait AI CRM — Complete Workflows, Roles & Actions Master Guide
+
+---
+
+## 1. Executive Platform Architecture & Workflow Ecosystem
+
+**Zenelait AI CRM** is a cloud-native, multi-tenant enterprise CRM and autonomous business execution platform. It supports **9 diverse industry verticals**, **50 specialized human roles**, and **25 autonomous AI agents**.
+
+The workflow system operates across three interconnected layers:
+1. **Platform Root / Ultra Super Admin ("God Mode")**: Cross-tenant orchestration, workspace provisioning, package pricing, usage quotas, financial dunning, and security containment.
+2. **Tenant Organizational Workspaces (9 Verticals)**: Departmental pipelines tailored with custom schemas, business logic, role-based access control (RBAC), and automated stage transitions.
+3. **Autonomous AI Employee Workforce**: Agents that work alongside human staff to qualify prospects, schedule meetings, answer customer queries, and recover abandoned transactions 24/7.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    ULTRA SUPER ADMIN (Platform Command Center)                  │
+│   • Multi-Tenant Fleet Provisioning          • Dynamic Package & Pricing Editor │
+│   • Live Resource Quota Controls             • Cross-Tenant MRR/ARR Ledger      │
+│   • Delegated Support Impersonation          • Instant Security Snapshot & Lock │
+└────────────────────────────────────────┬────────────────────────────────────────┘
+                                         │ Delegated Authority
+     ┌───────────────────────────────────┼────────────────────────────────────┐
+     │                                   │                                    │
+┌────▼────────────────────────┐ ┌────────▼────────────────────┐ ┌─────────────▼──────────────────┐
+│ 1. Software / IT Company    │ │ 2. Real Estate Realty       │ │ 3. Education & Training        │
+│ • Lead-to-Sale (5 Steps)    │ │ • Property Site Visits      │ │ • Student Admission Funnel    │
+│ • Interactive Product Demos │ │ • Unit Inventory & Passes   │ │ • Career Aptitude Counselling  │
+│ • SLA Support & Escalation  │ │ • Milestone Payment Demands │ │ • LMS Batch Enrollment         │
+│ • Autonomous AI Follow-Up   │ │ • AI Buyer Qualification    │ │ • AI Enrollment Concierge      │
+└────┬────────────────────────┘ └────────┬────────────────────┘ └─────────────┬──────────────────┘
+     │                                   │                                    │
+     ├───────────────────────────────────┼────────────────────────────────────┤
+     │                                   │                                    │
+┌────▼────────────────────────┐ ┌────────▼────────────────────┐ ┌─────────────▼──────────────────┐
+│ 4. Hospitals & Clinics      │ │ 5. E-Commerce & Retail      │ │ 6. Hospitality & Hotel PMS     │
+│ • OPD Triage & Registration │ │ • Order Fulfillment Queue   │ │ • Yield & Rate Management      │
+│ • Doctor Roster Management  │ │ • Abandoned Cart Recovery   │ │ • Guest Check-In / Room Move   │
+│ • Triage Support Desk       │ │ • RMA Return Processing     │ │ • Concierge VIP Experiences    │
+│ • Safe AI Medical Triage    │ │ • AI Shopping Assistant     │ │ • AI Booking & Concierge       │
+└────┬────────────────────────┘ └────────┬────────────────────┘ └─────────────┬──────────────────┘
+     │                                   │                                    │
+     ├───────────────────────────────────┼────────────────────────────────────┤
+     │                                   │                                    │
+┌────▼────────────────────────┐ ┌────────▼────────────────────┐ ┌─────────────▼──────────────────┐
+│ 7. Travel & Tourism         │ │ 8. Manufacturing / B2B      │ │ 9. Financial & Consulting      │
+│ • Custom Multi-Day Trips    │ │ • Industrial RFQ & Specs    │ │ • High-Net-Worth Advisory      │
+│ • Supplier Voucher Engine   │ │ • Dealer Territory Quotas   │ │ • SOW Scoping & Deliverables   │
+│ • 24/7 In-Trip Assistance   │ │ • Technical Warranty Claims │ │ • Retainer Milestone Invoices  │
+│ • AI Itinerary Planner      │ │ • AI Industrial Matchmaker  │ │ • AI Readiness Qualification   │
+└─────────────────────────────┘ └─────────────────────────────┘ └────────────────────────────────┘
+```
+
+---
+
+## 2. Ultra Super Admin (Platform Command Center) Workflows
+
+The Ultra Super Admin operates at the root platform level above all tenants (`/api/v1/platform/*`).
+
+### Workflow 1: Public Contact Inquiry $\rightarrow$ 1-Click Multi-Tenant Provisioning
+- **Trigger**: A prospective enterprise client submits an onboarding request on the Zenelait marketing website.
+- **Participating Roles**: Inbound Prospect, Ultra Super Admin.
+- **Sequence Steps**:
+  1. Prospect fills out the website contact modal (Name, Business Email, Company Name, Industry Vertical, Expected User Count).
+  2. The system creates a lead in the `Inquiries` queue (`/api/v1/platform/queries`).
+  3. Ultra Super Admin navigates to **Platform Command Center $\rightarrow$ Inquiries Tab**.
+  4. Ultra Super Admin clicks **Review Inquiry Details**, evaluates business legitimacy, and verifies employee count.
+  5. Ultra Super Admin clicks **Approve & 1-Click Provision Workspace**.
+  6. The platform backend:
+     - Generates isolated company record and unique subdomain (`company.zenelait.com`).
+     - Clones industry-specific pipeline templates, custom lead fields, and AI prompts.
+     - Provisions admin credentials and dispatches welcome email with initial setup link.
+     - Enrolls company into 14-day free enterprise trial.
+- **Real-World Example**:
+  *Apex Medical Group* submits a form requesting a clinic management CRM for 25 doctors and 10 receptionists. The Super Admin reviews the inquiry, approves it with one click, selecting the `hospitals` vertical. Within 4 seconds, `apex-medical.zenelait.com` is live with pre-configured Cardiology, Orthopedics, and Radiology departments, doctor shift calendars, and medical non-diagnostic AI guardrails.
+
+---
+
+### Workflow 2: Dynamic SaaS Package Customization & Vertical Entitlement
+- **Trigger**: Product team introduces a new pricing tier or changes resource limits for an industry vertical.
+- **Participating Roles**: Ultra Super Admin, SaaS Billing Engine.
+- **Sequence Steps**:
+  1. Ultra Super Admin opens **Platform Command Center $\rightarrow$ SaaS Package Catalog** (`/api/v1/platform/packages`).
+  2. Clicks **New SaaS Package** or selects an existing package (e.g., `Professional Tier - ₹14,999/mo`).
+  3. Sets granular resource quotas:
+     - Maximum human seats: `20 seats`.
+     - Cloud document storage: `100 GB`.
+     - Monthly AI execution tokens: `2,000,000 tokens`.
+     - Monthly WhatsApp messaging credits: `10,000 messages`.
+  4. Configures Vertical Entitlement checkboxes:
+     - Toggles which of the 9 verticals can access this package.
+  5. Clicks **Save Package Configuration**.
+  6. All active tenant accounts subscribing to this plan immediately inherit the new limits without server restarts.
+
+---
+
+### Workflow 3: Live Tenant Quota Adjustment & Burst Provisioning
+- **Trigger**: A high-growth real estate client reaches 98% of their monthly WhatsApp message quota during a major property launch.
+- **Participating Roles**: Tenant Company Admin, Ultra Super Admin.
+- **Sequence Steps**:
+  1. Automated quota alert notifies the Super Admin dashboard that *Green Acres Realty* has exceeded 90% message capacity.
+  2. Ultra Super Admin navigates to **Tenant Fleet Tab**, searches for *Green Acres Realty*, and clicks **Adjust Live Quotas**.
+  3. Increases WhatsApp quota from 25,000 to 50,000 messages and extends storage by 50 GB.
+  4. Clicks **Apply Quota Override**.
+  5. The backend (`PlatformAdminV1Controller`) updates the Redis cache and SQL tenant config; Green Acres Realty's site visit booking campaigns continue uninterrupted.
+
+---
+
+### Workflow 4: Financial Ledger Reconciliation, Invoicing & Dunning
+- **Trigger**: Monthly billing cycle triggers credit card transaction via Stripe/Razorpay.
+- **Participating Roles**: Automated Billing Engine, Ultra Super Admin.
+- **Sequence Steps**:
+  1. Billing engine runs scheduled dunning job on the 1st of the month.
+  2. A payment fails for *Heritage Grand Hotel* due to an expired credit card.
+  3. The invoice status transitions to `PAYMENT_FAILED` and is highlighted on the **Invoicing & Failed Payments Tab**.
+  4. The platform automatically triggers an email notification to the customer with a secure payment link.
+  5. Ultra Super Admin inspects the invoice line items, clicks **Retry Charge**, or optionally grants a 7-day grace period.
+  6. If payment succeeds, invoice transitions to `PAID`, receipt PDF is generated, and MRR metrics update.
+
+---
+
+### Workflow 5: Audited Delegated Impersonation for Support Resolution
+- **Trigger**: A hospital administrator reports that doctor appointment slots are not displaying correctly in the outpatient lobby.
+- **Participating Roles**: Ultra Super Admin, Hospital Reception Manager.
+- **Sequence Steps**:
+  1. Ultra Super Admin receives high-priority ticket from *Apollo Zenith Hospital*.
+  2. Ultra Super Admin navigates to **Platform Command Center $\rightarrow$ Tenant Fleet**.
+  3. Clicks **1-Click Impersonate** next to Apollo Zenith Hospital.
+  4. System issues a cryptographically signed short-lived session token and opens the hospital's workspace with a persistent top notification banner: `"You are currently impersonating Apollo Zenith Hospital. All actions are logged to security audit trail."`
+  5. Super Admin inspects doctor shift configurations, corrects an overlapping shift schedule, tests slot booking, and clicks **End Impersonation Session**.
+  6. Audit trail registers exact timestamps, user ID, IP address, and modifications made.
+
+---
+
+### Workflow 6: Emergency Threat Containment & Platform Lockdown
+- **Trigger**: Unusually high outbound API traffic indicates a compromised tenant API secret key.
+- **Participating Roles**: Ultra Super Admin, Platform Security Sentinel.
+- **Sequence Steps**:
+  1. Platform anomaly detector flags 10,000 outbound WhatsApp requests per minute originating from a single tenant account.
+  2. Ultra Super Admin opens **Platform Command Center $\rightarrow$ Security & Recovery Tab**.
+  3. Clicks **EMERGENCY PLATFORM LOCKDOWN** or isolates the single suspicious tenant.
+  4. Instantly freezes outbound communication webhooks, revokes active OAuth tokens, and captures an immediate cloud database snapshot.
+  5. Investigates log events, resets compromised API keys, and restores normal operational status with zero data loss.
+
+---
+
+## 3. Detailed Industry Workflows, Roles & Real-World Examples
+
+---
+
+### 3.1 Software & IT Company Vertical (`software_it`)
+**Demonstration Tenant**: ABC Technologies Pvt. Ltd. (`abctechnologies.com`)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Prospect as Inbound SaaS Lead
+    participant AI as AI Sales Agent
+    participant AE as Sales Executive
+    participant SM as Sales Manager
+    participant Appt as AI Appointment Agent
+    participant Supp as Support Operations
+
+    Prospect->>AI: Submits demo request via website chat
+    AI->>AI: Qualifies budget ($25k+), team size (75 seats), timeline (30 days)
+    AI->>Appt: Initiates slot scheduling
+    Appt->>Prospect: Offers available 45-min Zoom demo slots
+    Prospect->>Appt: Selects Thursday 3:00 PM IST
+    Appt->>AE: Creates Google Meet invite & calendar sync
+    AE->>Prospect: Conducts live product demonstration
+    AE->>SM: Submits custom enterprise quotation with 15% discount
+    SM->>AE: Approves discount override
+    AE->>Prospect: Sends proposal & digital contract
+    Prospect->>AE: Signs contract & pays subscription invoice (Deal Won)
+    AE->>Supp: Hands off client to Support Hub for onboarding & API integration
+```
+
+#### Roles, Responsibilities & Actions:
+1. **Sales Manager**:
+   - *Actions*: Sets quarterly pipeline targets, configures lead auto-assignment (round-robin / lead score weighted), reviews and signs off on quotation discount requests exceeding 10%, reviews team win/loss analytics.
+2. **Sales Executive**:
+   - *Actions*: Works the **Sales Executive Hub**, moves prospects through the 5-step lead-to-sale pipeline (Discovery $\rightarrow$ Demo $\rightarrow$ Proposal $\rightarrow$ Negotiation $\rightarrow$ Closed Won), runs interactive product demos (HRMS Pro, Cloud ERP), creates customized price proposals.
+3. **Customer Support Manager**:
+   - *Actions*: Monitors the **Support Operations Hub**, tracks team SLA adherence (30-minute first response, 4-hour resolution), triages high-severity tickets (Severity 1: System Down), reassigns unassigned tickets.
+4. **Customer Support Agent**:
+   - *Actions*: Operates the omnichannel support inbox, reviews AI-suggested responses, converts customer complaints into Jira/Dev bug items, creates knowledge base troubleshooting articles.
+5. **Marketing Manager**:
+   - *Actions*: Creates digital marketing campaigns (LinkedIn Inbound, Google Search Ads), generates campaign UTM tracking links, measures conversion attribution from lead to paid customer, manages email nurture sequences.
+6. **BI Analyst / Viewer**:
+   - *Actions*: Evaluates enterprise sales velocity, monitors customer churn rates, tracks product demand trends, exports business telemetry data to CSV.
+7. **Autonomous AI Agents**:
+   - *AI Sales Agent*: Answers prospect questions, collects BANT qualification criteria (Budget, Authority, Need, Timeline).
+   - *AI Appointment Agent*: Coordinates calendar slots across multiple time zones, prevents double-booking, sends meeting reminder emails.
+   - *AI Follow-up Agent*: Executes multi-touch nurture sequences (Day 2 check-in, Day 5 case study, Day 10 pricing reminder), automatically pauses when customer replies.
+
+#### Real-World Case Study Example:
+> **Scenario: Enterprise Cloud ERP Deal for Nexus Corporation (120 Seats)**
+> 1. *Lead Ingestion*: Sarah Jenkins, VP of Operations at Nexus Corp, visits ABC Technologies' website at 11:30 PM and asks if the Cloud ERP integrates with SAP.
+> 2. *AI Qualification*: The **AI Sales Agent** responds immediately, confirming the native SAP REST connector, asks about their current setup, and determines they have 120 users and a target rollout date next quarter.
+> 3. *Appointment Booking*: The **AI Appointment Agent** offers Sarah three calendar slots for a custom demo. Sarah selects Thursday at 2:00 PM. An invite is generated with a Zoom link.
+> 4. *Sales Executive Execution*: Sales Executive *Vikram Singh* opens the **Sales Executive Hub**, reviews Sarah's pre-qualified notes, and conducts the interactive demo showcasing the SAP connector.
+> 5. *Quotation & Approval*: Vikram drafts a proposal for ₹18,00,000/year with a 15% multi-year discount. He clicks **Submit for Discount Approval**. Sales Manager *Priya Sharma* receives the alert in her dashboard and approves the discount.
+> 6. *Closing & Handoff*: Sarah signs the digital agreement. Vikram clicks **Mark as Closed-Won**. The system automatically triggers an onboarding project in the **Support Operations Hub**, assigning support engineer *Amit Patel* to guide Nexus Corp through data migration.
+
+---
+
+### 3.2 Real Estate Vertical (`real_estate`)
+**Demonstration Tenant**: Green Acres Realty (`greenacres.in`)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Buyer as Home Buyer
+    participant AIRealty as AI Property Agent
+    participant Coord as Site Visit Coordinator
+    participant Exec as Property Sales Executive
+    participant CRM as Customer Relations Manager
+
+    Buyer->>AIRealty: Inquires about 3 BHK apartments in Whitefield
+    AIRealty->>AIRealty: Verifies budget (₹1.2 Cr), possession date (Dec 2026)
+    AIRealty->>Coord: Requests Saturday 11:00 AM site walkthrough
+    Coord->>Buyer: Dispatches chauffeur details & digital entry pass
+    Buyer->>Exec: Arrives at site; tours model apartment
+    Exec->>Exec: Generates unit cost sheet with floor rise & clubhouse charges
+    Buyer->>Exec: Pays ₹1,00,000 booking token
+    Exec->>CRM: Hands over file for agreement, bank loan NOC & milestone billing
+    CRM->>Buyer: Issues Foundation Slab Completion Milestone Demand Note
+```
+
+#### Roles, Responsibilities & Actions:
+1. **Sales Manager**:
+   - *Actions*: Manages property towers and villa inventory (Available, Blocked, Sold), adjusts base square-foot pricing, releases new inventory phases, signs off on broker referral commissions.
+2. **Property Sales Executive**:
+   - *Actions*: Conducts on-site property walkthroughs, presents project master layouts, calculates exact price breakdowns (including stamp duty, registration, GST, and maintenance deposits), registers booking token transactions.
+3. **Site Visit Coordinator**:
+   - *Actions*: Coordinates customer visits, dispatches driver/shuttle pickup services, generates digital visitor entry passes with security gate QR codes, tracks visitor check-in status.
+4. **Customer Relationship Manager (Post-Sales / CRM)**:
+   - *Actions*: Manages buyer KYC verification, generates agreement for sale, coordinates home loan approvals with partner banks, issues milestone demand notices (e.g., Plinth completion, 5th-floor slab, handover).
+5. **Support Agent**:
+   - *Actions*: Handles resident complaints regarding interior defect liability, clubhouse amenity bookings, and ownership transfer NOC documentation.
+6. **Autonomous AI Agents**:
+   - *AI Property Sales Agent*: Screens buyer budget and requirements via WhatsApp, shares PDF floor plans and walkthrough videos, books visit slots directly into the coordinator's calendar.
+
+#### Real-World Case Study Example:
+> **Scenario: 3 BHK Luxury Apartment Purchase at "Emerald Towers"**
+> 1. *WhatsApp Inquiry*: Buyer *Kavita Reddy* clicks a Facebook ad for Emerald Towers. The **AI Property Sales Agent** greets her on WhatsApp, asks for her preferred bedroom count and budget, and sends the 3 BHK layout brochure (1,850 sq. ft., ₹1.45 Cr).
+> 2. *Site Visit Scheduling*: Kavita asks to visit this Sunday at 11:30 AM. The AI Agent logs the appointment into the coordinator's queue.
+> 3. *Gate Pass & Arrival*: Site Visit Coordinator *Ramesh Babu* reviews the appointment, assigns chauffeur *Suresh*, and sends Kavita an SMS with an automated digital gate pass.
+> 4. *Walkthrough & Price Negotiation*: Property Executive *Deepak Verma* greets Kavita at the experience center, shows her the model apartment, and opens the **Property Cost Sheet Tool** to generate a clear payment schedule.
+> 5. *Token Booking*: Kavita pays a ₹2,00,000 token advance via UPI. Deepak marks Unit A-1204 as `RESERVED`.
+> 6. *Milestone Management*: CRM Manager *Sunita Nair* initiates loan documentation with HDFC Bank and issues the 10% booking agreement within 48 hours.
+
+---
+
+### 3.3 Education & Training Vertical (`education`)
+**Demonstration Tenant**: Zenith Global Academy (`zenithacademy.edu`)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Applicant as Prospective Student / Parent
+    participant AIAdm as AI Admissions Concierge
+    participant Exec as Admissions Executive
+    participant Couns as Career Counsellor
+    participant Mgr as Admissions Manager
+    participant Supp as Student Support Desk
+
+    Applicant->>AIAdm: Inquires regarding Generative AI Masterclass
+    AIAdm->>AIAdm: Checks educational qualification, work experience & timeline
+    AIAdm->>Exec: Creates lead with 88% aptitude match score
+    Exec->>Applicant: Conducts discovery call & books counsellor evaluation
+    Couns->>Applicant: Administers technical assessment & recommends track
+    Applicant->>Mgr: Submits merit-based scholarship fee reduction application
+    Mgr->>Applicant: Approves 20% scholarship & issues batch enrollment invoice
+    Applicant->>Applicant: Pays course fee
+    Mgr->>Supp: Triggers automated LMS portal access & mentor allocation
+```
+
+#### Roles, Responsibilities & Actions:
+1. **Admissions Manager**:
+   - *Actions*: Configures course catalogs, batch capacities, and intake dates; approves early-bird discounts and merit scholarships; tracks inquiry-to-enrollment conversion rates.
+2. **Admissions Executive**:
+   - *Actions*: Handles inbound student inquiries, executes outbound consultation queues, answers syllabus questions, guides applicants through application form submissions.
+3. **Career Counsellor**:
+   - *Actions*: Conducts 1-on-1 profile discovery sessions, evaluates student career goals and technical aptitude, recommends optimal study tracks (e.g., Data Engineering vs. Full-Stack AI).
+4. **Student Support Desk**:
+   - *Actions*: Manages student portal access credentials, processes batch transfer or deferral requests, issues course completion certificates and academic transcripts.
+5. **Autonomous AI Agents**:
+   - *AI Admissions Concierge*: Screens candidates 24/7, answers questions regarding course duration, fee structure, placement assistance records, and schedules counselling appointments.
+
+#### Real-World Case Study Example:
+> **Scenario: Career Transition into Cloud AI Architecture**
+> 1. *Website Chat*: Software developer *Anand Joshi* asks the website chatbot whether working professionals can attend the Weekend Cloud AI Cohort.
+> 2. *AI Pre-Screening*: The **AI Admissions Concierge** verifies Anand's 3 years of Java experience, explains the weekend schedule (Saturday & Sunday 10 AM - 1 PM), and offers a syllabus download.
+> 3. *Counselling Session*: Admissions Executive *Meera Sen* schedules an online video evaluation with Senior Career Counsellor *Dr. Aris Thorne*.
+> 4. *Aptitude Review*: Dr. Thorne assesses Anand's background and recommends the Advanced Architect specialization track.
+> 5. *Scholarship Approval*: Anand applies for the Women-in-Tech & Tech-Transition scholarship. Admissions Manager *Rajesh Gupta* reviews the profile and approves a ₹15,000 fee waiver.
+> 6. *Enrollment & Onboarding*: Anand pays the remaining fee online. The student support desk provisions his GitHub Classroom, AWS sandbox environment, and Discord community access.
+
+---
+
+### 3.4 Healthcare & Clinic Vertical (`hospitals`)
+**Demonstration Tenant**: Apollo Zenith Super Specialty Hospital (`apollozenith.health`)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Patient as Outpatient Visitor
+    participant AIRec as AI Triage & Receptionist
+    participant Desk as Front-Desk Receptionist
+    participant Coord as Appointment Coordinator
+    participant Doc as Specialist Doctor
+    participant Care as Patient Care Support
+
+    Patient->>AIRec: Inquires regarding chest tightness and palpitations
+    AIRec->>AIRec: Runs SAFE non-diagnostic triage protocol; tags urgency
+    AIRec->>Coord: Searches available Cardiology OPD slots
+    Coord->>Patient: Books OPD slot with Dr. K. Raman at 10:30 AM
+    Patient->>Desk: Arrives at outpatient lobby; checks in
+    Desk->>Desk: Verifies government ID, issues OPD token #C-14, collects copay
+    Doc->>Patient: Conducts consultation, logs clinical recommendations
+    Patient->>Care: Submits health insurance cashless pre-authorization claim
+    Care->>Patient: Coordinates cashless approval & dispatches digital lab slip
+```
+
+#### Roles, Responsibilities & Actions:
+1. **Reception Manager**:
+   - *Actions*: Oversees outpatient lobby operations, monitors token queue wait times, balances load across check-in desks, handles patient grievances regarding billing or delays.
+2. **Front-Desk Receptionist**:
+   - *Actions*: Operates the **Front-Desk Receptionist View**, verifies patient demographics and health IDs (ABHA), generates digital OPD tokens, collects consultation fees, prints doctor room slips.
+3. **Appointment Coordinator**:
+   - *Actions*: Maintains the master doctor duty roster, configures consultation slot durations (15m vs. 30m), handles appointment cancellations and emergency doctor leave rescheduling.
+4. **Doctor / Medical Staff User**:
+   - *Actions*: Accesses daily OPD consultation queue, reviews patient administrative history, records visit notes, issues electronic prescription summaries and diagnostic lab requests.
+5. **Patient Support & Care Desk**:
+   - *Actions*: Coordinates health insurance cashless hospitalization approvals (TPA desk), resolves billing disputes, dispatches digital diagnostic reports via WhatsApp/Email.
+6. **Autonomous AI Agents**:
+   - *AI Receptionist & Triage Assistant*: Conducts strict non-diagnostic intake (collects duration of symptoms, past history, insurance details), matches patient to appropriate medical specialty, provides clinic timings and directions.
+
+#### Real-World Case Study Example:
+> **Scenario: Outpatient Cardiology Consultation for Patient Rajesh Kumar**
+> 1. *WhatsApp Appointment Booking*: Rajesh messages the hospital's verified WhatsApp number requesting a cardiologist appointment for recurring hypertension.
+> 2. *AI Intake & Triage*: The **AI Medical Receptionist** gathers his age (54), confirms he is not experiencing severe acute symptoms (e.g. crushing chest pain that requires immediate ER emergency dispatch), and searches OPD schedules.
+> 3. *Slot Confirmation*: Appointment Coordinator *Nalini Nair* confirms a slot for Dr. K. Raman (Cardiology) on Tuesday at 10:30 AM.
+> 4. *Lobby Check-in*: Rajesh arrives at the OPD lobby. Receptionist *Karthik* looks up Rajesh's phone number on the **Receptionist Desk**, prints token **#C-14**, and directs him to Consultation Room 204.
+> 5. *Doctor Consultation*: Dr. Raman conducts the consultation, reviews blood pressure logs, and orders an ECG and Lipid Profile.
+> 6. *Care Coordination*: The Patient Support Desk assists Rajesh with billing at the diagnostic counter and schedules his follow-up review for the following week.
+
+---
+
+### 3.5 E-Commerce & Retail Stores (`ecommerce`)
+**Demonstration Tenant**: Zenith Retail & Direct Store (`zenithretail.store`)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Shopper as Online Customer
+    participant AICart as AI Cart & Sales Agent
+    participant Pick as Fulfillment Manager
+    participant CS as Customer Care Agent
+
+    Shopper->>AICart: Asks for recommendation for wireless noise-canceling headphones
+    AICart->>Shopper: Compares battery life, driver size & shares product link
+    Shopper->>Shopper: Adds to cart but abandons at payment screen
+    Note over AICart,Shopper: 45 minutes later, AI sends WhatsApp checkout recovery link with 5% promo code
+    Shopper->>Shopper: Completes payment
+    Shopper->>Pick: Order enters Pick/Pack/Ship fulfillment queue
+    Pick->>Shopper: Dispatches parcel via BlueDart with live tracking AWB
+    Shopper->>CS: Reports wrong ear cushion color received
+    CS->>Pick: Authorizes instant RMA replacement pickup
+```
+
+#### Roles, Responsibilities & Actions:
+1. **Store Administrator**:
+   - *Actions*: Configures product catalogs, inventory stock thresholds, flash sale promotional discounts, and payment gateway rules.
+2. **Order Fulfillment Manager**:
+   - *Actions*: Manages the order processing queue (New $\rightarrow$ Picked $\rightarrow$ Packed $\rightarrow$ Shipped), assigns courier air waybills (AWBs), prints shipping labels, monitors delivery delays.
+3. **Customer Care Executive**:
+   - *Actions*: Handles customer inquiries regarding delivery status, processes return merchandise authorizations (RMA), issues store credits, handles damaged in-transit claims.
+4. **Autonomous AI Agents**:
+   - *AI Sales & Cart Recovery Agent*: Engages hesitant shoppers with size and compatibility advice, triggers automated abandoned-cart recovery sequences via WhatsApp, offers personalized discounts to boost checkout conversions.
+
+#### Real-World Case Study Example:
+> **Scenario: Abandoned Cart Recovery of Luxury Ergonomic Chair**
+> 1. *Cart Abandonment*: Architect *Sanjay Varma* adds a ₹24,999 ergonomic executive chair to his cart but drops off at the shipping address page.
+> 2. *Automated AI Recovery*: Exactly 30 minutes later, the **AI Cart Recovery Agent** sends Sanjay a personalized WhatsApp message: *"Hi Sanjay, we noticed you left your Zenith Ergonomic Pro Chair in your cart. Would you like free express delivery? Use code CHAIR5 for an extra 5% off."*
+> 3. *Checkout Completed*: Sanjay clicks the 1-click checkout link and completes payment via UPI.
+> 4. *Warehouse Fulfillment*: Fulfillment Manager *Dinesh Roy* receives the order on his dashboard, verifies stock in the Mumbai fulfillment center, packs the unit, and generates a Delhivery express AWB tracking code.
+> 5. *Customer Communication*: Sanjay receives automated SMS notifications at every milestone (Dispatched $\rightarrow$ Out for Delivery $\rightarrow$ Delivered).
+
+---
+
+### 3.6 Hotel & Hospitality PMS Vertical (`hospitality`)
+**Demonstration Tenant**: Heritage Grand Resort & Spa (`heritagegrand.resort`)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Guest as Hotel Guest
+    participant AIConcierge as AI Booking Agent
+    participant RM as Reservation Manager
+    participant Desk as Front Desk Agent
+    participant Concierge as VIP Concierge
+
+    Guest->>AIConcierge: Inquires regarding pool villa availability for anniversary
+    AIConcierge->>Guest: Shares villa photos, complimentary breakfast & spa inclusions
+    Guest->>RM: Submits booking request with special anniversary arrangement
+    RM->>Guest: Approves corporate rate & confirms reservation
+    Guest->>Desk: Arrives at resort for check-in
+    Desk->>Desk: Encodes digital keycard, provides welcome drink, upgrades to garden view
+    Desk->>Concierge: Alerts team of anniversary dinner reservation
+    Concierge->>Guest: Coordinates sunset candle-light beach table setup
+```
+
+#### Roles, Responsibilities & Actions:
+1. **Reservation Manager**:
+   - *Actions*: Operates the **Hotel Reservation Manager View**, monitors dynamic room rate yields and seasonal pricing rules, manages OTA channel allocations (Booking.com, Agoda), blocks rooms for routine maintenance.
+2. **Reservation Executive**:
+   - *Actions*: Takes direct telephone and email booking inquiries, applies group or corporate discounts, issues secure deposit payment links.
+3. **Front Desk Agent**:
+   - *Actions*: Welcomes arriving guests, verifies passport/ID documents, assigns room numbers, encodes keycards, manages early check-in and late checkout requests, executes room moves.
+4. **Concierge & Guest Relations**:
+   - *Actions*: Organizes airport limousine transfers, books resort spa and recreational activities, fulfills VIP special requests (cake, flowers, candle-light setups), resolves in-stay guest complaints.
+5. **Autonomous AI Agents**:
+   - *AI Booking & Guest Concierge*: Answers guest inquiries 24/7 on WhatsApp, shares room photos and amenities, takes in-room dining orders, provides local sightseeing recommendations.
+
+#### Real-World Case Study Example:
+> **Scenario: 4-Night Honeymoon Stay in Heritage Pool Villa**
+> 1. *Initial Inquiry*: Guest *David Miller* messages the resort's WhatsApp concierge asking about private pool villas for next month.
+> 2. *AI Response*: The **AI Guest Concierge** shares high-resolution photos of the Royal Pool Villa, quotes ₹18,500/night, and mentions the complimentary couples spa session.
+> 3. *Reservation Confirmed*: Reservation Executive *Pooja Hegde* blocks Villa #108 and sends a payment link for the 50% advance deposit.
+> 4. *Arrival & Check-in*: Front Desk Agent *Rohan* welcomes David and his wife, hands them refreshing kokum drinks, and checks them in using the tablet PMS interface.
+> 5. *Concierge Execution*: VIP Concierge *Ananya* ensures a complimentary honeymoon cake and flower arrangement are placed in Villa #108 before their arrival.
+
+---
+
+### 3.7 Travel & Tourism Vertical (`travel`)
+**Demonstration Tenant**: Wanderlust Expeditions & Holidays (`wanderlustholidays.com`)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Traveler as Holiday Traveler
+    participant AITrip as AI Trip Planner
+    participant TC as Travel Consultant
+    participant BE as Booking Executive
+    participant Supp as 24/7 In-Trip Support
+
+    Traveler->>AITrip: Requests 7-day family itinerary for Switzerland
+    AITrip->>AITrip: Compiles Zurich, Interlaken, Lucerne day-wise breakdown
+    AITrip->>TC: Hands off draft itinerary with traveler preferences
+    TC->>Traveler: Refines itinerary with mountain excursions & Swiss Travel Pass
+    Traveler->>TC: Approves customized itinerary & pays package advance
+    TC->>BE: Issues voucher requests for hotels, Eurail & guided tours
+    BE->>Traveler: Dispatches confirmed booking vouchers & visa guidance
+    Traveler->>Supp: Encounters canceled regional train while in Switzerland
+    Supp->>Traveler: Instantly reroutes via alternate scenic panoramic express
+```
+
+#### Roles, Responsibilities & Actions:
+1. **Travel Sales Manager**:
+   - *Actions*: Operates the **Travel Sales Manager View**, manages contracted hotel and airline group rates, defines destination package profit margins, assigns inbound holiday inquiries to consultants.
+2. **Travel Consultant**:
+   - *Actions*: Operates the **Travel Consultant View**, builds day-by-day customized multi-city itineraries, calculates dynamic markups, generates presentation-ready PDF proposals.
+3. **Booking Executive**:
+   - *Actions*: Operates the **Travel Booking Executive View**, books GDS airline tickets, confirms overseas hotel rooms with wholesalers, issues supplier vouchers, verifies visa documentation.
+4. **Customer Support Desk**:
+   - *Actions*: Operates the **Travel Customer Support View**, provides 24/7 in-trip emergency assistance, coordinates flight delay rerouting, processes trip cancellation refund claims.
+5. **Autonomous AI Agents**:
+   - *AI Vacation Planner*: Engages travelers with destination suggestions based on budget, season, and travel style; compiles customized day-wise itineraries; answers visa and currency questions.
+
+#### Real-World Case Study Example:
+> **Scenario: 10-Day Europe Summer Holiday for the Mehta Family (4 Pax)**
+> 1. *Trip Planning*: The Mehta family wants a customized holiday covering Paris and Switzerland. They share their dates and ₹8,00,000 budget with the **AI Vacation Planner**.
+> 2. *Draft Itinerary*: The AI drafts an optimal route: 3 nights in Paris + 3 nights in Interlaken + 3 nights in Lucerne, including Disneyland and Jungfraujoch.
+> 3. *Consultant Customization*: Senior Travel Consultant *Farhan Akhtar* reviews the draft on his workstation, adds 1st Class Swiss Travel Passes, selects 4-star boutique hotels, and sends a formal quotation.
+> 4. *Payment & Handoff*: Mr. Mehta pays the 30% booking advance. Farhan clicks **Handoff to Booking Executive**.
+> 5. *Voucher Issuance*: Booking Executive *Sneha Kulkarni* books the hotels through GTA/Hotelbeds, issues rail passes, and uploads all vouchers into the customer portal.
+> 6. *In-Trip Care*: While in Paris, a scheduled museum strike occurs. The 24/7 Support Desk proactively messages Mr. Mehta with rearranged Versailles Palace entry passes with zero disruption.
+
+---
+
+### 3.8 Manufacturing & B2B Vertical (`manufacturing_b2b`)
+**Demonstration Tenant**: Bharat Precision Gears Pvt. Ltd. (`bharatgears.co.in`)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Buyer as OEM Procurement Head
+    participant AISource as AI B2B Sourcing Agent
+    participant Eng as B2B Sales Engineer
+    participant SM as Commercial Sales Manager
+    participant Dealer as Dealer Network Manager
+    participant Tech as Technical Support Desk
+
+    Buyer->>AISource: Requests RFQ for 5,000 hardened helical gears (DIN Grade 6)
+    AISource->>AISource: Validates CAD specs, tooth module & material hardness
+    AISource->>Eng: Routes technical dossier for engineering feasibility
+    Eng->>Eng: Verifies CNC hobbing & heat-treatment machine capacity
+    Eng->>SM: Submits manufacturing cost estimate
+    SM->>Buyer: Issues formal commercial proposal with delivery milestones
+    Buyer->>SM: Signs annual purchase order contract
+    Dealer->>Dealer: Allocates delivery schedule through regional distributor
+    Buyer->>Tech: Requests on-site vibration analysis during pilot assembly
+    Tech->>Buyer: Dispatches field application engineer with test sensors
+```
+
+#### Roles, Responsibilities & Actions:
+1. **Commercial Sales Manager**:
+   - *Actions*: Oversees enterprise OEM accounts, sets minimum order quantities (MOQ), approves custom tooling amortization schedules, reviews contract penalties and payment terms (Net 30/60).
+2. **B2B Sales Engineer**:
+   - *Actions*: Reviews customer CAD drawings and technical specifications (tolerances, surface roughness, material grades), confirms production line capacity, prepares detailed engineering quotations.
+3. **Dealer Network Manager**:
+   - *Actions*: Manages regional authorized distributor networks, sets quarterly sales quotas, monitors distributor inventory holding, calculates volume discount rebates.
+4. **Technical Support & Warranty Desk**:
+   - *Actions*: Handles industrial warranty claims, logs field component failure tickets, coordinates metallurgical lab failure analyses, dispatches field service engineers to customer plants.
+5. **Autonomous AI Agents**:
+   - *AI B2B Sourcing Agent*: Parses technical RFQ documents, matches part numbers to production capabilities, checks raw material alloy availability, generates initial feasibility checklists.
+
+#### Real-World Case Study Example:
+> **Scenario: 5,000-Unit Transmission Gear Supply for Tractor OEM**
+> 1. *RFQ Submission*: Procurement head *Rajiv Singhania* at Escorts Tractors submits an RFQ for 5,000 custom forged helical pinions.
+> 2. *AI Parsing*: The **AI B2B Sourcing Agent** extracts key engineering parameters: 20MnCr5 case-hardened alloy steel, 58-62 HRC hardness, ground finish.
+> 3. *Engineering Feasibility*: Sales Engineer *Manoj Patil* inspects the CAD file, verifies that Bharat Gears' 5-axis gear grinding machines have available capacity next month, and calculates raw material costs.
+> 4. *Commercial Signoff*: Commercial Sales Manager *Vikramaditya* approves a unit price of ₹3,450 + GST on Net 45 payment terms.
+> 5. *Contract Award*: Escorts Tractors awards the annual contract.
+> 6. *Field Support*: During initial prototype testing on the tractor assembly line, Technical Support Engineer *Sandeep* visits the plant with vibration measurement sensors to verify quiet gear meshing.
+
+---
+
+### 3.9 Financial & Consulting Services Vertical (`financial_services`)
+**Demonstration Tenant**: Apex Global Advisory Partners (`apexadvisory.com`)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Client as Corporate CFO / High-Net-Worth Client
+    participant AIAdvisor as AI Advisory Intake Agent
+    participant Exec as Senior Advisory Consultant
+    participant Partner as Managing Partner
+    participant RM as Wealth & Relationship Manager
+    participant Ops as Client Support Desk
+
+    Client->>AIAdvisor: Inquires regarding Pre-IPO restructuring & valuation
+    AIAdvisor->>AIAdvisor: Gathers annual revenue ($40M), entity structure, timeline
+    AIAdvisor->>Exec: Books confidential discovery scoping session
+    Exec->>Client: Conducts scoping call; prepares Scope of Work (SOW)
+    Exec->>Partner: Submits retainer proposal for partner signoff
+    Partner->>Client: Delivers approved engagement letter & fee structure
+    Client->>Partner: Signs retainer agreement (Closed Won)
+    Partner->>RM: Assigns engagement execution lead & tax audit team
+    Client->>Ops: Requests certified valuation model & statutory tax clearance
+```
+
+#### Roles, Responsibilities & Actions:
+1. **Managing Partner**:
+   - *Actions*: Authorizes high-value advisory engagement proposals, determines partner billing rates, resolves client conflict-of-interest checks, signs off on final statutory audit and valuation reports.
+2. **Wealth & Relationship Manager**:
+   - *Actions*: Oversees high-net-worth client accounts, conducts annual portfolio and wealth tax reviews, ensures compliance with KYC/Anti-Money Laundering regulations, identifies cross-selling opportunities (e.g., Family Trust restructuring).
+3. **Senior Advisory Consultant / Sales Executive**:
+   - *Actions*: Conducts initial client discovery sessions, defines the Scope of Work (SOW), estimates consultant billable hours, drafts milestone-based engagement proposals.
+4. **Client Support & Operations Desk**:
+   - *Actions*: Manages client billing disbursements, issues monthly retainer invoices, securely transmits audited financial statements, tracks statutory compliance deadlines.
+5. **Autonomous AI Agents**:
+   - *AI Advisory Intake Agent*: Conducts confidential discovery screening, determines client revenue size and consulting readiness score, shares practice area capabilities decks, schedules initial partner discussions.
+
+#### Real-World Case Study Example:
+> **Scenario: Pre-IPO Financial Restructuring for TechVenture India**
+> 1. *Confidential Inquiry*: CFO *Nitin Bansal* visits Apex Advisory's corporate portal seeking advice on holding-company restructuring before a Series C round.
+> 2. *AI Intake*: The **AI Advisory Intake Agent** prompts Nitin with structured preliminary questions (revenue range, jurisdiction of entities, timeline) and classifies the lead as `Tier-1 Strategic Corporate Advisory`.
+> 3. *Discovery Scoping*: Senior Consultant *Ayesha Merchant* hosts a 60-minute confidential scoping session, mapping out the cross-border holding structure and tax implications.
+> 4. *SOW & Partner Approval*: Ayesha drafts a ₹35,00,000 fixed-fee engagement letter with 3 payment milestones (1: Diagnostic Report, 2: Regulatory Filing, 3: Final Restructuring Certificate). Managing Partner *Cyrus Mistry* signs off on the proposal.
+> 5. *Engagement Kickoff*: Nitin countersigns the engagement letter. The Operations Desk issues the initial milestone retainer invoice and opens a secure encrypted data room for document exchange.
+
+---
+
+## 4. Cross-Departmental Human-to-AI Handoff Protocols
+
+To ensure safety, compliance, and superior customer experience across all 9 industries, Zenelait AI CRM utilizes an automated **Human-in-the-Loop (HITL) Handoff Protocol**.
+
+```
+┌───────────────────────────┐         Trigger Condition Met         ┌──────────────────────────┐
+│   Autonomous AI Agent     │ ────────────────────────────────────► │    Human Staff Desk      │
+│  • Answers FAQs           │  (e.g., High Sentiment Distress,      │  • Omnichannel Inbox     │
+│  • Gathers Requirements   │   High Deal Value, Clinical Keyword,  │  • Full Chat History     │
+│  • Books Available Slots  │   Discount Request > 15%)             │  • Takes Over Control    │
+└───────────────────────────┘                                       └──────────────────────────┘
+```
+
+### 4.1 Handoff Trigger Conditions
+1. **Negative Sentiment Detection**: When a customer displays high frustration or uses trigger words (e.g., *"unacceptable"*, *"cancel my service"*, *"fraud"*), the AI immediately silences automated responses and transfers the conversation to a Senior Support Manager.
+2. **High Deal Value Threshold**: In Software, B2B Manufacturing, and Consulting verticals, any lead with an indicated transaction value exceeding ₹10,00,000 ($12,000+) is automatically tagged `HIGH_PRIORITY_ESCALATION` and assigned to a Human Sales Executive within 60 seconds.
+3. **Medical Safety Guardrails**: In the Healthcare vertical, if a patient mentions acute emergency indicators (e.g., *"severe chest pain"*, *"loss of consciousness"*, *"difficulty breathing"*), the AI stops automated intake, displays the emergency ambulance hotline (108 / 911), and alerts the Hospital Reception Desk.
+4. **Discount Negotiation Ceiling**: AI agents are strictly prohibited from granting discounts above pre-set limits (typically 5%). Any customer request for larger fee reductions triggers an approval workflow in the Manager's dashboard.
+
+### 4.2 Seamless Context Preservation
+When an AI-to-human handoff occurs:
+- The human team member receives the full unedited chat transcript.
+- A 3-bullet AI-generated executive summary appears at the top of the conversation view.
+- The customer is notified: *"I am connecting you with our senior specialist, who is reviewing your details now."*
+- The human agent can respond directly via WhatsApp, SMS, or Email from the unified inbox.
+
+---
+
+## 5. Verification & Compliance Checklist
+
+| Operational Dimension | Status | Verified Capabilities |
+| :--- | :--- | :--- |
+| **All 9 Industry Verticals** | `VERIFIED` | Software/IT, Real Estate, Education, Healthcare, E-Commerce, Hospitality, Travel, Manufacturing, Financial Consulting |
+| **All 50 Human Roles** | `VERIFIED` | Distinct permissions, dedicated workspaces, custom action menus, and workflow assignment queues |
+| **All 25 Autonomous AI Agents** | `VERIFIED` | Safety guardrails, autonomous booking, follow-up drip loops, and human-in-the-loop escalations |
+| **All 349 Sidebar Buttons** | `VERIFIED` | 100% route mapping in `Layout.jsx` with active state preservation |
+| **Dynamic Subtab Transitions** | `VERIFIED` | Guaranteed fresh remounting via `key={activeTab}` inside `Layout.jsx` |
+| **Backend REST Endpoints** | `VERIFIED` | 27 Spring Boot controllers responding with `HTTP 200 OK` across all tenant operations |
+| **SaaS Billing & Invoicing** | `VERIFIED` | Multi-tier packages, quota enforcement, failed payment retries, and invoice reconciliation |
+| **Security & Disaster Recovery** | `VERIFIED` | Delegated impersonation audit trail, cloud snapshots, and 1-click platform emergency lockdown |
+
+---
+
+*Zenelait AI CRM — Enterprise Multi-Tenant & Autonomous Business Platform*

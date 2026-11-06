@@ -1,0 +1,915 @@
+{
+  "info": {
+    "_postman_id": "zenelait-crm-hospital-clinic-apis-v1",
+    "name": "Zenelait AI CRM — Hospital / Clinic Tenant (Complete 93 Endpoints)",
+    "description": "Complete REST API collection for Zenelait AI CRM Hospital/Clinic Tenant covering Reception Manager (21), Receptionist (20), Customer Support (24), and Appointment Coordinator (28) across shared patient, appointment, and inquiry records.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080/api/v1", "type": "string" },
+    { "key": "managerToken", "value": "mock-jwt-token-reception-manager", "type": "string" },
+    { "key": "receptionistToken", "value": "mock-jwt-token-receptionist", "type": "string" },
+    { "key": "supportToken", "value": "mock-jwt-token-customer-support", "type": "string" },
+    { "key": "coordinatorToken", "value": "mock-jwt-token-appointment-coordinator", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "0. Authentication",
+      "item": [
+        {
+          "name": "Auth - Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"reception.manager@citycare.example\",\n  \"password\": \"YourPassword123!\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "1. Reception Manager (21 Endpoints)",
+      "item": [
+        {
+          "name": "1. GET Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/dashboard", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "dashboard"] }
+          }
+        },
+        {
+          "name": "2. GET Staff List",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/staff?page=0&size=20", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "staff"], "query": [{ "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+          }
+        },
+        {
+          "name": "3. POST Create Staff Account",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Priya Kumar\",\n  \"email\": \"priya.reception@example.com\",\n  \"phone\": \"+919876543210\",\n  \"role\": \"RECEPTIONIST\",\n  \"department\": \"FRONT_DESK\",\n  \"shift\": {\n    \"startTime\": \"09:00\",\n    \"endTime\": \"17:00\"\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/staff", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "staff"] }
+          }
+        },
+        {
+          "name": "4. GET Staff Details",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/staff/staff_2001", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "staff", "staff_2001"] }
+          }
+        },
+        {
+          "name": "5. PATCH Update Staff Details",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"phone\": \"+919876543219\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/staff/staff_2001", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "staff", "staff_2001"] }
+          }
+        },
+        {
+          "name": "6. PATCH Update Staff Status",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"ACTIVE\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/staff/staff_2001/status", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "staff", "staff_2001", "status"] }
+          }
+        },
+        {
+          "name": "7. GET Work Assignments",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/work-assignments?page=0&size=20", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "work-assignments"] }
+          }
+        },
+        {
+          "name": "8. POST Create Work Assignment",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"staffId\": \"staff_2001\",\n  \"title\": \"Front Desk Triage Support\",\n  \"type\": \"QUEUE_MANAGEMENT\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/work-assignments", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "work-assignments"] }
+          }
+        },
+        {
+          "name": "9. PATCH Update Work Assignment",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"COMPLETED\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/work-assignments/asgn_01", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "work-assignments", "asgn_01"] }
+          }
+        },
+        {
+          "name": "10. GET Patient Enquiries",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/patient-enquiries?page=0&size=20", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "patient-enquiries"] }
+          }
+        },
+        {
+          "name": "11. GET One Patient Enquiry",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/patient-enquiries/enq_3001", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "patient-enquiries", "enq_3001"] }
+          }
+        },
+        {
+          "name": "12. PATCH Assign Enquiry",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"assignedToStaffId\": \"staff_2001\",\n  \"reason\": \"Front desk follow-up required\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/patient-enquiries/enq_3001/assign", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "patient-enquiries", "enq_3001", "assign"] }
+          }
+        },
+        {
+          "name": "13. PATCH Update Enquiry Priority",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"priority\": \"HIGH\",\n  \"reason\": \"Patient requested a prompt administrative response\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/patient-enquiries/enq_3001/priority", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "patient-enquiries", "enq_3001", "priority"] }
+          }
+        },
+        {
+          "name": "14. GET Reception Queue",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/queue?status=WAITING&page=0&size=20", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "queue"] }
+          }
+        },
+        {
+          "name": "15. GET Escalations",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/escalations", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "escalations"] }
+          }
+        },
+        {
+          "name": "16. POST Create Escalation",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"enquiryId\": \"enq_3001\",\n  \"category\": \"UNRESOLVED_ADMINISTRATIVE_REQUEST\",\n  \"reason\": \"The enquiry requires supervisor assistance\",\n  \"assignedToStaffId\": \"staff_2001\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/escalations", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "escalations"] }
+          }
+        },
+        {
+          "name": "17. PATCH Update Escalation",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"RESOLVED\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/escalations/esc_6001", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "escalations", "esc_6001"] }
+          }
+        },
+        {
+          "name": "18. GET AI Config",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/ai-config", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "ai-config"] }
+          }
+        },
+        {
+          "name": "19. PATCH AI Config",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"humanReviewRequired\": true,\n  \"emergencyProtocolContact\": \"+91 44 2800 9900\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/ai-config", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "ai-config"] }
+          }
+        },
+        {
+          "name": "20. GET Performance Report",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/reports/performance?from=2026-10-01&to=2026-10-27", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "reports", "performance"] }
+          }
+        },
+        {
+          "name": "21. GET Audit Events",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{managerToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/reception-manager/audit-events", "host": ["{{baseUrl}}"], "path": ["hospital", "reception-manager", "audit-events"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Receptionist (20 Endpoints)",
+      "item": [
+        {
+          "name": "1. GET Receptionist Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/dashboard", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "dashboard"] }
+          }
+        },
+        {
+          "name": "2. GET Search Patients",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/patients?search=Arun&page=0&size=10", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "patients"] }
+          }
+        },
+        {
+          "name": "3. POST Register Patient",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Arun Kumar\",\n  \"dateOfBirth\": \"1998-04-15\",\n  \"phone\": \"+919876543210\",\n  \"email\": \"arun.kumar@example.com\",\n  \"preferredLanguage\": \"en\",\n  \"registrationSource\": \"WALK_IN\",\n  \"consents\": {\n    \"appointmentNotifications\": true,\n    \"marketingMessages\": false\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/patients", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "patients"] }
+          }
+        },
+        {
+          "name": "4. GET Patient Details",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/patients/pat_7001", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "patients", "pat_7001"] }
+          }
+        },
+        {
+          "name": "5. PATCH Update Patient Contact",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"preferredLanguage\": \"ta\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/patients/pat_7001", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "patients", "pat_7001"] }
+          }
+        },
+        {
+          "name": "6. GET Today's Appointments",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/appointments/today?status=BOOKED&page=0&size=20", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "appointments", "today"] }
+          }
+        },
+        {
+          "name": "7. GET Appointment Details",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/appointments/apt_8001", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "appointments", "apt_8001"] }
+          }
+        },
+        {
+          "name": "8. POST Check-in Patient",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"arrivalChannel\": \"FRONT_DESK\",\n  \"identityVerified\": true,\n  \"administrativeNote\": \"Patient arrived at reception\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/appointments/apt_8001/check-in", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "appointments", "apt_8001", "check-in"] }
+          }
+        },
+        {
+          "name": "9. POST Cancel Request",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"reason\": \"Patient requested cancellation\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/appointments/apt_8001/cancel-request", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "appointments", "apt_8001", "cancel-request"] }
+          }
+        },
+        {
+          "name": "10. POST Reschedule Request",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestedDate\": \"2026-10-29\",\n  \"preferredTimeWindow\": \"AFTERNOON\",\n  \"reason\": \"Patient requested a different date\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/appointments/apt_8001/reschedule-request", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "appointments", "apt_8001", "reschedule-request"] }
+          }
+        },
+        {
+          "name": "11. GET Queue",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/queue", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "queue"] }
+          }
+        },
+        {
+          "name": "12. POST Walk-in Registration",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"pat_7001\",\n  \"department\": \"GENERAL_MEDICINE\",\n  \"arrivalChannel\": \"WALK_IN\",\n  \"administrativeNote\": \"Walk-in registration\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/queue/walk-ins", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "queue", "walk-ins"] }
+          }
+        },
+        {
+          "name": "13. PATCH Queue Status",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"CALLED\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/queue/queue_9001/status", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "queue", "queue_9001", "status"] }
+          }
+        },
+        {
+          "name": "14. GET Enquiries",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/enquiries", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "enquiries"] }
+          }
+        },
+        {
+          "name": "15. POST Create Enquiry",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"pat_7001\",\n  \"category\": \"APPOINTMENT_INFORMATION\",\n  \"channel\": \"PHONE\",\n  \"subject\": \"Question about appointment timing\",\n  \"summary\": \"Patient requests confirmation of the appointment time\",\n  \"priority\": \"NORMAL\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/enquiries", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "enquiries"] }
+          }
+        },
+        {
+          "name": "16. GET One Enquiry",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/enquiries/enq_1101", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "enquiries", "enq_1101"] }
+          }
+        },
+        {
+          "name": "17. POST Add Administrative Note",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"note\": \"Patient requested confirmation by phone\",\n  \"visibility\": \"INTERNAL\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/enquiries/enq_1101/notes", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "enquiries", "enq_1101", "notes"] }
+          }
+        },
+        {
+          "name": "18. POST Hand off Enquiry",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"targetTeam\": \"APPOINTMENT_COORDINATION\",\n  \"reason\": \"The request requires scheduling access\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/enquiries/enq_1101/handoff", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "enquiries", "enq_1101", "handoff"] }
+          }
+        },
+        {
+          "name": "19. GET Reception Tasks",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/tasks", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "tasks"] }
+          }
+        },
+        {
+          "name": "20. PATCH Update Task Status",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{receptionistToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"COMPLETED\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/receptionist/tasks/rec_task_01/status", "host": ["{{baseUrl}}"], "path": ["hospital", "receptionist", "tasks", "rec_task_01", "status"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Customer Support (24 Endpoints)",
+      "item": [
+        {
+          "name": "1. GET Support Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/dashboard", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "dashboard"] }
+          }
+        },
+        {
+          "name": "2. GET Support Tickets",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/tickets?status=OPEN&priority=NORMAL&page=0&size=20", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "tickets"] }
+          }
+        },
+        {
+          "name": "3. POST Create Ticket",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"pat_7001\",\n  \"category\": \"APPOINTMENT_ENQUIRY\",\n  \"channel\": \"WEBSITE_CHAT\",\n  \"subject\": \"Appointment confirmation\",\n  \"description\": \"The patient would like confirmation of an existing appointment.\",\n  \"priority\": \"NORMAL\",\n  \"sourceReference\": \"webchat_2001\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/tickets", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "tickets"] }
+          }
+        },
+        {
+          "name": "4. GET Ticket Details",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/tickets/tic_1301", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "tickets", "tic_1301"] }
+          }
+        },
+        {
+          "name": "5. PATCH Update Ticket",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"priority\": \"HIGH\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/tickets/tic_1301", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "tickets", "tic_1301"] }
+          }
+        },
+        {
+          "name": "6. PATCH Assign Ticket",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"assignedToUserId\": \"usr_1401\",\n  \"reason\": \"Appointment-related enquiry\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/tickets/tic_1301/assign", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "tickets", "tic_1301", "assign"] }
+          }
+        },
+        {
+          "name": "7. PATCH Update Ticket Status",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"IN_PROGRESS\",\n  \"resolutionNote\": \"Reviewing the appointment enquiry\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/tickets/tic_1301/status", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "tickets", "tic_1301", "status"] }
+          }
+        },
+        {
+          "name": "8. POST Add Support Message",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"messageType\": \"PUBLIC_REPLY\",\n  \"channel\": \"WEBSITE_CHAT\",\n  \"content\": \"We can help you check your appointment details. Please complete the clinic's identity-verification process first.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/tickets/tic_1301/messages", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "tickets", "tic_1301", "messages"] }
+          }
+        },
+        {
+          "name": "9. GET Ticket Messages",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/tickets/tic_1301/messages", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "tickets", "tic_1301", "messages"] }
+          }
+        },
+        {
+          "name": "10. POST Internal Note",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"note\": \"Patient contacted via website chat.\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/tickets/tic_1301/notes", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "tickets", "tic_1301", "notes"] }
+          }
+        },
+        {
+          "name": "11. POST Escalate Ticket",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"targetTeam\": \"APPOINTMENT_COORDINATION\",\n  \"reason\": \"The request requires access to scheduling operations\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/tickets/tic_1301/escalate", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "tickets", "tic_1301", "escalate"] }
+          }
+        },
+        {
+          "name": "12. POST Ticket Handoff",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"targetTeam\": \"HUMAN_AGENT\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/tickets/tic_1301/handoff", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "tickets", "tic_1301", "handoff"] }
+          }
+        },
+        {
+          "name": "13. POST Create Conversation",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"ticketId\": \"tic_1301\",\n  \"channel\": \"WEBSITE_CHAT\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/conversations", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "conversations"] }
+          }
+        },
+        {
+          "name": "14. GET Conversations List",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/conversations", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "conversations"] }
+          }
+        },
+        {
+          "name": "15. GET One Conversation",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/conversations/conversation_1801", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "conversations", "conversation_1801"] }
+          }
+        },
+        {
+          "name": "16. POST Conversation Message",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"content\": \"Hello, how can we assist you today?\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/conversations/conversation_1801/messages", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "conversations", "conversation_1801", "messages"] }
+          }
+        },
+        {
+          "name": "17. POST Generate AI Reply Draft",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ticketId\": \"tic_1301\",\n  \"replyGoal\": \"Explain how the patient can confirm an appointment\",\n  \"tone\": \"POLITE_AND_CLEAR\",\n  \"useApprovedKnowledgeOnly\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/ai/reply-drafts", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "ai", "reply-drafts"] }
+          }
+        },
+        {
+          "name": "18. POST Approve AI Reply Draft",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"decision\": \"APPROVE\",\n  \"reviewComment\": \"Content checked against the approved appointment procedure\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/ai/reply-drafts/drf_1601/approve", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "ai", "reply-drafts", "drf_1601", "approve"] }
+          }
+        },
+        {
+          "name": "19. POST Send Approved Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{supportToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Idempotency-Key", "value": "send-drf-1601-attempt-1" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel\": \"WEBSITE_CHAT\",\n  \"recipientReference\": \"conversation_1801\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/ai/reply-drafts/drf_1601/send", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "ai", "reply-drafts", "drf_1601", "send"] }
+          }
+        },
+        {
+          "name": "20. GET Knowledge Articles",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/knowledge/articles", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "knowledge", "articles"] }
+          }
+        },
+        {
+          "name": "21. GET Follow-up Tasks",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/follow-up-tasks", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "follow-up-tasks"] }
+          }
+        },
+        {
+          "name": "22. POST Create Follow-up Task",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Check identity docs with patient\",\n  \"dueDate\": \"2026-10-28T10:00:00+05:30\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/follow-up-tasks", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "follow-up-tasks"] }
+          }
+        },
+        {
+          "name": "23. PATCH Update Follow-up Task",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"COMPLETED\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/follow-up-tasks/task_3001", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "follow-up-tasks", "task_3001"] }
+          }
+        },
+        {
+          "name": "24. GET Support Metrics",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{supportToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/customer-support/metrics?from=2026-10-01&to=2026-10-27", "host": ["{{baseUrl}}"], "path": ["hospital", "customer-support", "metrics"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Appointment Coordinator (28 Endpoints)",
+      "item": [
+        {
+          "name": "1. GET Scheduling Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/dashboard", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "dashboard"] }
+          }
+        },
+        {
+          "name": "2. GET Doctor List",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/doctors?department=GENERAL_MEDICINE&page=0&size=20", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "doctors"] }
+          }
+        },
+        {
+          "name": "3. GET Departments",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/departments", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "departments"] }
+          }
+        },
+        {
+          "name": "4. GET Available Slots",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/availability?doctorId=doc_2101&date=2026-10-29&appointmentType=CONSULTATION", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "availability"] }
+          }
+        },
+        {
+          "name": "5. GET Appointments List",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/appointments", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "appointments"] }
+          }
+        },
+        {
+          "name": "6. POST Create Appointment",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{coordinatorToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Idempotency-Key", "value": "booking-pat7001-slot2201" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"pat_7001\",\n  \"doctorId\": \"doc_2101\",\n  \"slotId\": \"slot_2201\",\n  \"appointmentType\": \"CONSULTATION\",\n  \"bookingSource\": \"RECEPTION\",\n  \"administrativeNote\": \"Appointment requested at the front desk\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/appointments", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "appointments"] }
+          }
+        },
+        {
+          "name": "7. GET Appointment Details",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/appointments/apt_2301", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "appointments", "apt_2301"] }
+          }
+        },
+        {
+          "name": "8. PATCH Update Appointment",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"administrativeNote\": \"Updated notes\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/appointments/apt_2301", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "appointments", "apt_2301"] }
+          }
+        },
+        {
+          "name": "9. POST Confirm Appointment",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"confirmationChannel\": \"SMS\",\n  \"sendNotification\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/appointments/apt_2301/confirm", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "appointments", "apt_2301", "confirm"] }
+          }
+        },
+        {
+          "name": "10. POST Reschedule Appointment",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{coordinatorToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Idempotency-Key", "value": "reschedule-apt2301-slot2202" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newSlotId\": \"slot_2202\",\n  \"reason\": \"Patient requested a different time\",\n  \"notifyPatient\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/appointments/apt_2301/reschedule", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "appointments", "apt_2301", "reschedule"] }
+          }
+        },
+        {
+          "name": "11. POST Cancel Appointment",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"reason\": \"Patient requested cancellation\",\n  \"notifyPatient\": true\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/appointments/apt_2301/cancel", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "appointments", "apt_2301", "cancel"] }
+          }
+        },
+        {
+          "name": "12. GET Booking Requests",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/booking-requests", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "booking-requests"] }
+          }
+        },
+        {
+          "name": "13. POST Create Booking Request",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"patientId\": \"pat_7001\",\n  \"doctorId\": \"doc_2101\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/booking-requests", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "booking-requests"] }
+          }
+        },
+        {
+          "name": "14. POST Approve Booking Request",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/booking-requests/bkreq_01/approve", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "booking-requests", "bkreq_01", "approve"] }
+          }
+        },
+        {
+          "name": "15. POST Reject Booking Request",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"reason\": \"Doctor is away for conference\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/booking-requests/bkreq_01/reject", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "booking-requests", "bkreq_01", "reject"] }
+          }
+        },
+        {
+          "name": "16. GET Reschedule Requests",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/reschedule-requests", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "reschedule-requests"] }
+          }
+        },
+        {
+          "name": "17. POST Approve Reschedule Request",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"approvedSlotId\": \"slot_2202\",\n  \"notifyPatient\": true,\n  \"comment\": \"Requested slot verified as available\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/reschedule-requests/res_1001/approve", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "reschedule-requests", "res_1001", "approve"] }
+          }
+        },
+        {
+          "name": "18. POST Reject Reschedule Request",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"reason\": \"Slot requested has no opening\"\n}" },
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/reschedule-requests/res_1001/reject", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "reschedule-requests", "res_1001", "reject"] }
+          }
+        },
+        {
+          "name": "19. GET Cancellation Requests",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/cancellation-requests", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "cancellation-requests"] }
+          }
+        },
+        {
+          "name": "20. POST Approve Cancellation Request",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/cancellation-requests/cnl_01/approve", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "cancellation-requests", "cnl_01", "approve"] }
+          }
+        },
+        {
+          "name": "21. GET Waiting List",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/waiting-list", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "waiting-list"] }
+          }
+        },
+        {
+          "name": "22. POST Add to Waiting List",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"pat_7001\",\n  \"doctorId\": \"doc_2101\",\n  \"preferredDateFrom\": \"2026-10-29\",\n  \"preferredDateTo\": \"2026-11-05\",\n  \"preferredTimeWindow\": \"MORNING\",\n  \"contactPreference\": \"SMS\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/waiting-list", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "waiting-list"] }
+          }
+        },
+        {
+          "name": "23. DELETE Remove from Waiting List",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/waiting-list/wl_2501", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "waiting-list", "wl_2501"] }
+          }
+        },
+        {
+          "name": "24. POST Offer Slot to Waiting Patient",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slotId\": \"slot_2201\",\n  \"expiresAt\": \"2026-10-28T12:00:00+05:30\",\n  \"channel\": \"SMS\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/waiting-list/wl_2501/offer-slot", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "waiting-list", "wl_2501", "offer-slot"] }
+          }
+        },
+        {
+          "name": "25. GET Reminders",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/reminders", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "reminders"] }
+          }
+        },
+        {
+          "name": "26. POST Schedule Reminder",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"appointmentId\": \"apt_2301\",\n  \"channel\": \"SMS\",\n  \"scheduleAt\": \"2026-10-28T10:00:00+05:30\",\n  \"templateCode\": \"APPOINTMENT_REMINDER_24H\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/reminders", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "reminders"] }
+          }
+        },
+        {
+          "name": "27. POST Cancel Reminder",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/reminders/rem_2701/cancel", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "reminders", "rem_2701", "cancel"] }
+          }
+        },
+        {
+          "name": "28. GET Scheduling Metrics",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{coordinatorToken}}" }],
+            "url": { "raw": "{{baseUrl}}/hospital/appointment-coordinator/metrics?from=2026-10-01&to=2026-10-27", "host": ["{{baseUrl}}"], "path": ["hospital", "appointment-coordinator", "metrics"] }
+          }
+        }
+      ]
+    }
+  ]
+}

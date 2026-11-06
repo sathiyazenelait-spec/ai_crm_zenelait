@@ -1,0 +1,1054 @@
+{
+  "info": {
+    "name": "Zenelait AI CRM — Manufacturing Tenant (Technical Support + AI B2B Sales Agent + AI Support Agent)",
+    "_postman_id": "mfg-ai-technical-postman-collection-2026",
+    "description": "Comprehensive Postman test collection for Zenelait AI CRM Manufacturing Companies Tenant covering:\n1. Technical Support (/api/v1/manufacturing/technical-support)\n2. AI B2B Sales Agent (/api/v1/manufacturing/ai-b2b-sales)\n3. AI Support Agent (/api/v1/manufacturing/ai-support)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "YOUR_JWT_ACCESS_TOKEN",
+      "type": "string"
+    },
+    {
+      "key": "tenantId",
+      "value": "tenant-4",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Manufacturing Technical Support",
+      "description": "Diagnostic sessions, technical case lifecycle, safety escalations, service requests, warranty technical assessments, and verified specifications.",
+      "item": [
+        {
+          "name": "API 1: Get Technical Support Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/technical-support/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "technical-support", "dashboard"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Technical Support dashboard retrieved\",\n  \"data\": {\n    \"openCases\": 28,\n    \"assignedToMe\": 8,\n    \"highPriorityCases\": 3,\n    \"awaitingCustomer\": 5,\n    \"pendingServiceRequests\": 6,\n    \"resolvedToday\": 4,\n    \"averageResolutionHours\": 18.5\n  },\n  \"requestId\": \"req_tech_001\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 2: Create Technical Case",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": \"CUS-1001\",\n  \"productId\": \"PRD-2001\",\n  \"serialNumber\": \"SN-MTR-2026-001\",\n  \"subject\": \"Industrial motor overheating\",\n  \"description\": \"The motor temperature rises above its normal operating range.\",\n  \"issueCategory\": \"OVERHEATING\",\n  \"priority\": \"HIGH\",\n  \"source\": \"PHONE\",\n  \"reportedSymptoms\": [\n    \"High temperature\",\n    \"Unusual vibration\"\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/technical-support/cases",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "technical-support", "cases"]
+            }
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Technical case created\",\n  \"data\": {\n    \"caseId\": \"TSC-10001\",\n    \"customerId\": \"CUS-1001\",\n    \"productId\": \"PRD-2001\",\n    \"subject\": \"Industrial motor overheating\",\n    \"issueCategory\": \"OVERHEATING\",\n    \"priority\": \"HIGH\",\n    \"status\": \"OPEN\",\n    \"assignedTo\": null,\n    \"createdAt\": \"2026-10-29T08:00:00+05:30\"\n  },\n  \"requestId\": \"req_tech_002\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 3: Get Technical Case Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/technical-support/cases/TSC-10001",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "technical-support", "cases", "TSC-10001"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Technical case retrieved\",\n  \"data\": {\n    \"caseId\": \"TSC-10001\",\n    \"subject\": \"Industrial motor overheating\",\n    \"product\": {\n      \"productId\": \"PRD-2001\",\n      \"productName\": \"Industrial Motor M200\"\n    },\n    \"issueCategory\": \"OVERHEATING\",\n    \"priority\": \"HIGH\",\n    \"status\": \"OPEN\",\n    \"reportedSymptoms\": [\n      \"High temperature\",\n      \"Unusual vibration\"\n    ],\n    \"diagnosis\": null,\n    \"resolution\": null\n  },\n  \"requestId\": \"req_tech_003\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 4: Assign Technical Case",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assigneeId\": \"USR-TECH-101\",\n  \"reason\": \"Requires motor diagnostics expertise\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/technical-support/cases/TSC-10001/assign",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "technical-support", "cases", "TSC-10001", "assign"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Technical case assigned\",\n  \"data\": {\n    \"caseId\": \"TSC-10001\",\n    \"assigneeId\": \"USR-TECH-101\",\n    \"status\": \"ASSIGNED\",\n    \"assignedAt\": \"2026-10-29T08:10:00+05:30\"\n  },\n  \"requestId\": \"req_tech_004\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 5: Retrieve Product Specifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/technical-support/products/PRD-2001/specifications",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "technical-support", "products", "PRD-2001", "specifications"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Product specifications retrieved\",\n  \"data\": {\n    \"productId\": \"PRD-2001\",\n    \"productName\": \"Industrial Motor M200\",\n    \"manufacturerPartNumber\": \"M200\",\n    \"specifications\": {\n      \"ratedPowerKw\": 5.5,\n      \"voltage\": \"415 V\",\n      \"frequency\": \"50 Hz\"\n    },\n    \"source\": \"PRODUCT_CATALOGUE\",\n    \"lastUpdated\": \"2026-10-20T10:00:00+05:30\"\n  },\n  \"requestId\": \"req_tech_005\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 6: Start Diagnostic Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"caseId\": \"TSC-10001\",\n  \"productId\": \"PRD-2001\",\n  \"diagnosticType\": \"MOTOR_OVERHEATING\",\n  \"reportedSymptoms\": [\n    \"High temperature\",\n    \"Unusual vibration\"\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/technical-support/diagnostics/sessions",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "technical-support", "diagnostics", "sessions"]
+            }
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Diagnostic session created\",\n  \"data\": {\n    \"sessionId\": \"DGS-5001\",\n    \"caseId\": \"TSC-10001\",\n    \"diagnosticType\": \"MOTOR_OVERHEATING\",\n    \"status\": \"IN_PROGRESS\",\n    \"nextAction\": \"RECORD_OBSERVATIONS\"\n  },\n  \"requestId\": \"req_tech_006\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 7: Record Diagnostic Observations",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"observations\": [\n    {\n      \"type\": \"TEMPERATURE\",\n      \"value\": 92,\n      \"unit\": \"C\"\n    },\n    {\n      \"type\": \"VIBRATION\",\n      \"value\": \"ABOVE_NORMAL\",\n      \"unit\": \"QUALITATIVE\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/technical-support/diagnostics/sessions/DGS-5001/observations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "technical-support", "diagnostics", "sessions", "DGS-5001", "observations"]
+            }
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Diagnostic observations recorded\",\n  \"data\": {\n    \"sessionId\": \"DGS-5001\",\n    \"observationsRecorded\": 2,\n    \"status\": \"IN_PROGRESS\"\n  },\n  \"requestId\": \"req_tech_007\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 8: Request AI Troubleshooting Suggestions",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"includeKnowledgeBase\": true,\n  \"includeProductManuals\": true,\n  \"includeKnownIssues\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/technical-support/diagnostics/sessions/DGS-5001/suggestions",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "technical-support", "diagnostics", "sessions", "DGS-5001", "suggestions"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Troubleshooting suggestions generated\",\n  \"data\": {\n    \"sessionId\": \"DGS-5001\",\n    \"suggestions\": [\n      {\n        \"title\": \"Review the approved operating-temperature limits\",\n        \"sourceType\": \"PRODUCT_MANUAL\",\n        \"requiresTechnicianReview\": true\n      },\n      {\n        \"title\": \"Inspect the approved maintenance checklist\",\n        \"sourceType\": \"KNOWLEDGE_BASE\",\n        \"requiresTechnicianReview\": true\n      }\n    ],\n    \"safetyWarning\": \"Follow the approved isolation and safety procedures before inspecting equipment.\",\n    \"status\": \"REQUIRES_TECHNICIAN_REVIEW\"\n  },\n  \"requestId\": \"req_tech_008\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 9: Create Service Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"caseId\": \"TSC-10001\",\n  \"customerId\": \"CUS-1001\",\n  \"productId\": \"PRD-2001\",\n  \"serviceType\": \"ONSITE_INSPECTION\",\n  \"description\": \"Technical inspection requested for the reported overheating issue.\",\n  \"requestedDate\": \"2026-10-31\",\n  \"locationId\": \"LOC-1001\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/technical-support/service-requests",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "technical-support", "service-requests"]
+            }
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Service request created\",\n  \"data\": {\n    \"requestId\": \"SRV-9001\",\n    \"caseId\": \"TSC-10001\",\n    \"serviceType\": \"ONSITE_INSPECTION\",\n    \"status\": \"PENDING_SCHEDULING\",\n    \"requestedDate\": \"2026-10-31\",\n    \"confirmedAppointment\": false\n  },\n  \"requestId\": \"req_tech_009\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 10: Record Technical Findings on Warranty Claim",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"caseId\": \"TSC-10001\",\n  \"findings\": [\n    \"Reported operating temperature exceeds the threshold entered in the submitted observation.\"\n  ],\n  \"evidenceIds\": [\n    \"EVD-7001\"\n  ],\n  \"recommendedAction\": \"FURTHER_INSPECTION\",\n  \"confidence\": \"NEEDS_VERIFICATION\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/technical-support/warranty-claims/WCL-3001/technical-assessment",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "technical-support", "warranty-claims", "WCL-3001", "technical-assessment"]
+            }
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Technical assessment recorded\",\n  \"data\": {\n    \"claimId\": \"WCL-3001\",\n    \"assessmentId\": \"ASM-4001\",\n    \"status\": \"PENDING_WARRANTY_REVIEW\",\n    \"recommendedAction\": \"FURTHER_INSPECTION\"\n  },\n  \"requestId\": \"req_tech_010\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 11: Escalate Safety-Critical Case",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Potential equipment safety concern\",\n  \"escalationType\": \"SAFETY\",\n  \"description\": \"The reported equipment condition requires immediate review under the company's safety procedure.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/technical-support/cases/TSC-10001/escalate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "technical-support", "cases", "TSC-10001", "escalate"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Case escalated\",\n  \"data\": {\n    \"caseId\": \"TSC-10001\",\n    \"status\": \"ESCALATED\",\n    \"escalationType\": \"SAFETY\",\n    \"priority\": \"CRITICAL\",\n    \"requiresHumanReview\": true\n  },\n  \"requestId\": \"req_tech_011\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 12: Resolve Technical Case",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resolutionCode\": \"INSPECTION_COMPLETED\",\n  \"resolutionSummary\": \"Inspection completed and the documented corrective action was recorded.\",\n  \"knowledgeArticleId\": \"KB-1001\",\n  \"customerInformed\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/technical-support/cases/TSC-10001/resolve",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "technical-support", "cases", "TSC-10001", "resolve"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Technical case resolved\",\n  \"data\": {\n    \"caseId\": \"TSC-10001\",\n    \"status\": \"RESOLVED\",\n    \"resolvedAt\": \"2026-10-29T09:30:00+05:30\",\n    \"resolutionCode\": \"INSPECTION_COMPLETED\"\n  },\n  \"requestId\": \"req_tech_012\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2. Manufacturing AI B2B Sales Agent",
+      "description": "B2B requirement extraction, catalog recommendations, authorized pricing, inventory checks, quotation draft governance, and human handoff.",
+      "item": [
+        {
+          "name": "API 1: Retrieve AI B2B Sales Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-b2b-sales/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-b2b-sales", "dashboard"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"AI B2B Sales dashboard retrieved\",\n  \"data\": {\n    \"activeConversations\": 18,\n    \"newLeadsToday\": 12,\n    \"pendingQualification\": 7,\n    \"pendingHumanHandoff\": 3,\n    \"quotationDrafts\": 5,\n    \"pendingApprovals\": 2,\n    \"meetingsRequested\": 4\n  },\n  \"requestId\": \"req_sales_ai_001\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 2: Start Sales Conversation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel\": \"WEBSITE_CHAT\",\n  \"visitorReference\": \"VIS-9001\",\n  \"initialMessage\": \"We need 50 industrial motors for our factory.\",\n  \"locale\": \"en-IN\",\n  \"consent\": {\n    \"marketingFollowUp\": false\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-b2b-sales/conversations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-b2b-sales", "conversations"]
+            }
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Sales conversation created\",\n  \"data\": {\n    \"conversationId\": \"AISC-1001\",\n    \"channel\": \"WEBSITE_CHAT\",\n    \"status\": \"ACTIVE\",\n    \"leadId\": null,\n    \"nextAction\": \"COLLECT_REQUIREMENTS\"\n  },\n  \"requestId\": \"req_sales_ai_002\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 3: Process Customer Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"We need 50 industrial motors for our factory.\",\n  \"context\": {\n    \"productCategory\": \"INDUSTRIAL_MOTORS\",\n    \"quantity\": 50\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-b2b-sales/conversations/AISC-1001/process",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-b2b-sales", "conversations", "AISC-1001", "process"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Sales message processed\",\n  \"data\": {\n    \"conversationId\": \"AISC-1001\",\n    \"intent\": \"B2B_PRODUCT_ENQUIRY\",\n    \"identifiedRequirements\": {\n      \"productCategory\": \"INDUSTRIAL_MOTORS\",\n      \"quantity\": 50,\n      \"application\": null,\n      \"requiredSpecifications\": [],\n      \"targetDeliveryDate\": null\n    },\n    \"missingInformation\": [\n      \"Required motor specifications\",\n      \"Factory application\",\n      \"Required delivery date\"\n    ],\n    \"suggestedReply\": \"I can help identify suitable motors. Could you share the required power rating, operating conditions, and expected delivery date?\",\n    \"requiresHumanReview\": false\n  },\n  \"requestId\": \"req_sales_ai_003\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 4: Create Lead from Interaction",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"conversationId\": \"AISC-1001\",\n  \"companyName\": \"Example Industrial Works\",\n  \"contactName\": \"Arun Kumar\",\n  \"businessEmail\": \"arun@example.com\",\n  \"phone\": \"+91-9000000000\",\n  \"industry\": \"MANUFACTURING\",\n  \"enquirySummary\": \"Enquiry for 50 industrial motors\",\n  \"source\": \"WEBSITE_CHAT\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-b2b-sales/leads",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-b2b-sales", "leads"]
+            }
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Lead created\",\n  \"data\": {\n    \"leadId\": \"LEAD-5001\",\n    \"companyName\": \"Example Industrial Works\",\n    \"industry\": \"MANUFACTURING\",\n    \"source\": \"WEBSITE_CHAT\",\n    \"status\": \"NEW\",\n    \"assignedTo\": null,\n    \"createdAt\": \"2026-10-29T08:30:00+05:30\"\n  },\n  \"requestId\": \"req_sales_ai_004\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 5: Extract Industrial Requirements",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": \"LEAD-5001\",\n  \"conversationId\": \"AISC-1001\",\n  \"customerMessage\": \"We need 50 motors, 5.5 kW, 415 V, for continuous operation.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-b2b-sales/requirement-extractions",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-b2b-sales", "requirement-extractions"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Product requirements extracted\",\n  \"data\": {\n    \"extractionId\": \"REQ-7001\",\n    \"leadId\": \"LEAD-5001\",\n    \"requirements\": {\n      \"quantity\": 50,\n      \"ratedPowerKw\": 5.5,\n      \"voltage\": \"415 V\",\n      \"operatingMode\": \"CONTINUOUS\"\n    },\n    \"missingInformation\": [\n      \"Frequency\",\n      \"Mounting requirements\",\n      \"Environmental conditions\"\n    ],\n    \"validationStatus\": \"PENDING_CATALOGUE_VALIDATION\"\n  },\n  \"requestId\": \"req_sales_ai_005\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 6: Recommend Products",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": \"LEAD-5001\",\n  \"requirements\": {\n    \"quantity\": 50,\n    \"ratedPowerKw\": 5.5,\n    \"voltage\": \"415 V\",\n    \"operatingMode\": \"CONTINUOUS\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-b2b-sales/product-recommendations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-b2b-sales", "product-recommendations"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Product recommendation results retrieved\",\n  \"data\": {\n    \"recommendationId\": \"REC-8001\",\n    \"status\": \"CATALOGUE_VALIDATION_REQUIRED\",\n    \"products\": [],\n    \"missingInformation\": [\n      \"Frequency\",\n      \"Mounting requirements\",\n      \"Environmental conditions\"\n    ],\n    \"nextAction\": \"COMPLETE_REQUIREMENTS\"\n  },\n  \"requestId\": \"req_sales_ai_006\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 7: Check Product Pricing",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-b2b-sales/price-lists/PL-100/products/PRD-2001",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-b2b-sales", "price-lists", "PL-100", "products", "PRD-2001"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Authorized product pricing retrieved\",\n  \"data\": {\n    \"priceListId\": \"PL-100\",\n    \"productId\": \"PRD-2001\",\n    \"currency\": \"INR\",\n    \"unitPrice\": 18500,\n    \"taxIncluded\": false,\n    \"validUntil\": \"2026-12-31\",\n    \"priceType\": \"INDICATIVE\",\n    \"approvalRequiredForDiscount\": true\n  },\n  \"requestId\": \"req_sales_ai_007\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 8: Check Stock Availability",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"PRD-2001\",\n  \"quantity\": 50,\n  \"requiredBy\": \"2026-11-15\",\n  \"locationId\": \"LOC-1001\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-b2b-sales/inventory/availability-checks",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-b2b-sales", "inventory", "availability-checks"]
+            }
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Inventory availability check completed\",\n  \"data\": {\n    \"checkId\": \"INVCHK-3001\",\n    \"productId\": \"PRD-2001\",\n    \"requestedQuantity\": 50,\n    \"availabilityStatus\": \"PARTIAL\",\n    \"availableQuantity\": 20,\n    \"shortfallQuantity\": 30,\n    \"source\": \"ERP_INVENTORY\",\n    \"checkedAt\": \"2026-10-29T08:45:00+05:30\"\n  },\n  \"requestId\": \"req_sales_ai_008\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 9: Create Quotation Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": \"LEAD-5001\",\n  \"currency\": \"INR\",\n  \"items\": [\n    {\n      \"productId\": \"PRD-2001\",\n      \"quantity\": 50\n    }\n  ],\n  \"notes\": \"Draft prepared for internal review\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-b2b-sales/quotations/drafts",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-b2b-sales", "quotations", "drafts"]
+            }
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Quotation draft created\",\n  \"data\": {\n    \"quotationId\": \"QUO-9001\",\n    \"leadId\": \"LEAD-5001\",\n    \"status\": \"DRAFT\",\n    \"currency\": \"INR\",\n    \"items\": [\n      {\n        \"productId\": \"PRD-2001\",\n        \"quantity\": 50,\n        \"unitPrice\": null,\n        \"lineTotal\": null\n      }\n    ],\n    \"requiresPricingResolution\": true,\n    \"requiresApproval\": true\n  },\n  \"requestId\": \"req_sales_ai_009\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 10: Request Quotation Approval",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"B2B quotation requires authorized commercial review\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-b2b-sales/quotations/QUO-9001/request-approval",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-b2b-sales", "quotations", "QUO-9001", "request-approval"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Quotation approval requested\",\n  \"data\": {\n    \"quotationId\": \"QUO-9001\",\n    \"status\": \"PENDING_APPROVAL\",\n    \"approvalRequestId\": \"APR-4001\",\n    \"decision\": null\n  },\n  \"requestId\": \"req_sales_ai_010\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 11: Create Follow-up Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leadId\": \"LEAD-5001\",\n  \"conversationId\": \"AISC-1001\",\n  \"followUpType\": \"COLLECT_REQUIREMENTS\",\n  \"dueAt\": \"2026-10-30T10:00:00+05:30\",\n  \"reason\": \"Awaiting technical requirements from the prospect\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-b2b-sales/follow-ups",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-b2b-sales", "follow-ups"]
+            }
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Follow-up created\",\n  \"data\": {\n    \"taskId\": \"FUP-7001\",\n    \"leadId\": \"LEAD-5001\",\n    \"followUpType\": \"COLLECT_REQUIREMENTS\",\n    \"status\": \"PENDING\",\n    \"dueAt\": \"2026-10-30T10:00:00+05:30\"\n  },\n  \"requestId\": \"req_sales_ai_011\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 12: Hand off Conversation to Human",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Technical product suitability requires human review\",\n  \"targetTeam\": \"MANUFACTURING_SALES\",\n  \"summary\": \"Prospect requires 50 motors and has supplied preliminary specifications.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-b2b-sales/conversations/AISC-1001/handoff",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-b2b-sales", "conversations", "AISC-1001", "handoff"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Conversation handed off\",\n  \"data\": {\n    \"conversationId\": \"AISC-1001\",\n    \"status\": \"HANDOFF_PENDING\",\n    \"targetTeam\": \"MANUFACTURING_SALES\",\n    \"assignedUserId\": null,\n    \"reason\": \"Technical product suitability requires human review\"\n  },\n  \"requestId\": \"req_sales_ai_012\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3. Manufacturing AI Support Agent",
+      "description": "Multichannel enquiries, intent classification, customer verification gate, order lookups, grounded knowledge retrieval, support tickets, and RMA returns.",
+      "item": [
+        {
+          "name": "API 1: Get AI Support Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-support/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-support", "dashboard"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"AI Support dashboard retrieved\",\n  \"data\": {\n    \"activeConversations\": 42,\n    \"automatedResponsesToday\": 96,\n    \"ticketsCreatedToday\": 18,\n    \"awaitingHumanHandoff\": 4,\n    \"unresolvedTickets\": 23,\n    \"knowledgeSearchesToday\": 71,\n    \"automationRate\": 68.5\n  },\n  \"requestId\": \"req_support_ai_001\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 2: Start Support Conversation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel\": \"WEBSITE_CHAT\",\n  \"visitorReference\": \"VIS-2001\",\n  \"initialMessage\": \"My industrial equipment order has not arrived.\",\n  \"locale\": \"en-IN\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-support/conversations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-support", "conversations"]
+            }
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Support conversation created\",\n  \"data\": {\n    \"conversationId\": \"SUPC-1001\",\n    \"channel\": \"WEBSITE_CHAT\",\n    \"status\": \"ACTIVE\",\n    \"verificationStatus\": \"NOT_VERIFIED\",\n    \"ticketId\": null\n  },\n  \"requestId\": \"req_support_ai_002\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 3: Classify Customer Enquiry",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"conversationId\": \"SUPC-1001\",\n  \"message\": \"My industrial equipment order has not arrived.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-support/intents/classify",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-support", "intents", "classify"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Enquiry classified\",\n  \"data\": {\n    \"conversationId\": \"SUPC-1001\",\n    \"intent\": \"ORDER_DELIVERY_ENQUIRY\",\n    \"confidence\": 0.96,\n    \"prioritySuggestion\": \"MEDIUM\",\n    \"requiresCustomerVerification\": true,\n    \"recommendedAction\": \"VERIFY_CUSTOMER_AND_LOOKUP_ORDER\"\n  },\n  \"requestId\": \"req_support_ai_003\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 4: Begin Customer Verification",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"conversationId\": \"SUPC-1001\",\n  \"verificationMethod\": \"REGISTERED_CHANNEL_CHALLENGE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-support/customer-verifications",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-support", "customer-verifications"]
+            }
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Customer verification initiated\",\n  \"data\": {\n    \"verificationId\": \"VER-3001\",\n    \"conversationId\": \"SUPC-1001\",\n    \"status\": \"PENDING\",\n    \"verificationMethod\": \"REGISTERED_CHANNEL_CHALLENGE\",\n    \"expiresAt\": \"2026-10-29T08:10:00+05:30\"\n  },\n  \"requestId\": \"req_support_ai_004\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 5: Retrieve Order Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-support/orders/ORD-1001/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-support", "orders", "ORD-1001", "status"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Order status retrieved\",\n  \"data\": {\n    \"orderId\": \"ORD-1001\",\n    \"status\": \"IN_PRODUCTION\",\n    \"expectedDispatchDate\": null,\n    \"deliveryStatus\": \"NOT_DISPATCHED\",\n    \"source\": \"ORDER_MANAGEMENT_SYSTEM\",\n    \"lastUpdatedAt\": \"2026-10-29T07:30:00+05:30\"\n  },\n  \"requestId\": \"req_support_ai_005\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 6: Search Approved Support Knowledge",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"How should a customer request industrial motor maintenance?\",\n  \"productId\": \"PRD-2001\",\n  \"topK\": 5\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-support/knowledge/search",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-support", "knowledge", "search"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Knowledge search completed\",\n  \"data\": {\n    \"results\": [\n      {\n        \"articleId\": \"KB-1001\",\n        \"title\": \"Industrial Motor Maintenance Process\",\n        \"sourceType\": \"APPROVED_KNOWLEDGE_BASE\",\n        \"relevanceScore\": 0.92\n      }\n    ],\n    \"totalResults\": 1,\n    \"sourceStatus\": \"AVAILABLE\"\n  },\n  \"requestId\": \"req_support_ai_006\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 7: Generate Grounded Answer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"conversationId\": \"SUPC-1001\",\n  \"question\": \"How do I request maintenance for my industrial motor?\",\n  \"productId\": \"PRD-2001\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-support/knowledge/answer",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-support", "knowledge", "answer"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Support answer generated\",\n  \"data\": {\n    \"answerId\": \"ANS-5001\",\n    \"answer\": \"Please follow the maintenance-request process documented in the approved product support information. If you provide your product details, the support team can help create the appropriate service request.\",\n    \"sourceReferences\": [\n      {\n        \"articleId\": \"KB-1001\",\n        \"title\": \"Industrial Motor Maintenance Process\"\n      }\n    ],\n    \"requiresHumanReview\": false,\n    \"status\": \"DRAFT\"\n  },\n  \"requestId\": \"req_support_ai_007\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 8: Create Support Ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"conversationId\": \"SUPC-1001\",\n  \"customerId\": \"CUS-1001\",\n  \"category\": \"ORDER_DELIVERY\",\n  \"subject\": \"Order delivery delay enquiry\",\n  \"description\": \"Customer reports that the expected delivery has not occurred.\",\n  \"priority\": \"MEDIUM\",\n  \"source\": \"WEBSITE_CHAT\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-support/tickets",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-support", "tickets"]
+            }
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Support ticket created\",\n  \"data\": {\n    \"ticketId\": \"TKT-7001\",\n    \"conversationId\": \"SUPC-1001\",\n    \"category\": \"ORDER_DELIVERY\",\n    \"priority\": \"MEDIUM\",\n    \"status\": \"OPEN\",\n    \"assignedTeam\": \"CUSTOMER_SUPPORT\"\n  },\n  \"requestId\": \"req_support_ai_008\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 9: Draft Support Response",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"conversationId\": \"SUPC-1001\",\n  \"ticketId\": \"TKT-7001\",\n  \"customerMessage\": \"Can you tell me why my order is delayed?\",\n  \"includeOrderContext\": true,\n  \"includeKnowledgeBase\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-support/responses/draft",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-support", "responses", "draft"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Support response draft generated\",\n  \"data\": {\n    \"responseId\": \"RSP-8001\",\n    \"ticketId\": \"TKT-7001\",\n    \"draft\": \"We are checking the latest order information. Our support team will provide an update once the current status has been verified.\",\n    \"sourceReferences\": [],\n    \"status\": \"DRAFT\",\n    \"requiresHumanReview\": true\n  },\n  \"requestId\": \"req_support_ai_009\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 10: Validate Support Response",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"responseId\": \"RSP-8001\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-support/responses/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-support", "responses", "validate"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Response validation completed\",\n  \"data\": {\n    \"responseId\": \"RSP-8001\",\n    \"validationStatus\": \"PASSED_WITH_REVIEW_REQUIRED\",\n    \"checks\": {\n      \"containsUnsupportedClaims\": false,\n      \"containsRestrictedCustomerData\": false,\n      \"usesApprovedSources\": true\n    },\n    \"humanApprovalRequired\": true\n  },\n  \"requestId\": \"req_support_ai_010\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 11: Escalate to Human Support",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Customer requires investigation into a delayed order\",\n  \"targetTeam\": \"CUSTOMER_SUPPORT\",\n  \"summary\": \"Customer reports a delivery delay. Current status and cause require review.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-support/conversations/SUPC-1001/handoff",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-support", "conversations", "SUPC-1001", "handoff"]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Conversation handoff initiated\",\n  \"data\": {\n    \"conversationId\": \"SUPC-1001\",\n    \"status\": \"HANDOFF_PENDING\",\n    \"targetTeam\": \"CUSTOMER_SUPPORT\",\n    \"assignedUserId\": null,\n    \"reason\": \"Customer requires investigation into a delayed order\"\n  },\n  \"requestId\": \"req_support_ai_011\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "API 12: Create Return Request (RMA)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "{{tenantId}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": \"CUS-1001\",\n  \"orderId\": \"ORD-1001\",\n  \"productId\": \"PRD-2001\",\n  \"quantity\": 1,\n  \"reason\": \"PRODUCT_DEFECT_REPORTED\",\n  \"description\": \"Customer reports a problem with the delivered product.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/manufacturing/ai-support/return-requests",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "manufacturing", "ai-support", "return-requests"]
+            }
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"message\": \"Return request created\",\n  \"data\": {\n    \"requestId\": \"RET-9001\",\n    \"orderId\": \"ORD-1001\",\n    \"productId\": \"PRD-2001\",\n    \"quantity\": 1,\n    \"status\": \"PENDING_ELIGIBILITY_CHECK\",\n    \"decision\": null\n  },\n  \"requestId\": \"req_support_ai_012\"\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

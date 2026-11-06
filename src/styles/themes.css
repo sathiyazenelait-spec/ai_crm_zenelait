@@ -1,0 +1,122 @@
+:root {
+  /* Common typography & transitions */
+  --font-main: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-full: 9999px;
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --sidebar-width: 250px;
+  --header-height: 64px;
+}
+
+/* -------------------------------------------------------------
+   THEME 1: ELECTRIC INDIGO (Default Zenelait AI)
+-------------------------------------------------------------- */
+:root[data-theme='indigo'] {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: rgba(37, 99, 235, 0.15);
+  --primary-gradient: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+  --accent-gradient: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  --brand-glow: rgba(59, 130, 246, 0.35);
+  --btn-gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  --sidebar-active-bg: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%);
+  --tag-primary-bg: rgba(37, 99, 235, 0.12);
+  --tag-primary-text: #60a5fa;
+}
+
+/* -------------------------------------------------------------
+   THEME 2: ORANGE-RED GRADIENT (Sunset Fiery)
+-------------------------------------------------------------- */
+:root[data-theme='orange-red'] {
+  --primary: #f97316;
+  --primary-hover: #ea580c;
+  --primary-light: rgba(249, 115, 22, 0.16);
+  --primary-gradient: linear-gradient(135deg, #e11d48 0%, #f97316 60%, #fb923c 100%);
+  --accent-gradient: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+  --brand-glow: rgba(249, 115, 22, 0.45);
+  --btn-gradient: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+  --sidebar-active-bg: linear-gradient(90deg, #ff416c 0%, #ff4b2b 100%);
+  --tag-primary-bg: rgba(249, 115, 22, 0.15);
+  --tag-primary-text: #fb923c;
+}
+
+/* -------------------------------------------------------------
+   THEME 3: PURPLE-ROSE GRADIENT (Neon Glow)
+-------------------------------------------------------------- */
+:root[data-theme='purple-rose'] {
+  --primary: #a855f7;
+  --primary-hover: #9333ea;
+  --primary-light: rgba(168, 85, 247, 0.16);
+  --primary-gradient: linear-gradient(135deg, #7c3aed 0%, #c026d3 50%, #f43f5e 100%);
+  --accent-gradient: linear-gradient(135deg, #8a2387 0%, #e94057 50%, #f27121 100%);
+  --brand-glow: rgba(192, 38, 211, 0.45);
+  --btn-gradient: linear-gradient(135deg, #7c3aed 0%, #d946ef 100%);
+  --sidebar-active-bg: linear-gradient(90deg, #7c3aed 0%, #c026d3 100%);
+  --tag-primary-bg: rgba(168, 85, 247, 0.15);
+  --tag-primary-text: #e879f9;
+}
+
+/* -------------------------------------------------------------
+   MODE: DARK (Default matching sleek CRM screenshots)
+-------------------------------------------------------------- */
+:root[data-mode='dark'] {
+  --bg-app: #080c14;
+  --bg-surface: #0e1424;
+  --bg-card: #121a2d;
+  --bg-card-glass: rgba(18, 26, 45, 0.85);
+  --bg-card-hover: #17223b;
+  --bg-sidebar: #0a0f1c;
+  --bg-header: rgba(10, 15, 28, 0.88);
+  --bg-input: #17223b;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --border-accent: rgba(255, 255, 255, 0.2);
+
+  --text-main: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-inverse: #090d16;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 12px 35px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 25px var(--brand-glow);
+
+  --scrollbar-thumb: #1e293b;
+  --scrollbar-track: #0a0f1c;
+}
+
+/* -------------------------------------------------------------
+   MODE: LIGHT
+-------------------------------------------------------------- */
+:root[data-mode='light'] {
+  --bg-app: #f4f6fb;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-glass: rgba(255, 255, 255, 0.9);
+  --bg-card-hover: #f8fafc;
+  --bg-sidebar: #0b1120; /* Keep high-contrast modern sidebar */
+  --bg-header: rgba(255, 255, 255, 0.9);
+  --bg-input: #f1f5f9;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --border-accent: #94a3b8;
+
+  --text-main: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-inverse: #ffffff;
+
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 6px 20px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 12px 35px rgba(15, 23, 42, 0.12);
+  --shadow-glow: 0 0 20px var(--brand-glow);
+
+  --scrollbar-thumb: #cbd5e1;
+  --scrollbar-track: #f1f5f9;
+}

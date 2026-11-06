@@ -1,0 +1,934 @@
+{
+  "info": {
+    "_postman_id": "hotel-tenant-crm-2026",
+    "name": "Zenelait AI CRM — Hotel Tenant",
+    "description": "Comprehensive Postman test collection for the 4 Hotel Tenant roles: Reservation Manager, Reservation Executive, Customer Support, and Front Desk.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080/api/v1", "type": "string" },
+    { "key": "accessToken", "value": "demo_jwt_token_hotel_admin", "type": "string" },
+    { "key": "hotelId", "value": "hotel_1001", "type": "string" },
+    { "key": "reservationId", "value": "res_1001", "type": "string" },
+    { "key": "guestId", "value": "guest_1001", "type": "string" },
+    { "key": "roomTypeId", "value": "roomtype_1001", "type": "string" },
+    { "key": "roomId", "value": "room_1001", "type": "string" },
+    { "key": "ticketId", "value": "ticket_1001", "type": "string" },
+    { "key": "serviceRequestId", "value": "service_1001", "type": "string" },
+    { "key": "conversationId", "value": "conv-1001", "type": "string" },
+    { "key": "quoteId", "value": "QUOTE-1001", "type": "string" },
+    { "key": "campaignId", "value": "CAMP-1001", "type": "string" },
+    { "key": "sequenceId", "value": "SEQ-1001", "type": "string" },
+    { "key": "taskId", "value": "FUP-1001", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "01 - Authentication",
+      "item": [
+        {
+          "name": "Login - Hotel Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"hotel.admin@example.com\",\n  \"password\": \"YourPassword123!\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"<refresh-token>\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/refresh-token", "host": ["{{baseUrl}}"], "path": ["auth", "refresh-token"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 - Reservation Manager",
+      "item": [
+        {
+          "name": "Reservation Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/hotel/reservation-manager/dashboard?date=2026-10-28", "host": ["{{baseUrl}}"], "path": ["hotel", "reservation-manager", "dashboard"], "query": [{ "key": "date", "value": "2026-10-28" }] }
+          }
+        },
+        {
+          "name": "Search Reservations",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/hotel/reservation-manager/reservations?status=CONFIRMED&page=0&size=20", "host": ["{{baseUrl}}"], "path": ["hotel", "reservation-manager", "reservations"], "query": [{ "key": "status", "value": "CONFIRMED" }, { "key": "page", "value": "0" }, { "key": "size", "value": "20" }] }
+          }
+        },
+        {
+          "name": "Room Availability",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/hotel/reservation-manager/room-availability?checkInDate=2026-11-05&checkOutDate=2026-11-07&adults=2&rooms=1", "host": ["{{baseUrl}}"], "path": ["hotel", "reservation-manager", "room-availability"] }
+          }
+        },
+        {
+          "name": "Create Rate Plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Weekend Deluxe Rate\",\n  \"roomTypeId\": \"{{roomTypeId}}\",\n  \"currency\": \"INR\",\n  \"pricePerNight\": 5000.00,\n  \"validFrom\": \"2026-11-01\",\n  \"validTo\": \"2026-12-31\",\n  \"refundable\": true,\n  \"requiresApproval\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/reservation-manager/rate-plans", "host": ["{{baseUrl}}"], "path": ["hotel", "reservation-manager", "rate-plans"] }
+          }
+        },
+        {
+          "name": "Assign Booking Enquiry",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"staffId\": \"usr_res_101\",\n  \"assignmentNote\": \"Handle the guest's group-booking enquiry\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/reservation-manager/enquiries/enq_1001/assign", "host": ["{{baseUrl}}"], "path": ["hotel", "reservation-manager", "enquiries", "enq_1001", "assign"] }
+          }
+        },
+        {
+          "name": "Create Automation Rule",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Reservation Confirmation Reminder\",\n  \"trigger\": \"RESERVATION_CONFIRMED\",\n  \"conditions\": { \"guestEmailAvailable\": true, \"reservationStatus\": \"CONFIRMED\" },\n  \"actions\": [{ \"type\": \"SEND_CONFIRMATION_EMAIL\" }],\n  \"enabled\": false\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/reservation-manager/automation-rules", "host": ["{{baseUrl}}"], "path": ["hotel", "reservation-manager", "automation-rules"] }
+          }
+        },
+        {
+          "name": "Enable Automation Rule",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comment\": \"Enable after testing confirmation emails\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/reservation-manager/automation-rules/rule_1001/enable", "host": ["{{baseUrl}}"], "path": ["hotel", "reservation-manager", "automation-rules", "rule_1001", "enable"] }
+          }
+        },
+        {
+          "name": "Occupancy Report",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/hotel/reservation-manager/reports/occupancy?from=2026-11-01&to=2026-11-07", "host": ["{{baseUrl}}"], "path": ["hotel", "reservation-manager", "reports", "occupancy"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 - Reservation Executive",
+      "item": [
+        {
+          "name": "Availability Search",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"checkInDate\": \"2026-11-05\",\n  \"checkOutDate\": \"2026-11-07\",\n  \"adults\": 2,\n  \"children\": 0,\n  \"rooms\": 1,\n  \"currency\": \"INR\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/reservation-executive/availability/search", "host": ["{{baseUrl}}"], "path": ["hotel", "reservation-executive", "availability", "search"] }
+          }
+        },
+        {
+          "name": "Create Guest Profile",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Arun\",\n  \"lastName\": \"Kumar\",\n  \"email\": \"arun@example.com\",\n  \"phone\": \"+919876543210\",\n  \"preferredLanguage\": \"en\",\n  \"communicationPreference\": \"EMAIL\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/reservation-executive/guests", "host": ["{{baseUrl}}"], "path": ["hotel", "reservation-executive", "guests"] }
+          }
+        },
+        {
+          "name": "Generate Quotation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"guestId\": \"{{guestId}}\",\n  \"roomTypeId\": \"{{roomTypeId}}\",\n  \"checkInDate\": \"2026-11-05\",\n  \"checkOutDate\": \"2026-11-07\",\n  \"adults\": 2,\n  \"children\": 0,\n  \"rooms\": 1,\n  \"currency\": \"INR\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/reservation-executive/reservations/quotes", "host": ["{{baseUrl}}"], "path": ["hotel", "reservation-executive", "reservations", "quotes"] }
+          }
+        },
+        {
+          "name": "Create Reservation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quoteId\": \"quote_1001\",\n  \"guestId\": \"{{guestId}}\",\n  \"roomTypeId\": \"{{roomTypeId}}\",\n  \"checkInDate\": \"2026-11-05\",\n  \"checkOutDate\": \"2026-11-07\",\n  \"adults\": 2,\n  \"children\": 0,\n  \"rooms\": 1,\n  \"specialRequests\": \"Non-smoking room, if available\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/reservation-executive/reservations", "host": ["{{baseUrl}}"], "path": ["hotel", "reservation-executive", "reservations"] }
+          }
+        },
+        {
+          "name": "Confirm Reservation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"confirmationChannel\": \"EMAIL\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/reservation-executive/reservations/{{reservationId}}/confirm", "host": ["{{baseUrl}}"], "path": ["hotel", "reservation-executive", "reservations", "{{reservationId}}", "confirm"] }
+          }
+        },
+        {
+          "name": "Submit Modification Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newCheckInDate\": \"2026-11-06\",\n  \"newCheckOutDate\": \"2026-11-08\",\n  \"reason\": \"Guest requested different dates\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/reservation-executive/reservations/{{reservationId}}/modification-requests", "host": ["{{baseUrl}}"], "path": ["hotel", "reservation-executive", "reservations", "{{reservationId}}", "modification-requests"] }
+          }
+        },
+        {
+          "name": "Submit Cancellation Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"GUEST_REQUEST\",\n  \"comment\": \"Guest no longer needs the reservation\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/reservation-executive/reservations/{{reservationId}}/cancellation-requests", "host": ["{{baseUrl}}"], "path": ["hotel", "reservation-executive", "reservations", "{{reservationId}}", "cancellation-requests"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 - Customer Support",
+      "item": [
+        {
+          "name": "Support Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/hotel/customer-support/dashboard", "host": ["{{baseUrl}}"], "path": ["hotel", "customer-support", "dashboard"] }
+          }
+        },
+        {
+          "name": "Create Support Ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"guestId\": \"{{guestId}}\",\n  \"reservationId\": \"{{reservationId}}\",\n  \"channel\": \"WEBSITE\",\n  \"subject\": \"Air conditioning is cooling slowly\",\n  \"description\": \"Room 301 climate control is not cooling.\",\n  \"category\": \"ROOM_MAINTENANCE\",\n  \"priority\": \"HIGH\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/customer-support/tickets", "host": ["{{baseUrl}}"], "path": ["hotel", "customer-support", "tickets"] }
+          }
+        },
+        {
+          "name": "Add Internal Note (Confidential)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"note\": \"Maintenance team has been dispatched for inspection.\",\n  \"visibility\": \"INTERNAL\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/customer-support/tickets/{{ticketId}}/notes", "host": ["{{baseUrl}}"], "path": ["hotel", "customer-support", "tickets", "{{ticketId}}", "notes"] }
+          }
+        },
+        {
+          "name": "Generate AI Reply Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tone\": \"PROFESSIONAL\",\n  \"includeKnowledgeReferences\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/customer-support/tickets/{{ticketId}}/reply-drafts", "host": ["{{baseUrl}}"], "path": ["hotel", "customer-support", "tickets", "{{ticketId}}", "reply-drafts"] }
+          }
+        },
+        {
+          "name": "Create Service Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"guestId\": \"{{guestId}}\",\n  \"reservationId\": \"{{reservationId}}\",\n  \"category\": \"HOUSEKEEPING\",\n  \"description\": \"Guest requested extra bath towels.\",\n  \"priority\": \"NORMAL\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/customer-support/service-requests", "host": ["{{baseUrl}}"], "path": ["hotel", "customer-support", "service-requests"] }
+          }
+        },
+        {
+          "name": "Resolve Ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resolutionCode\": \"MAINTENANCE_COMPLETED\",\n  \"resolutionNote\": \"The maintenance technician replaced filter.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/customer-support/tickets/{{ticketId}}/resolve", "host": ["{{baseUrl}}"], "path": ["hotel", "customer-support", "tickets", "{{ticketId}}", "resolve"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 - Front Desk",
+      "item": [
+        {
+          "name": "Front Desk Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/hotel/front-desk/dashboard?date=2026-10-28", "host": ["{{baseUrl}}"], "path": ["hotel", "front-desk", "dashboard"] }
+          }
+        },
+        {
+          "name": "Expected Arrivals",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/hotel/front-desk/arrivals?date=2026-11-05&page=0&size=20", "host": ["{{baseUrl}}"], "path": ["hotel", "front-desk", "arrivals"] }
+          }
+        },
+        {
+          "name": "Check-In Eligibility",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/hotel/front-desk/reservations/{{reservationId}}/check-in-eligibility", "host": ["{{baseUrl}}"], "path": ["hotel", "front-desk", "reservations", "{{reservationId}}", "check-in-eligibility"] }
+          }
+        },
+        {
+          "name": "Assign Room",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomId\": \"{{roomId}}\",\n  \"assignmentNote\": \"Room checked and ready\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/front-desk/reservations/{{reservationId}}/room-assignment", "host": ["{{baseUrl}}"], "path": ["hotel", "front-desk", "reservations", "{{reservationId}}", "room-assignment"] }
+          }
+        },
+        {
+          "name": "Process Check-In",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"guestVerificationReference\": \"verification_1001\",\n  \"roomId\": \"{{roomId}}\",\n  \"notes\": \"Guest arrived at reception\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/front-desk/reservations/{{reservationId}}/check-in", "host": ["{{baseUrl}}"], "path": ["hotel", "front-desk", "reservations", "{{reservationId}}", "check-in"] }
+          }
+        },
+        {
+          "name": "Retrieve Guest Folio",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/hotel/front-desk/reservations/{{reservationId}}/folio", "host": ["{{baseUrl}}"], "path": ["hotel", "front-desk", "reservations", "{{reservationId}}", "folio"] }
+          }
+        },
+        {
+          "name": "Process Check-Out",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"guestAcknowledgedCharges\": true,\n  \"notes\": \"Guest departure completed\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/front-desk/reservations/{{reservationId}}/check-out", "host": ["{{baseUrl}}"], "path": ["hotel", "front-desk", "reservations", "{{reservationId}}", "check-out"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 - Tenant Isolation Tests",
+      "item": [
+        {
+          "name": "Verify Tenant Scoping (Header)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-999-forbidden" }
+            ],
+            "url": { "raw": "{{baseUrl}}/hotel/reservation-manager/dashboard", "host": ["{{baseUrl}}"], "path": ["hotel", "reservation-manager", "dashboard"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 - Authorization Tests",
+      "item": [
+        {
+          "name": "Unauthorized Access (No Token)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/hotel/reservation-manager/dashboard", "host": ["{{baseUrl}}"], "path": ["hotel", "reservation-manager", "dashboard"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 - Business Validation Tests",
+      "item": [
+        {
+          "name": "Check-In Blocked for Unassigned Room",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"Attempting checkin without room\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/front-desk/reservations/res_unassigned/check-in", "host": ["{{baseUrl}}"], "path": ["hotel", "front-desk", "reservations", "res_unassigned", "check-in"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 - Idempotency and Provider Failures",
+      "item": [
+        {
+          "name": "Duplicate Check-In Retry",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomId\": \"{{roomId}}\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/front-desk/reservations/{{reservationId}}/check-in", "host": ["{{baseUrl}}"], "path": ["hotel", "front-desk", "reservations", "{{reservationId}}", "check-in"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 - AI Reservation Agent",
+      "item": [
+        {
+          "name": "Start Conversation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel\": \"WEBSITE_CHAT\",\n  \"guestIdentifier\": \"guest-session-1001\",\n  \"initialMessage\": \"I need a room for two adults for two nights.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-reservation-agent/conversations", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-reservation-agent", "conversations"] }
+          }
+        },
+        {
+          "name": "Search Live Availability",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"checkInDate\": \"2026-11-15\",\n  \"checkOutDate\": \"2026-11-17\",\n  \"adults\": 2,\n  \"children\": 0,\n  \"rooms\": 1,\n  \"currency\": \"INR\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-reservation-agent/availability/search", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-reservation-agent", "availability", "search"] }
+          }
+        },
+        {
+          "name": "Read Room Types",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/hotel/ai-reservation-agent/room-types", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-reservation-agent", "room-types"] }
+          }
+        },
+        {
+          "name": "Calculate Quote",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomTypeId\": \"{{roomTypeId}}\",\n  \"checkInDate\": \"2026-11-15\",\n  \"checkOutDate\": \"2026-11-17\",\n  \"adults\": 2,\n  \"children\": 0,\n  \"rooms\": 1,\n  \"ratePlanId\": \"FLEXIBLE\",\n  \"currency\": \"INR\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-reservation-agent/quotes", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-reservation-agent", "quotes"] }
+          }
+        },
+        {
+          "name": "Match Guest",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"guest@example.com\",\n  \"phone\": \"+919876543210\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-reservation-agent/guests/match", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-reservation-agent", "guests", "match"] }
+          }
+        },
+        {
+          "name": "Create Guest With Consent",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Arun\",\n  \"lastName\": \"Kumar\",\n  \"email\": \"arun@example.com\",\n  \"phone\": \"+919876543210\",\n  \"communicationConsent\": {\n    \"email\": true,\n    \"whatsapp\": false\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-reservation-agent/guests", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-reservation-agent", "guests"] }
+          }
+        },
+        {
+          "name": "Create Pending Reservation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Idempotency-Key", "value": "reservation-create-1001" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quoteId\": \"{{quoteId}}\",\n  \"guestId\": \"{{guestId}}\",\n  \"primaryGuest\": {\n    \"firstName\": \"Arun\",\n    \"lastName\": \"Kumar\"\n  },\n  \"roomTypeId\": \"{{roomTypeId}}\",\n  \"checkInDate\": \"2026-11-15\",\n  \"checkOutDate\": \"2026-11-17\",\n  \"adults\": 2,\n  \"children\": 0,\n  \"rooms\": 1,\n  \"specialRequests\": \"High-floor room preferred\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-reservation-agent/reservations", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-reservation-agent", "reservations"] }
+          }
+        },
+        {
+          "name": "Confirm Reservation (Idempotent)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Idempotency-Key", "value": "reservation-confirm-1001" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quoteId\": \"{{quoteId}}\",\n  \"confirmationChannel\": \"EMAIL\",\n  \"guestConsentVerified\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-reservation-agent/reservations/{{reservationId}}/confirm", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-reservation-agent", "reservations", "{{reservationId}}", "confirm"] }
+          }
+        },
+        {
+          "name": "Process Guest Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Do you have breakfast included?\",\n  \"channel\": \"WEBSITE_CHAT\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-reservation-agent/conversations/{{conversationId}}/messages", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-reservation-agent", "conversations", "{{conversationId}}", "messages"] }
+          }
+        },
+        {
+          "name": "Human Handoff",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Guest requested a group booking\",\n  \"targetRole\": \"RESERVATION_EXECUTIVE\",\n  \"summary\": \"Guest requests multiple rooms for a group. Availability and negotiated pricing need review.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-reservation-agent/conversations/{{conversationId}}/handoff", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-reservation-agent", "conversations", "{{conversationId}}", "handoff"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "11 - AI Support Agent",
+      "item": [
+        {
+          "name": "Start Support Conversation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel\": \"WEBSITE_CHAT\",\n  \"guestIdentifier\": \"guest-session-2001\",\n  \"initialMessage\": \"The air conditioner in my room is not working.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-support-agent/conversations", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-support-agent", "conversations"] }
+          }
+        },
+        {
+          "name": "Search Approved Knowledge",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"What time is breakfast served?\",\n  \"language\": \"en\",\n  \"topK\": 5\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-support-agent/knowledge/search", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-support-agent", "knowledge", "search"] }
+          }
+        },
+        {
+          "name": "Generate Grounded Answer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"Can I get an extra towel?\",\n  \"conversationId\": \"{{conversationId}}\",\n  \"responseChannel\": \"WEBSITE_CHAT\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-support-agent/knowledge/answer", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-support-agent", "knowledge", "answer"] }
+          }
+        },
+        {
+          "name": "Create Support Ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"conversationId\": \"{{conversationId}}\",\n  \"category\": \"MAINTENANCE\",\n  \"subject\": \"Air conditioner not cooling\",\n  \"description\": \"Guest reports that the AC is not cooling.\",\n  \"priority\": \"HIGH\",\n  \"source\": \"AI_SUPPORT_AGENT\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-support-agent/tickets", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-support-agent", "tickets"] }
+          }
+        },
+        {
+          "name": "Generate Reply Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tone\": \"POLITE\",\n  \"includeNextSteps\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-support-agent/tickets/{{ticketId}}/reply-drafts", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-support-agent", "tickets", "{{ticketId}}", "reply-drafts"] }
+          }
+        },
+        {
+          "name": "Create Guest Service Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"conversationId\": \"{{conversationId}}\",\n  \"category\": \"HOUSEKEEPING\",\n  \"description\": \"Guest requests two additional towels.\",\n  \"locationReference\": \"ROOM-204\",\n  \"priority\": \"MEDIUM\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-support-agent/service-requests", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-support-agent", "service-requests"] }
+          }
+        },
+        {
+          "name": "Resolve Ticket with Evidence",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resolutionSummary\": \"Maintenance team inspected the AC and recorded repair outcome.\",\n  \"resolutionEvidenceReference\": \"MAINT-WORK-1001\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-support-agent/tickets/{{ticketId}}/resolve", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-support-agent", "tickets", "{{ticketId}}", "resolve"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "12 - AI Follow-up Agent",
+      "item": [
+        {
+          "name": "Follow-up Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/hotel/ai-follow-up-agent/dashboard", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-follow-up-agent", "dashboard"] }
+          }
+        },
+        {
+          "name": "Create Follow-up Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"guestId\": \"{{guestId}}\",\n  \"relatedEntityType\": \"RESERVATION_QUOTE\",\n  \"relatedEntityId\": \"{{quoteId}}\",\n  \"taskType\": \"QUOTE_FOLLOW_UP\",\n  \"scheduledAt\": \"2026-10-29T10:00:00+05:30\",\n  \"channel\": \"EMAIL\",\n  \"reason\": \"Guest requested quote but has not completed booking\",\n  \"assignedRole\": \"RESERVATION_EXECUTIVE\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-follow-up-agent/tasks", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-follow-up-agent", "tasks"] }
+          }
+        },
+        {
+          "name": "Create Follow-up Campaign",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Unconverted Quote Follow-up\",\n  \"description\": \"Follow up with eligible guests who received a quote\",\n  \"campaignType\": \"QUOTE_CONVERSION\",\n  \"channel\": \"EMAIL\",\n  \"audience\": {\n    \"quoteStatus\": [\"ACTIVE\"],\n    \"reservationStatus\": [\"NONE\"],\n    \"marketingConsentRequired\": false\n  },\n  \"schedule\": {\n    \"timezone\": \"Asia/Kolkata\",\n    \"maxMessagesPerGuest\": 2,\n    \"minimumHoursBetweenMessages\": 24\n  },\n  \"approvalMode\": \"REVIEW_BEFORE_ACTIVATION\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-follow-up-agent/campaigns", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-follow-up-agent", "campaigns"] }
+          }
+        },
+        {
+          "name": "Activate Campaign",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/hotel/ai-follow-up-agent/campaigns/{{campaignId}}/activate", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-follow-up-agent", "campaigns", "{{campaignId}}", "activate"] }
+          }
+        },
+        {
+          "name": "Generate Follow-up Message Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"guestId\": \"{{guestId}}\",\n  \"relatedEntityType\": \"RESERVATION_QUOTE\",\n  \"relatedEntityId\": \"{{quoteId}}\",\n  \"purpose\": \"TRANSACTIONAL_QUOTE_FOLLOW_UP\",\n  \"channel\": \"EMAIL\",\n  \"tone\": \"FRIENDLY\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-follow-up-agent/messages/drafts", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-follow-up-agent", "messages", "drafts"] }
+          }
+        },
+        {
+          "name": "Update Guest Communication Preferences",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailMarketingConsent\": false,\n  \"whatsappMarketingConsent\": false,\n  \"preferredTransactionalChannel\": \"EMAIL\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/hotel/ai-follow-up-agent/contacts/{{guestId}}/preferences", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-follow-up-agent", "contacts", "{{guestId}}", "preferences"] }
+          }
+        },
+        {
+          "name": "Retrieve Execution History",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "X-Tenant-Id", "value": "tenant-6" }
+            ],
+            "url": { "raw": "{{baseUrl}}/hotel/ai-follow-up-agent/executions?status=FAILED&page=0&size=20", "host": ["{{baseUrl}}"], "path": ["hotel", "ai-follow-up-agent", "executions"] }
+          }
+        }
+      ]
+    }
+  ]
+}
