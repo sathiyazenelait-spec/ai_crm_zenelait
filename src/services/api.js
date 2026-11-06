@@ -1,6 +1,7 @@
 // Zenelait AI - Java Spring Boot Backend API Service
-const API_BASE_URL = 'http://localhost:8080/api';
-const API_V1_BASE_URL = 'http://localhost:8080/api/v1';
+const API_HOST = import.meta.env.VITE_API_URL || 'https://trustworthy-liberation-production-90f6.up.railway.app';
+const API_BASE_URL = `${API_HOST}/api`;
+const API_V1_BASE_URL = `${API_HOST}/api/v1`;
 
 class ApiService {
   constructor() {
@@ -76,7 +77,7 @@ class ApiService {
   }
 
   async register(payload) {
-    const res = await this.request('http://localhost:8080/api/auth/register', {
+    const res = await this.request(`${API_HOST}/api/auth/register`, {
       method: 'POST',
       body: JSON.stringify(payload)
     });
@@ -87,7 +88,7 @@ class ApiService {
   }
 
   async submitEnquiry(enquiryData) {
-    return this.request('http://localhost:8080/api/enquiry', {
+    return this.request(`${API_HOST}/api/enquiry`, {
       method: 'POST',
       body: JSON.stringify(enquiryData)
     });

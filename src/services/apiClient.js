@@ -4,7 +4,8 @@
  * Handles 401, 403, 404, 409, 422, 500 error envelopes and pagination
  */
 
-const API_V1_BASE = 'http://localhost:8080/api/v1';
+const API_HOST = import.meta.env.VITE_API_URL || 'https://trustworthy-liberation-production-90f6.up.railway.app';
+const API_V1_BASE = `${API_HOST}/api/v1`;
 
 class ApiError extends Error {
   constructor(message, status = 500, details = null) {
