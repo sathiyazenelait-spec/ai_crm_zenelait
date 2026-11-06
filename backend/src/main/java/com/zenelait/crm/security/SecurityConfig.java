@@ -95,15 +95,8 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of(
-            "http://localhost:*",
-            "http://127.0.0.1:*",
-            "https://*.railway.app",
-            "https://*.up.railway.app",
-            "https://*.vercel.app",
-            "https://*.netlify.app",
-            "https://*.onrender.com"
-        ));
+        // Allow all origin patterns (supports credentials with wildcard patterns in Spring Framework)
+        configuration.setAllowedOriginPatterns(List.of("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setExposedHeaders(List.of("*"));
