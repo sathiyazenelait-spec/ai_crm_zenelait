@@ -29,9 +29,13 @@ class ApiService {
   }
 
   getHeaders() {
+    const tenantId = localStorage.getItem('zenelait_active_tenant_id') || 'TEN-IT-001';
+    const tenantIndustry = localStorage.getItem('zenelait_active_tenant_industry') || 'SOFTWARE_IT';
     const headers = {
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'X-Tenant-Id': tenantId,
+      'X-Tenant-Industry': tenantIndustry
     };
     const token = this.getToken();
     if (token) {
