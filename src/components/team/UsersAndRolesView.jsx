@@ -4,9 +4,10 @@ import { StatusBadge } from '../common/StatusBadge';
 import { Users2, Shield, Plus, Search, MoreVertical, Check, UserPlus } from 'lucide-react';
 
 export function UsersAndRolesView() {
-  const { teamMembers, setActiveModal, currentUserRole, switchRole, mvpRoles } = useCRM();
+  const { teamMembers, setActiveModal, currentUserRole, switchRole, mvpRoles, addNotification } = useCRM();
   const [activeSubTab, setActiveSubTab] = useState('roles'); // 'users' | 'roles'
   const [searchQuery, setSearchQuery] = useState('');
+  const [userPage, setUserPage] = useState(1);
 
   const filteredUsers = teamMembers.filter((u) =>
     u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -115,7 +116,13 @@ export function UsersAndRolesView() {
                     </td>
                     <td style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>{user.lastLogin || 'Oct 3, 2026'}</td>
                     <td>
-                      <button className="btn btn-secondary btn-icon btn-sm">
+                      <button
+                        className="btn btn-secondary btn-icon btn-sm"
+                        onClick={() => addNotification && addNotification({
+                          type: 'info',
+                          title: `Access profile for ${user.name} (${user.role})`
+                        })}
+                      >
                         <MoreVertical size={14} />
                       </button>
                     </td>
@@ -129,9 +136,16 @@ export function UsersAndRolesView() {
           <div style={{ padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--border)' }}>
             <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Showing 1 - {filteredUsers.length} of {teamMembers.length} users</span>
             <div style={{ display: 'flex', gap: '6px' }}>
-              <button className="btn btn-secondary btn-xs active" style={{ minWidth: 28 }}>1</button>
-              <button className="btn btn-secondary btn-xs" style={{ minWidth: 28 }}>2</button>
-              <button className="btn btn-secondary btn-xs" style={{ minWidth: 28 }}>3</button>
+              {[1, 2, 3].map(p => (
+                <button
+                  key={p}
+                  className={`btn btn-xs ${userPage === p ? 'btn-primary' : 'btn-secondary'}`}
+                  style={{ minWidth: 28 }}
+                  onClick={() => setUserPage(p)}
+                >
+                  {p}
+                </button>
+              ))}
             </div>
           </div>
         </div>

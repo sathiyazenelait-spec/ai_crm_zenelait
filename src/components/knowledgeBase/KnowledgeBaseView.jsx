@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 
 export function KnowledgeBaseView() {
-  const { documents, setActiveModal } = useCRM();
+  const { documents, setActiveModal, addNotification } = useCRM();
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState('All');
 
@@ -126,7 +126,14 @@ export function KnowledgeBaseView() {
                   </td>
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <button className="btn btn-secondary btn-icon btn-sm" title="Re-sync Vectors">
+                      <button
+                        className="btn btn-secondary btn-icon btn-sm"
+                        title="Re-sync Vectors in TiDB Cloud"
+                        onClick={() => addNotification && addNotification({
+                          type: 'success',
+                          title: `Re-indexed 768-dim vector embeddings for "${doc.title}"`
+                        })}
+                      >
                         <RefreshCw size={13} />
                       </button>
                     </div>

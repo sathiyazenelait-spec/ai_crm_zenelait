@@ -35,7 +35,7 @@ export function SubscriptionView() {
 
           <div style={{ display: 'flex', gap: '10px' }}>
             <button className="btn btn-secondary" onClick={() => alert('Downloading invoice...')}>Download Invoices</button>
-            <button className="btn btn-primary">Change Plan</button>
+            <button className="btn btn-primary" onClick={() => navigateTo('billing')}>Change Plan</button>
           </div>
         </div>
 
@@ -83,7 +83,11 @@ export function SubscriptionView() {
           <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
             Step-by-step masterclasses on building multi-channel AI lead qualification bots.
           </p>
-          <button className="btn btn-ghost btn-sm" style={{ alignSelf: 'flex-start', color: 'var(--primary)', padding: 0 }}>
+          <button
+            className="btn btn-ghost btn-sm"
+            style={{ alignSelf: 'flex-start', color: 'var(--primary)', padding: 0 }}
+            onClick={() => navigateTo('knowledge')}
+          >
             Watch Videos →
           </button>
         </div>

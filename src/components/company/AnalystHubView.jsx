@@ -441,7 +441,12 @@ export function AnalystHubView() {
                   <AlertTriangle size={16} color="#f59e0b" />
                   <span>{fix}</span>
                 </div>
-                <button className="btn btn-secondary btn-xs">Apply Clean-up</button>
+                <button
+                  className="btn btn-secondary btn-xs"
+                  onClick={() => setMessage(`Applied automatic clean-up rule: "${fix}"`)}
+                >
+                  Apply Clean-up
+                </button>
               </div>
             ))}
           </div>

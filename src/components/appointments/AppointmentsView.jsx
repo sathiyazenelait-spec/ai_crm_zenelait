@@ -4,7 +4,7 @@ import { StatusBadge } from '../common/StatusBadge';
 import { Calendar, Plus, Clock, Search, User, CheckCircle2 } from 'lucide-react';
 
 export function AppointmentsView() {
-  const { appointments, setActiveModal } = useCRM();
+  const { appointments, setActiveModal, addNotification } = useCRM();
   const [filterTab, setFilterTab] = useState('Upcoming');
 
   return (
@@ -96,7 +96,15 @@ export function AppointmentsView() {
                     <StatusBadge status={apt.status} />
                   </td>
                   <td>
-                    <button className="btn btn-secondary btn-sm">Reschedule</button>
+                    <button
+                      className="btn btn-secondary btn-sm"
+                      onClick={() => addNotification && addNotification({
+                        type: 'info',
+                        title: `Reschedule link generated for ${apt.title || 'Meeting'}`
+                      })}
+                    >
+                      Reschedule
+                    </button>
                   </td>
                 </tr>
               ))}

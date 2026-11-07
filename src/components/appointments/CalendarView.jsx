@@ -6,6 +6,8 @@ export function CalendarView() {
   const { appointments, setActiveModal, addNotification, aiEmployeesList } = useCRM();
   const [viewMode, setViewMode] = useState('month'); // 'month' | 'week' | 'day'
   const [selectedDay, setSelectedDay] = useState(3); // Oct 3
+  const [currentMonthIndex, setCurrentMonthIndex] = useState(9); // October
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const calendarDays = Array.from({ length: 31 }, (_, i) => i + 1);
@@ -97,10 +99,22 @@ export function CalendarView() {
           {/* Header Controls */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <h2 style={{ fontSize: '1.2rem', fontWeight: 800, margin: 0 }}>October 2026</h2>
+              <h2 style={{ fontSize: '1.2rem', fontWeight: 800, margin: 0 }}>{monthNames[currentMonthIndex]} 2026</h2>
               <div style={{ display: 'flex', gap: '4px' }}>
-                <button className="btn btn-secondary btn-icon btn-xs"><ChevronLeft size={14} /></button>
-                <button className="btn btn-secondary btn-icon btn-xs"><ChevronRight size={14} /></button>
+                <button
+                  className="btn btn-secondary btn-icon btn-xs"
+                  onClick={() => setCurrentMonthIndex(m => Math.max(0, m - 1))}
+                  title="Previous Month"
+                >
+                  <ChevronLeft size={14} />
+                </button>
+                <button
+                  className="btn btn-secondary btn-icon btn-xs"
+                  onClick={() => setCurrentMonthIndex(m => Math.min(11, m + 1))}
+                  title="Next Month"
+                >
+                  <ChevronRight size={14} />
+                </button>
               </div>
             </div>
 

@@ -3,7 +3,7 @@ import { useCRM } from '../../context/CRMContext';
 import { Building2, Save, Upload, Check, Globe, Mail, Phone, MapPin, Clock, DollarSign } from 'lucide-react';
 
 export function CompanyProfileView() {
-  const { companyProfile, updateCompanyProfile } = useCRM();
+  const { companyProfile, updateCompanyProfile, addNotification } = useCRM();
   const [formData, setFormData] = useState({ ...companyProfile });
   const [isSaved, setIsSaved] = useState(false);
 
@@ -49,7 +49,15 @@ export function CompanyProfileView() {
                 ABC
               </div>
               <div>
-                <button type="button" className="btn btn-secondary btn-sm" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+                  onClick={() => addNotification && addNotification({
+                    type: 'info',
+                    title: 'Select a PNG or SVG logo to upload for your tenant workspace'
+                  })}
+                >
                   <Upload size={14} />
                   <span>Change Logo</span>
                 </button>

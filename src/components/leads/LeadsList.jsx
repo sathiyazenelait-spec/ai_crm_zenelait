@@ -38,6 +38,7 @@ export function LeadsList() {
   const [sourceFilter, setSourceFilter] = useState('All');
   const [onlyMyLeads, setOnlyMyLeads] = useState(false);
   const [activeReassignLeadId, setActiveReassignLeadId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const isSalesManager = currentRolePermissions?.isSalesManager || currentUserRole.includes('Sales Manager');
   const isSalesRepresentative = currentRolePermissions?.isSalesRepresentative || currentUserRole.includes('Executive') || currentUserRole.includes('Representative');
@@ -416,16 +417,33 @@ export function LeadsList() {
         {/* Pagination Bar */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', borderTop: '1px solid var(--border)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <button className="btn btn-secondary btn-icon btn-sm"><ChevronLeft size={14} /></button>
-            <button className="btn btn-primary btn-sm" style={{ minWidth: 32 }}>1</button>
-            <button className="btn btn-secondary btn-sm" style={{ minWidth: 32 }}>2</button>
-            <button className="btn btn-secondary btn-sm" style={{ minWidth: 32 }}>3</button>
-            <button className="btn btn-secondary btn-sm" style={{ minWidth: 32 }}>4</button>
-            <button className="btn btn-secondary btn-sm" style={{ minWidth: 32 }}>5</button>
-            <button className="btn btn-secondary btn-icon btn-sm"><ChevronRight size={14} /></button>
+            <button
+              className="btn btn-secondary btn-icon btn-sm"
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+            >
+              <ChevronLeft size={14} />
+            </button>
+            {[1, 2, 3, 4, 5].map(pageNum => (
+              <button
+                key={pageNum}
+                className={`btn btn-sm ${currentPage === pageNum ? 'btn-primary' : 'btn-secondary'}`}
+                style={{ minWidth: 32 }}
+                onClick={() => setCurrentPage(pageNum)}
+              >
+                {pageNum}
+              </button>
+            ))}
+            <button
+              className="btn btn-secondary btn-icon btn-sm"
+              onClick={() => setCurrentPage(p => Math.min(5, p + 1))}
+              disabled={currentPage === 5}
+            >
+              <ChevronRight size={14} />
+            </button>
           </div>
           <span style={{ fontSize: '0.775rem', color: 'var(--text-secondary)' }}>
-            Showing 1-{filteredLeads.length} of 48
+            Page {currentPage} of 5 • Showing {filteredLeads.length} leads
           </span>
         </div>
       </div>

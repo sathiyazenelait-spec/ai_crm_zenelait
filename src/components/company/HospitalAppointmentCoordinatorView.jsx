@@ -409,7 +409,14 @@ export default function HospitalAppointmentCoordinatorView({ initialSubTab = 'ca
                   <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-semibold border border-emerald-500/30">
                     {slot.status}
                   </span>
-                  <button className="w-full text-xs py-1 bg-teal-600/30 hover:bg-teal-600 text-teal-200 hover:text-white rounded-lg transition">
+                  <button
+                    className="w-full text-xs py-1 bg-teal-600/30 hover:bg-teal-600 text-teal-200 hover:text-white rounded-lg transition"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedSlot(slot);
+                      setShowBookingModal(true);
+                    }}
+                  >
                     Book Slot
                   </button>
                 </div>

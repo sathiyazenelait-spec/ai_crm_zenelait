@@ -33,6 +33,7 @@ export function SalesManagerDashboard() {
     activeIndustryId,
     currentIndustry,
     approvalQueue,
+    addNotification,
     approveFinancialAction,
     rejectFinancialAction
   } = useCRM();
@@ -296,8 +297,29 @@ export function SalesManagerDashboard() {
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-                  <button className="btn btn-secondary btn-xs">Modify Terms</button>
-                  <button className="btn btn-primary btn-xs">Approve & Generate Quotation</button>
+                  <button
+                    className="btn btn-secondary btn-xs"
+                    onClick={() => addNotification && addNotification({
+                      type: 'info',
+                      title: `Terms review opened for ${item.dealTitle}`
+                    })}
+                  >
+                    Modify Terms
+                  </button>
+                  <button
+                    className="btn btn-primary btn-xs"
+                    onClick={() => {
+                      if (addNotification) {
+                        addNotification({
+                          type: 'success',
+                          title: `Quotation generated for ${item.dealTitle}!`
+                        });
+                      }
+                      if (navigateTo) navigateTo('accelerators');
+                    }}
+                  >
+                    Approve & Generate Quotation
+                  </button>
                 </div>
               </div>
             ))}

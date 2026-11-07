@@ -762,7 +762,13 @@ export function HotelAdminView() {
                       ₹{Number(rt.baseRate).toFixed(2)}<span className="text-xs font-normal text-gray-500">/night</span>
                     </div>
                   </div>
-                  <button className="text-xs font-semibold px-2.5 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200">
+                  <button
+                    className="text-xs font-semibold px-2.5 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200"
+                    onClick={() => addNotification && addNotification({
+                      type: 'info',
+                      title: `Rate manager opened for ${rt.name || 'Room Category'}`
+                    })}
+                  >
                     Edit Rate
                   </button>
                 </div>
