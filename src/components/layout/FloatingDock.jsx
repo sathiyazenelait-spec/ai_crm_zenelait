@@ -25,7 +25,9 @@ import {
   Factory,
   Layers,
   Headphones,
-  Megaphone
+  Megaphone,
+  PhoneCall,
+  Mail
 } from 'lucide-react';
 
 export function FloatingDock() {
@@ -87,6 +89,9 @@ export function FloatingDock() {
     { id: 'customers', label: 'Customers', icon: Briefcase },
     { id: 'conversations', label: 'Conversations', icon: MessageSquare, badge: '12' },
     { id: 'ai-agents', label: 'AI Employees', icon: Bot },
+    { id: 'voice-agent', label: 'Voice AI SDR', icon: PhoneCall },
+    { id: 'whatsapp-hub', label: 'WhatsApp Hub', icon: MessageSquare },
+    { id: 'email-copilot', label: 'Email Copilot', icon: Mail },
     { id: 'automation', label: 'Automation', icon: Zap },
     { id: 'appointments', label: isRealEstateTenant ? 'Site Visits' : currentIndustry.id === 'hospitals' ? 'OPD Slots' : 'Appointments', icon: Calendar },
     { id: 'knowledge-base', label: 'Knowledge Base', icon: BookOpen },

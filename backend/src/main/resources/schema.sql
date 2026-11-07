@@ -1628,3 +1628,51 @@ CREATE TABLE IF NOT EXISTS hotel_ai_followup_executions (
     FOREIGN KEY (tenant_id) REFERENCES companies(id) ON DELETE CASCADE
 );
 
+
+-- ===================================================================
+-- AUTONOMOUS AI SUPERPOWERS: VOICE CALLS, WHATSAPP & EMAIL COPILOT
+-- ===================================================================
+CREATE TABLE IF NOT EXISTS voice_call_logs (
+    id VARCHAR(64) PRIMARY KEY,
+    lead_id VARCHAR(64),
+    caller_name VARCHAR(120),
+    caller_phone VARCHAR(50),
+    call_role VARCHAR(50) DEFAULT 'AI_SDR',
+    direction VARCHAR(20) DEFAULT 'INBOUND',
+    duration_seconds INT DEFAULT 0,
+    full_transcript TEXT,
+    qualification_summary TEXT,
+    detected_budget DOUBLE,
+    sentiment VARCHAR(30) DEFAULT 'POSITIVE',
+    scheduled_meeting_time VARCHAR(100),
+    status VARCHAR(30) DEFAULT 'COMPLETED',
+    tenant_id VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS whatsapp_messages (
+    id VARCHAR(64) PRIMARY KEY,
+    sender_phone VARCHAR(50) NOT NULL,
+    sender_name VARCHAR(120),
+    message_text TEXT NOT NULL,
+    direction VARCHAR(20) DEFAULT 'INBOUND',
+    status VARCHAR(30) DEFAULT 'RECEIVED',
+    media_url VARCHAR(500),
+    ai_agent_role VARCHAR(60) DEFAULT 'AI_WHATSAPP_SDR',
+    tenant_id VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS email_copilot_logs (
+    id VARCHAR(64) PRIMARY KEY,
+    lead_id VARCHAR(64),
+    recipient_email VARCHAR(150) NOT NULL,
+    recipient_name VARCHAR(120),
+    subject VARCHAR(250) NOT NULL,
+    body_text TEXT NOT NULL,
+    inferred_sentiment VARCHAR(50) DEFAULT 'GHOSTED_7_DAYS',
+    suggested_offer VARCHAR(120),
+    status VARCHAR(30) DEFAULT 'AUTO_SENT',
+    tenant_id VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

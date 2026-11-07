@@ -64,7 +64,9 @@ import {
   LogIn,
   ShieldAlert,
   DollarSign,
-  AlertCircle
+  AlertCircle,
+  PhoneCall,
+  Mail
 } from 'lucide-react';
 
 export function Sidebar() {
@@ -1337,11 +1339,14 @@ export function Sidebar() {
         ]
       },
       {
-        title: 'AI EMPLOYEES',
+        title: 'AI EMPLOYEES & COPILOTS',
         hideForRoles: ['analyst'],
         items: [
           { id: 'ai-fleet-hub', label: 'AI Fleet & Follow-up', icon: Sparkles },
           { id: 'ai-employees', label: 'AI Employees', icon: Bot },
+          { id: 'voice-agent', label: 'Voice AI SDR & Calling', icon: PhoneCall, badge: 'AI' },
+          { id: 'whatsapp-hub', label: 'WhatsApp Business API', icon: MessageSquare, badge: 'Live' },
+          { id: 'email-copilot', label: 'Email Copilot & Reactivation', icon: Mail },
           { id: 'agent-builder', label: 'Agent Builder', icon: Wrench, adminOnly: true }
         ]
       },

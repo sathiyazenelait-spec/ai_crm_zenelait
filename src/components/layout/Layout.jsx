@@ -104,6 +104,9 @@ import { ManufacturingCustomerSupportView } from '../company/ManufacturingCustom
 import { ManufacturingTechnicalSupportView } from '../company/ManufacturingTechnicalSupportView';
 import { ManufacturingAiB2BSalesAgentView } from '../company/ManufacturingAiB2BSalesAgentView';
 import { ManufacturingAiSupportAgentView } from '../company/ManufacturingAiSupportAgentView';
+import { VoiceAgentView } from '../voice/VoiceAgentView';
+import { WhatsAppOmnichannelHub } from '../whatsapp/WhatsAppOmnichannelHub';
+import { EmailCopilotHub } from '../email/EmailCopilotHub';
 
 export function Layout() {
   const {
@@ -1214,6 +1217,20 @@ export function Layout() {
           />
         );
       
+      // Autonomous AI Employee Superpowers
+      case 'voice-agent':
+      case 'ai-voice':
+      case 'voice-calling':
+        return <VoiceAgentView />;
+      case 'whatsapp-hub':
+      case 'whatsapp':
+      case 'whatsapp-business':
+        return <WhatsAppOmnichannelHub />;
+      case 'email-copilot':
+      case 'cold-email':
+      case 'email-automation':
+        return <EmailCopilotHub />;
+
       // 17. Reports & Analytics
       case 'reports':
       case 'analytics':

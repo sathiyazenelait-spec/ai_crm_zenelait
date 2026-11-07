@@ -51,6 +51,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/companies/public").permitAll()
                 .requestMatchers("/api/companies/{id}/public").permitAll()
                 .requestMatchers("/api/enquiries/submit").permitAll()
+                .requestMatchers("/api/v1/whatsapp/**").permitAll()
+                .requestMatchers("/ws/**").permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                 // Super Admin & Ultra Root Operations

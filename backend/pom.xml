@@ -73,6 +73,18 @@
             <scope>runtime</scope>
         </dependency>
         
+        <!-- WebSocket Support for Real-Time AI Voice Streaming -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        
+        <!-- JavaMail Support for Autonomous Email Copilot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        
         <!-- Lombok (Optional boilerplate reducer) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
