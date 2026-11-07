@@ -66,7 +66,8 @@ import {
   DollarSign,
   AlertCircle,
   PhoneCall,
-  Mail
+  Mail,
+  Database
 } from 'lucide-react';
 
 export function Sidebar() {
@@ -1347,6 +1348,7 @@ export function Sidebar() {
           { id: 'voice-agent', label: 'Voice AI SDR & Calling', icon: PhoneCall, badge: 'AI' },
           { id: 'whatsapp-hub', label: 'WhatsApp Business API', icon: MessageSquare, badge: 'Live' },
           { id: 'email-copilot', label: 'Email Copilot & Reactivation', icon: Mail },
+          { id: 'vector-rag', label: 'TiDB Vector RAG & Widget', icon: Database, badge: 'RAG' },
           { id: 'agent-builder', label: 'Agent Builder', icon: Wrench, adminOnly: true }
         ]
       },

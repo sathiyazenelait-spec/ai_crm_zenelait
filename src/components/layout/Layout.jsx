@@ -107,6 +107,7 @@ import { ManufacturingAiSupportAgentView } from '../company/ManufacturingAiSuppo
 import { VoiceAgentView } from '../voice/VoiceAgentView';
 import { WhatsAppOmnichannelHub } from '../whatsapp/WhatsAppOmnichannelHub';
 import { EmailCopilotHub } from '../email/EmailCopilotHub';
+import { VectorRagHub } from '../rag/VectorRagHub';
 
 export function Layout() {
   const {
@@ -1230,6 +1231,11 @@ export function Layout() {
       case 'cold-email':
       case 'email-automation':
         return <EmailCopilotHub />;
+      case 'vector-rag':
+      case 'rag-hub':
+      case 'vector-search':
+      case 'widget-embed':
+        return <VectorRagHub />;
 
       // 17. Reports & Analytics
       case 'reports':

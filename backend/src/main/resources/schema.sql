@@ -1676,3 +1676,52 @@ CREATE TABLE IF NOT EXISTS email_copilot_logs (
     tenant_id VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- ===================================================================
+-- TIDB VECTOR SEARCH, KNOWLEDGE RAG, DEDUPLICATION & BILLING
+-- ===================================================================
+
+-- 1. Tenant Knowledge Base Chunks with Vector Embeddings
+CREATE TABLE IF NOT EXISTS tenant_knowledge_chunks (
+    id VARCHAR(64) PRIMARY KEY,
+    tenant_id VARCHAR(50) NOT NULL,
+    document_name VARCHAR(255) NOT NULL,
+    content_chunk TEXT NOT NULL,
+    category VARCHAR(50) DEFAULT 'GENERAL',
+    embedding MEDIUMTEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_tenant_rag (tenant_id, category)
+);
+
+-- 2. Lead Vector Signatures for Smart Deduplication & Fuzzy Matching
+CREATE TABLE IF NOT EXISTS lead_vector_signatures (
+    id VARCHAR(64) PRIMARY KEY,
+    tenant_id VARCHAR(50) NOT NULL,
+    lead_id VARCHAR(64) NOT NULL,
+    full_name VARCHAR(150),
+    company_name VARCHAR(150),
+    phone VARCHAR(50),
+    email VARCHAR(150),
+    normalized_contact_str TEXT,
+    contact_vector MEDIUMTEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_lead_sig (tenant_id, lead_id)
+);
+
+-- 3. Tenant SaaS Subscriptions & Usage Metering
+CREATE TABLE IF NOT EXISTS tenant_subscriptions (
+    tenant_id VARCHAR(50) PRIMARY KEY,
+    plan_tier VARCHAR(50) DEFAULT 'STARTER',
+    gateway VARCHAR(30) DEFAULT 'STRIPE',
+    subscription_id VARCHAR(100),
+    customer_id VARCHAR(100),
+    seats_purchased INT DEFAULT 3,
+    ai_credits_total INT DEFAULT 250,
+    ai_credits_used INT DEFAULT 0,
+    status VARCHAR(30) DEFAULT 'ACTIVE',
+    amount VARCHAR(50) DEFAULT '$29/mo',
+    billing_cycle VARCHAR(30) DEFAULT 'MONTHLY',
+    current_period_end TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

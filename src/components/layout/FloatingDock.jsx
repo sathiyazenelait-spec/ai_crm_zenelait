@@ -27,7 +27,8 @@ import {
   Headphones,
   Megaphone,
   PhoneCall,
-  Mail
+  Mail,
+  Database
 } from 'lucide-react';
 
 export function FloatingDock() {
@@ -92,6 +93,7 @@ export function FloatingDock() {
     { id: 'voice-agent', label: 'Voice AI SDR', icon: PhoneCall },
     { id: 'whatsapp-hub', label: 'WhatsApp Hub', icon: MessageSquare },
     { id: 'email-copilot', label: 'Email Copilot', icon: Mail },
+    { id: 'vector-rag', label: 'Vector RAG Hub', icon: Database },
     { id: 'automation', label: 'Automation', icon: Zap },
     { id: 'appointments', label: isRealEstateTenant ? 'Site Visits' : currentIndustry.id === 'hospitals' ? 'OPD Slots' : 'Appointments', icon: Calendar },
     { id: 'knowledge-base', label: 'Knowledge Base', icon: BookOpen },

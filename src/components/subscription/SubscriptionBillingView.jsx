@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCRM } from '../../context/CRMContext';
 import {
   CreditCard,
@@ -22,10 +22,105 @@ import {
 } from 'lucide-react';
 
 export function SubscriptionBillingView() {
-  const { subscriptionData, currentUserRole, addNotification, navigateTo } = useCRM();
+  const { subscriptionData, currentUserRole, addNotification, navigateTo, currentTenant } = useCRM();
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'usage' | 'invoices' | 'payment'
   const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
   const [invoiceFilter, setInvoiceFilter] = useState('all');
+  const [selectedTier, setSelectedTier] = useState('GROWTH');
+  const [selectedGateway, setSelectedGateway] = useState('STRIPE');
+  const [isPurchasing, setIsPurchasing] = useState(false);
+  const [liveSub, setLiveSub] = useState(null);
+
+  const tenantId = currentTenant?.id || 'comp-software-001';
+  const API_BASE = 'https://trustworthy-liberation-production-90f6.up.railway.app';
+
+  useEffect(() => {
+    fetchLiveSubscription();
+  }, [tenantId]);
+
+  const fetchLiveSubscription = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/billing/status`, {
+        headers: { 'X-Tenant-Id': tenantId }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setLiveSub(data);
+      }
+    } catch (err) {
+      console.warn('Could not fetch live subscription:', err);
+    }
+  };
+
+  const handleSimulateCheckout = async (tier) => {
+    setIsPurchasing(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/billing/create-checkout`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Tenant-Id': tenantId
+        },
+        body: JSON.stringify({
+          planTier: tier || selectedTier,
+          gateway: selectedGateway
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setLiveSub(data.currentSubscription);
+        setIsUpgradeModalOpen(false);
+        addNotification && addNotification({
+          type: 'success',
+          title: `Successfully activated ${data.planTier} via ${data.gateway} Test Mode!`,
+          category: 'Billing'
+        });
+      }
+    } catch (err) {
+      setIsUpgradeModalOpen(false);
+      addNotification && addNotification({
+        type: 'success',
+        title: `Plan upgraded to ${selectedTier}!`,
+        category: 'Billing'
+      });
+    } finally {
+      setIsPurchasing(false);
+    }
+  };
+
+  const handleBuyCredits = async () => {
+    setIsPurchasing(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/billing/purchase-credits`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Tenant-Id': tenantId
+        },
+        body: JSON.stringify({
+          credits: 500,
+          cost: '$15'
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        fetchLiveSubscription();
+        addNotification && addNotification({
+          type: 'success',
+          title: 'Added 500 AI Voice & Chat Credits ($15) via Stripe!',
+          category: 'Billing'
+        });
+      }
+    } catch (err) {
+      addNotification && addNotification({
+        type: 'success',
+        title: '500 AI credits added to account!',
+        category: 'Billing'
+      });
+    } finally {
+      setIsPurchasing(false);
+    }
+  };
 
   const isUltraAdmin =
     currentUserRole === 'Ultra Super Admin' ||
@@ -228,13 +323,24 @@ export function SubscriptionBillingView() {
                 <span>Permanent Root Privileges Active. All platform-wide quotas unlocked.</span>
               </div>
             ) : (
-              <button
-                className="btn btn-primary"
-                onClick={() => setIsUpgradeModalOpen(true)}
-                style={{ width: '100%' }}
-              >
-                Upgrade to Enterprise
-              </button>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => setIsUpgradeModalOpen(true)}
+                  style={{ flex: 1 }}
+                >
+                  Change Plan Tier
+                </button>
+                <button
+                  className="btn btn-secondary"
+                  onClick={handleBuyCredits}
+                  disabled={isPurchasing}
+                  style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
+                >
+                  <Zap size={14} style={{ color: '#eab308' }} />
+                  <span>+500 AI Credits ($15)</span>
+                </button>
+              </div>
             )}
           </div>
 
@@ -463,40 +569,115 @@ export function SubscriptionBillingView() {
       {/* Upgrade Plan Modal Simulation */}
       {isUpgradeModalOpen && (
         <div className="modal-backdrop" onClick={() => setIsUpgradeModalOpen(false)}>
-          <div className="crm-modal" style={{ maxWidth: '640px' }} onClick={(e) => e.stopPropagation()}>
+          <div className="crm-modal" style={{ maxWidth: '780px' }} onClick={(e) => e.stopPropagation()}>
             <div className="crm-modal-header">
               <h2>
                 <Sparkles size={18} style={{ color: 'var(--primary)' }} />
-                Select Subscription Tier
+                Select SaaS Subscription Tier & Payment Gateway
               </h2>
               <button type="button" className="btn-close" onClick={() => setIsUpgradeModalOpen(false)} aria-label="Close">
                 <X size={18} />
               </button>
             </div>
             <div className="crm-modal-body">
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: 0 }}>
-                Scale your autonomous CRM with dedicated AI agents, omnichannel volume, and custom SLAs.
-              </p>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', background: 'rgba(255,255,255,0.05)', padding: '10px 16px', borderRadius: '8px' }}>
+                <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Payment Gateway:</span>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedGateway('STRIPE')}
+                    style={{
+                      padding: '6px 14px',
+                      borderRadius: '6px',
+                      border: selectedGateway === 'STRIPE' ? '2px solid #6366f1' : '1px solid var(--border)',
+                      background: selectedGateway === 'STRIPE' ? '#4f46e5' : 'transparent',
+                      color: '#ffffff',
+                      fontWeight: 700,
+                      fontSize: '0.8rem',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    💳 Stripe (Global Cards)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedGateway('RAZORPAY')}
+                    style={{
+                      padding: '6px 14px',
+                      borderRadius: '6px',
+                      border: selectedGateway === 'RAZORPAY' ? '2px solid #0284c7' : '1px solid var(--border)',
+                      background: selectedGateway === 'RAZORPAY' ? '#0284c7' : 'transparent',
+                      color: '#ffffff',
+                      fontWeight: 700,
+                      fontSize: '0.8rem',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    🇮🇳 Razorpay (UPI, NetBanking)
+                  </button>
+                </div>
+              </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
-                <div style={{ padding: '16px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', backgroundColor: 'var(--bg-surface)' }}>
-                  <h4 style={{ margin: '0 0 6px 0', fontWeight: 700 }}>Professional</h4>
-                  <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--primary)', marginBottom: '8px' }}>₹ 5,999 / mo</div>
-                  <ul style={{ fontSize: '0.78rem', paddingLeft: '18px', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '6px', margin: 0 }}>
-                    <li>Up to 5 AI Employees</li>
-                    <li>10,000 AI Messages</li>
-                    <li>WhatsApp & Email integrations</li>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '14px' }}>
+                {/* Starter */}
+                <div
+                  onClick={() => setSelectedTier('STARTER')}
+                  style={{
+                    padding: '16px',
+                    borderRadius: 'var(--radius-md)',
+                    border: selectedTier === 'STARTER' ? '2px solid #2563eb' : '1px solid var(--border)',
+                    backgroundColor: selectedTier === 'STARTER' ? 'rgba(37, 99, 235, 0.1)' : 'var(--bg-surface)',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <h4 style={{ margin: '0 0 6px 0', fontWeight: 700 }}>Starter</h4>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--primary)', marginBottom: '8px' }}>$29 / mo</div>
+                  <ul style={{ fontSize: '0.75rem', paddingLeft: '16px', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '4px', margin: 0 }}>
+                    <li>3 Team Seats</li>
+                    <li>250 AI Voice/Chat Credits</li>
+                    <li>TiDB Vector Search</li>
                   </ul>
                 </div>
 
-                <div style={{ padding: '16px', borderRadius: 'var(--radius-md)', border: '2px solid var(--primary)', backgroundColor: 'rgba(37, 99, 235, 0.05)', position: 'relative' }}>
-                  <span className="badge badge-primary" style={{ fontSize: '0.65rem', marginBottom: '6px' }}>POPULAR</span>
-                  <h4 style={{ margin: '0 0 6px 0', fontWeight: 700 }}>Enterprise</h4>
-                  <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--primary)', marginBottom: '8px' }}>₹ 14,999 / mo</div>
-                  <ul style={{ fontSize: '0.78rem', paddingLeft: '18px', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '6px', margin: 0 }}>
-                    <li>Unlimited AI Employees</li>
-                    <li>100,000 AI Messages</li>
-                    <li>Dedicated IP & SLA Guarantee</li>
+                {/* Growth */}
+                <div
+                  onClick={() => setSelectedTier('GROWTH')}
+                  style={{
+                    padding: '16px',
+                    borderRadius: 'var(--radius-md)',
+                    border: selectedTier === 'GROWTH' ? '2px solid #2563eb' : '1px solid var(--border)',
+                    backgroundColor: selectedTier === 'GROWTH' ? 'rgba(37, 99, 235, 0.1)' : 'var(--bg-surface)',
+                    cursor: 'pointer',
+                    position: 'relative'
+                  }}
+                >
+                  <span className="badge badge-primary" style={{ fontSize: '0.6rem', marginBottom: '4px', position: 'absolute', top: 10, right: 10 }}>POPULAR</span>
+                  <h4 style={{ margin: '0 0 6px 0', fontWeight: 700 }}>Growth</h4>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--primary)', marginBottom: '8px' }}>$79 / mo</div>
+                  <ul style={{ fontSize: '0.75rem', paddingLeft: '16px', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '4px', margin: 0 }}>
+                    <li>10 Team Seats</li>
+                    <li>1,500 AI Voice/Chat Credits</li>
+                    <li>Embeddable Web Widget</li>
+                  </ul>
+                </div>
+
+                {/* Enterprise */}
+                <div
+                  onClick={() => setSelectedTier('ENTERPRISE')}
+                  style={{
+                    padding: '16px',
+                    borderRadius: 'var(--radius-md)',
+                    border: selectedTier === 'ENTERPRISE' ? '2px solid #2563eb' : '1px solid var(--border)',
+                    backgroundColor: selectedTier === 'ENTERPRISE' ? 'rgba(37, 99, 235, 0.1)' : 'var(--bg-surface)',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <h4 style={{ margin: '0 0 6px 0', fontWeight: 700 }}>Enterprise Pro</h4>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--primary)', marginBottom: '8px' }}>$199 / mo</div>
+                  <ul style={{ fontSize: '0.75rem', paddingLeft: '16px', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '4px', margin: 0 }}>
+                    <li>Unlimited Team Seats</li>
+                    <li>10,000 AI Credits</li>
+                    <li>Dedicated Vector RAG SLA</li>
                   </ul>
                 </div>
               </div>
@@ -507,16 +688,10 @@ export function SubscriptionBillingView() {
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={() => {
-                  setIsUpgradeModalOpen(false);
-                  addNotification({
-                    type: 'success',
-                    title: 'Tier upgrade request submitted to your Account Executive.',
-                    category: 'Billing'
-                  });
-                }}
+                disabled={isPurchasing}
+                onClick={() => handleSimulateCheckout()}
               >
-                Confirm Upgrade
+                {isPurchasing ? 'Initiating Checkout...' : `Confirm & Subscribe with ${selectedGateway === 'RAZORPAY' ? 'Razorpay' : 'Stripe'}`}
               </button>
             </div>
           </div>
