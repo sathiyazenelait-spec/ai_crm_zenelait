@@ -312,3 +312,4 @@ public class VectorRagService {
         public List<String> getSources() { return sources; }
     }
 }
+

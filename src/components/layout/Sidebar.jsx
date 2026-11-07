@@ -1349,6 +1349,7 @@ export function Sidebar() {
           { id: 'whatsapp-hub', label: 'WhatsApp Business API', icon: MessageSquare, badge: 'Live' },
           { id: 'email-copilot', label: 'Email Copilot & Reactivation', icon: Mail },
           { id: 'vector-rag', label: 'TiDB Vector RAG & Widget', icon: Database, badge: 'RAG' },
+          { id: 'accelerators', label: '⚡ Sales Accelerators & Sync', icon: Zap, badge: '5-in-1' },
           { id: 'agent-builder', label: 'Agent Builder', icon: Wrench, adminOnly: true }
         ]
       },

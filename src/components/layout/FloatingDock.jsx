@@ -94,6 +94,7 @@ export function FloatingDock() {
     { id: 'whatsapp-hub', label: 'WhatsApp Hub', icon: MessageSquare },
     { id: 'email-copilot', label: 'Email Copilot', icon: Mail },
     { id: 'vector-rag', label: 'Vector RAG Hub', icon: Database },
+    { id: 'accelerators', label: 'Sales Accelerators', icon: Zap },
     { id: 'automation', label: 'Automation', icon: Zap },
     { id: 'appointments', label: isRealEstateTenant ? 'Site Visits' : currentIndustry.id === 'hospitals' ? 'OPD Slots' : 'Appointments', icon: Calendar },
     { id: 'knowledge-base', label: 'Knowledge Base', icon: BookOpen },

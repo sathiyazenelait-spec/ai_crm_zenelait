@@ -13,3 +13,4 @@ public interface TenantKnowledgeChunkRepository extends JpaRepository<TenantKnow
     long countByTenantId(String tenantId);
     void deleteByTenantId(String tenantId);
 }
+

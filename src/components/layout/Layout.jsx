@@ -108,6 +108,7 @@ import { VoiceAgentView } from '../voice/VoiceAgentView';
 import { WhatsAppOmnichannelHub } from '../whatsapp/WhatsAppOmnichannelHub';
 import { EmailCopilotHub } from '../email/EmailCopilotHub';
 import { VectorRagHub } from '../rag/VectorRagHub';
+import { ProductivityAcceleratorsHub } from '../accelerators/ProductivityAcceleratorsHub';
 
 export function Layout() {
   const {
@@ -1236,6 +1237,11 @@ export function Layout() {
       case 'vector-search':
       case 'widget-embed':
         return <VectorRagHub />;
+      case 'accelerators':
+      case 'productivity-hub':
+      case 'quotations':
+      case 'calendar-sync':
+        return <ProductivityAcceleratorsHub />;
 
       // 17. Reports & Analytics
       case 'reports':

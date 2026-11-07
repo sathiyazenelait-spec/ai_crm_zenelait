@@ -13,3 +13,4 @@ public interface LeadVectorSignatureRepository extends JpaRepository<LeadVectorS
     Optional<LeadVectorSignature> findByTenantIdAndLeadId(String tenantId, String leadId);
     void deleteByTenantIdAndLeadId(String tenantId, String leadId);
 }
+

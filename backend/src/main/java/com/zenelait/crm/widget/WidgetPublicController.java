@@ -48,3 +48,4 @@ public class WidgetPublicController {
         return ResponseEntity.ok(widgetService.captureWidgetLead(tenantId, name, email, phone, company, message));
     }
 }
+

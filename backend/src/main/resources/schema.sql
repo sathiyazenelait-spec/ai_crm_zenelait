@@ -1725,3 +1725,62 @@ CREATE TABLE IF NOT EXISTS tenant_subscriptions (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+-- ===================================================================
+-- PRODUCTIVITY ACCELERATORS: PROPOSALS, CALENDAR SYNC & WORKFLOWS
+-- ===================================================================
+
+-- 4. Quotations & E-Sign Proposals
+CREATE TABLE IF NOT EXISTS quotations (
+    id VARCHAR(64) PRIMARY KEY,
+    tenant_id VARCHAR(50) NOT NULL,
+    deal_id VARCHAR(64),
+    lead_id VARCHAR(64),
+    client_name VARCHAR(150) NOT NULL,
+    client_email VARCHAR(150) NOT NULL,
+    company_name VARCHAR(150),
+    items_json TEXT NOT NULL,
+    subtotal DOUBLE DEFAULT 0.0,
+    tax_rate DOUBLE DEFAULT 18.0,
+    tax_amount DOUBLE DEFAULT 0.0,
+    discount_amount DOUBLE DEFAULT 0.0,
+    total_amount DOUBLE DEFAULT 0.0,
+    currency VARCHAR(10) DEFAULT 'USD',
+    status VARCHAR(30) DEFAULT 'DRAFT', -- DRAFT, SENT, VIEWED, SIGNED, EXPIRED
+    digital_signature_data TEXT,
+    signed_at TIMESTAMP NULL,
+    expires_at TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_quote_tenant (tenant_id, status)
+);
+
+-- 5. User Calendar Sync Integrations (Google, Outlook, iCal)
+CREATE TABLE IF NOT EXISTS calendar_sync_integrations (
+    id VARCHAR(64) PRIMARY KEY,
+    tenant_id VARCHAR(50) NOT NULL,
+    user_id VARCHAR(64) NOT NULL,
+    provider VARCHAR(30) DEFAULT 'GOOGLE', -- GOOGLE, OUTLOOK, ICAL
+    sync_email VARCHAR(150),
+    access_token TEXT,
+    refresh_token TEXT,
+    is_active BOOLEAN DEFAULT TRUE,
+    auto_meet_link BOOLEAN DEFAULT TRUE,
+    last_sync_at TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_cal_sync (tenant_id, user_id)
+);
+
+-- 6. Visual Workflow Definitions
+CREATE TABLE IF NOT EXISTS visual_workflow_definitions (
+    id VARCHAR(64) PRIMARY KEY,
+    tenant_id VARCHAR(50) NOT NULL,
+    name VARCHAR(150) NOT NULL,
+    description TEXT,
+    trigger_event VARCHAR(60) NOT NULL,
+    nodes_json MEDIUMTEXT NOT NULL,
+    edges_json MEDIUMTEXT NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    total_executions INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
