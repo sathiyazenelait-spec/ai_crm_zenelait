@@ -273,7 +273,7 @@ export function Header() {
       </div>
 
       {/* Middle: Search Input */}
-      <div className="search-bar-wrapper" style={{ flex: 1, maxWidth: '460px' }}>
+      <div className="search-bar-wrapper" style={{ flex: 1, maxWidth: '300px' }}>
         <Search size={15} />
         <input
           type="text"
@@ -443,17 +443,24 @@ export function Header() {
               '#2563eb',
             border: '1px solid currentColor',
             fontSize: '0.72rem',
-            padding: '4px 10px',
+            padding: '4px 8px',
             display: 'flex',
             alignItems: 'center',
-            gap: '5px',
-            fontWeight: 700
+            gap: '4px',
+            fontWeight: 700,
+            whiteSpace: 'nowrap',
+            flexShrink: 0
           }}
           title={currentRolePermissions?.canSwitchRoles ? "Click to Switch Role Persona (Admin)" : `Assigned Role: ${currentUserRole}`}
         >
-          <Shield size={12} />
-          <span>Role: {currentUserRole}</span>
-          {currentRolePermissions?.canSwitchRoles && <ChevronDown size={11} />}
+          <Shield size={12} style={{ flexShrink: 0 }} />
+          <span style={{ maxWidth: '120px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {currentUserRole === 'Ultra Super Admin' ? 'Ultra Admin' :
+             currentUserRole === 'Platform Super Admin' ? 'Platform Admin' :
+             currentUserRole === 'Company Owner / Company Admin' ? 'Company Admin' :
+             currentUserRole.replace('Company Owner / ', '')}
+          </span>
+          {currentRolePermissions?.canSwitchRoles && <ChevronDown size={11} style={{ flexShrink: 0 }} />}
         </div>
 
         {/* User Profile Pill */}

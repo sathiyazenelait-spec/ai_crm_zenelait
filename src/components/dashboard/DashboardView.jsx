@@ -763,12 +763,12 @@ export function DashboardView() {
             <table className="crm-table">
               <thead>
                 <tr>
-                  <th>Customer</th>
-                  <th>Channel</th>
-                  <th>Last Message</th>
-                  <th>Status</th>
-                  <th>Assigned To</th>
-                  <th>Time</th>
+                  <th style={{ width: '22%' }}>Customer</th>
+                  <th style={{ width: '12%' }}>Channel</th>
+                  <th style={{ width: '30%' }}>Last Message</th>
+                  <th style={{ width: '14%' }}>Status</th>
+                  <th style={{ width: '14%' }}>Assigned To</th>
+                  <th style={{ width: '8%' }}>Time</th>
                 </tr>
               </thead>
               <tbody>
@@ -779,31 +779,31 @@ export function DashboardView() {
                       onClick={() => navigateTo('conversations')}
                       style={{ cursor: 'pointer' }}
                     >
-                      <td>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                          <div className="avatar avatar-sm">
+                      <td style={{ whiteSpace: 'nowrap' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <div className="avatar avatar-sm" style={{ flexShrink: 0 }}>
                             {getInitials(conv.customer)}
                           </div>
                           <span style={{ fontWeight: 600, color: 'var(--text-main)' }}>{conv.customer}</span>
                         </div>
                       </td>
-                      <td>{getChannelBadge(conv.channel)}</td>
-                      <td style={{ maxWidth: '220px' }}>
-                        <span className="truncate" style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
+                      <td style={{ whiteSpace: 'nowrap' }}>{getChannelBadge(conv.channel)}</td>
+                      <td style={{ maxWidth: '240px' }}>
+                        <span style={{ display: 'block', maxWidth: '230px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
                           {conv.lastMessage}
                         </span>
                       </td>
-                      <td>
-                        <span className={`badge ${getStatusBadgeClass(conv.status)}`}>
+                      <td style={{ whiteSpace: 'nowrap' }}>
+                        <span className={`badge ${getStatusBadgeClass(conv.status)}`} style={{ whiteSpace: 'nowrap', display: 'inline-block' }}>
                           {conv.status}
                         </span>
                       </td>
-                      <td>
-                        <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                      <td style={{ whiteSpace: 'nowrap' }}>
+                        <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', display: 'inline-block' }}>
                           {conv.assignedTo}
                         </span>
                       </td>
-                      <td>
+                      <td style={{ whiteSpace: 'nowrap' }}>
                         <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                           {conv.time}
                         </span>

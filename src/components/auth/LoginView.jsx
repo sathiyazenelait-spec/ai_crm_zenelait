@@ -17,6 +17,49 @@ import {
 import { RegisterModal } from './RegisterModal';
 import { api } from '../../services/api';
 
+const PERSONA_CATEGORIES = [
+  {
+    id: 'admins',
+    label: '👑 Admins',
+    personas: [
+      { name: 'Ultra Super Admin', role: 'Ultra Super Admin', email: 'root@zenelait.ai', tag: 'Platform Root God Mode', color: '#d97706' },
+      { name: 'Platform Admin', role: 'Platform Super Admin', email: 'superadmin@zenelait.ai', tag: 'Fleet Manager', color: '#8b5cf6' },
+      { name: 'Company Admin (IT)', role: 'Company Owner / Company Admin', email: 'admin@abctech.com', tag: 'ABC Technologies', color: '#2563eb' },
+      { name: 'Company Admin (Realty)', role: 'Company Owner / Company Admin', email: 'sales@skylineprops.com', tag: 'Skyline Properties', color: '#10b981' }
+    ]
+  },
+  {
+    id: 'sales',
+    label: '💼 Sales Staff',
+    personas: [
+      { name: 'Sales Manager', role: 'Sales Manager', email: 'rahul@abctech.com', tag: 'Deals & Pipeline', color: '#0284c7' },
+      { name: 'Sales Representative', role: 'Sales Representative', email: 'anita@abctech.com', tag: 'SDR Outreach', color: '#3b82f6' },
+      { name: 'Admission Exec', role: 'Admission Executive', email: 'admission.mgr@abctraining.com', tag: 'Education Hub', color: '#8b5cf6' },
+      { name: 'Broker Representative', role: 'Sales Representative', email: 'vikrant@skylineprops.com', tag: 'Real Estate SDR', color: '#10b981' }
+    ]
+  },
+  {
+    id: 'staffs',
+    label: '🎧 Staffs',
+    personas: [
+      { name: 'Support Manager', role: 'Customer Support Manager', email: 'priya.support@abctech.com', tag: 'Helpdesk Lead', color: '#10b981' },
+      { name: 'Support Agent', role: 'Customer Support Agent', email: 'karthik.agent@abctech.com', tag: 'Tickets & Live Chat', color: '#06b6d4' },
+      { name: 'Marketing Manager', role: 'Marketing Specialist', email: 'sneha.marketing@abctech.com', tag: 'Campaigns & ROI', color: '#f59e0b' },
+      { name: 'BI Analyst', role: 'Analyst / Viewer', email: 'arjun.analyst@abctech.com', tag: 'Reports & Funnel', color: '#64748b' }
+    ]
+  },
+  {
+    id: 'ai',
+    label: '🤖 AI Employees',
+    personas: [
+      { name: 'Aria (AI SDR)', role: 'AI Autonomous SDR', email: 'aria.sdr@zenelait.ai', tag: 'Voice Calls & Qualifier', color: '#3b82f6' },
+      { name: 'Vikram (AI Spec)', role: 'AI Sales Specialist', email: 'vikram.ai@zenelait.ai', tag: 'WhatsApp & Catalog', color: '#10b981' },
+      { name: 'Maya (AI Reception)', role: 'AI Receptionist', email: 'maya.reception@zenelait.ai', tag: '24/7 Desk Triage', color: '#06b6d4' },
+      { name: 'Kavita (AI Support)', role: 'AI Support Specialist', email: 'kavita.support@zenelait.ai', tag: 'Instant Resolution', color: '#8b5cf6' }
+    ]
+  }
+];
+
 export function LoginView() {
   const {
     login,
@@ -38,6 +81,13 @@ export function LoginView() {
   const [resetSent, setResetSent] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [registerMode, setRegisterMode] = useState('register');
+  const [activePersonaCategory, setActivePersonaCategory] = useState('admins');
+
+  const handleSelectPersona = (p) => {
+    setEmail(p.email);
+    setPassword('Password@123');
+    setSelectedRole(p.role);
+  };
 
   // Dynamic Real-Time Smart Tenant & Credential Detector
   const detectedAuth = useMemo(() => {
@@ -191,13 +241,93 @@ export function LoginView() {
             </div>
 
             {/* Title */}
-            <div style={{ marginBottom: '16px' }}>
-              <h1 style={{ fontSize: '1.3rem', fontWeight: 800, margin: '0 0 4px 0', color: 'var(--text-main)' }}>
+            <div style={{ marginBottom: '14px' }}>
+              <h1 style={{ fontSize: '1.25rem', fontWeight: 800, margin: '0 0 4px 0', color: 'var(--text-main)' }}>
                 Sign in to your Company Workspace
               </h1>
-              <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: 0 }}>
-                Enter your company business email and password to access your secure dashboard.
+              <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', margin: 0 }}>
+                Select a test persona or enter your business email and password.
               </p>
+            </div>
+
+            {/* Persona Quick-Switch Tabs */}
+            <div style={{ marginBottom: '14px', padding: '10px 12px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                <span style={{ fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--text-secondary)', letterSpacing: '0.5px' }}>
+                  Quick Persona Switcher
+                </span>
+                <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>
+                  Password auto-fills (Password@123)
+                </span>
+              </div>
+
+              {/* Category tabs */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4px', marginBottom: '8px' }}>
+                {PERSONA_CATEGORIES.map((cat) => (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => setActivePersonaCategory(cat.id)}
+                    className="btn btn-xs"
+                    style={{
+                      padding: '4px 2px',
+                      fontSize: '0.68rem',
+                      fontWeight: 700,
+                      backgroundColor: activePersonaCategory === cat.id ? 'var(--primary)' : 'transparent',
+                      color: activePersonaCategory === cat.id ? '#ffffff' : 'var(--text-secondary)',
+                      border: activePersonaCategory === cat.id ? 'none' : '1px solid var(--border)',
+                      borderRadius: 'var(--radius-sm)'
+                    }}
+                  >
+                    {cat.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Persona pills */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
+                {PERSONA_CATEGORIES.find(c => c.id === activePersonaCategory)?.personas.map((p) => {
+                  const isSelected = email.toLowerCase() === p.email.toLowerCase();
+                  return (
+                    <div
+                      key={p.email}
+                      onClick={() => handleSelectPersona(p)}
+                      style={{
+                        padding: '6px 8px',
+                        borderRadius: 'var(--radius-sm)',
+                        backgroundColor: isSelected ? 'rgba(37, 99, 235, 0.12)' : 'var(--bg-main)',
+                        border: isSelected ? '1px solid var(--primary)' : '1px solid var(--border)',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '2px',
+                        transition: 'all 0.15s'
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-main)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          {p.name}
+                        </span>
+                        <span
+                          style={{
+                            fontSize: '0.6rem',
+                            padding: '1px 4px',
+                            borderRadius: '3px',
+                            backgroundColor: `${p.color}20`,
+                            color: p.color,
+                            fontWeight: 700
+                          }}
+                        >
+                          Select
+                        </span>
+                      </div>
+                      <span style={{ fontSize: '0.64rem', color: 'var(--text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {p.tag}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Authentication Form */}

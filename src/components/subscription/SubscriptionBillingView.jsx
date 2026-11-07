@@ -213,14 +213,25 @@ export function SubscriptionBillingView() {
 
         <div style={{ display: 'flex', gap: '10px' }}>
           {isUltraAdmin ? (
-            <button
-              className="btn btn-secondary"
-              onClick={() => navigateTo('platform-admin')}
-              style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-            >
-              <Building size={15} />
-              <span>Platform Multi-Tenant Hub</span>
-            </button>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <button
+                className="btn btn-primary"
+                onClick={() => setIsUpgradeModalOpen(true)}
+                title="Application Owner & Ultra Super Admin: Update Platform Plan & Tier Entitlements"
+                style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: '#3b82f6', color: '#fff', border: 'none', fontWeight: 700 }}
+              >
+                <Sparkles size={15} />
+                <span>Update Subscriptions & Plans</span>
+              </button>
+              <button
+                className="btn btn-secondary"
+                onClick={() => navigateTo('platform-admin')}
+                style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+              >
+                <Building size={15} />
+                <span>Platform Multi-Tenant Hub</span>
+              </button>
+            </div>
           ) : (
             <button
               className="btn btn-primary"

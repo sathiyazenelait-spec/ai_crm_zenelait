@@ -52,6 +52,7 @@ import {
   AlertCircle,
   HelpCircle,
   ChevronRight,
+  ChevronDown,
   ArrowUpRight
 } from 'lucide-react';
 
@@ -88,6 +89,7 @@ export function PlatformAdminView() {
 
   const [industryFilter, setIndustryFilter] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [showAllVerticals, setShowAllVerticals] = useState(false);
 
   // Quota editor modal state
   const [editingTenant, setEditingTenant] = useState(null);
@@ -491,6 +493,26 @@ export function PlatformAdminView() {
           {/* Quick Platform Master Action Buttons */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
             <button
+              className="btn btn-primary btn-sm"
+              onClick={() => setActiveNav('tenant-subscriptions')}
+              title="Application Owner & Ultra Super Admin: Update Subscriptions, Plans & AI Credits"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                fontSize: '0.78rem',
+                backgroundColor: '#3b82f6',
+                color: '#ffffff',
+                border: 'none',
+                fontWeight: 700,
+                boxShadow: '0 2px 8px rgba(59, 130, 246, 0.35)'
+              }}
+            >
+              <CreditCard size={13} />
+              <span>Update Subscriptions & Plans</span>
+            </button>
+
+            <button
               className="btn btn-secondary btn-sm"
               onClick={loadAllPlatformData}
               title="Refresh all metrics from live backend"
@@ -702,78 +724,82 @@ export function PlatformAdminView() {
           {activeNav === 'overview' && (
             <div>
               {/* Top 4 KPI Metrics */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '20px' }}>
-                <div className="crm-card" style={{ padding: '20px' }}>
-                  <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '6px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', marginBottom: '20px' }}>
+                <div className="crm-card" style={{ padding: '16px 18px' }}>
+                  <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '4px' }}>
                     Total Active MRR
                   </div>
-                  <div style={{ fontSize: '1.65rem', fontWeight: 800, color: '#10b981' }}>
-                    {revenueOverview?.mrrFormatted || '₹18,50,000 / mo'}
+                  <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#10b981', display: 'flex', alignItems: 'baseline', gap: '4px', flexWrap: 'wrap', lineHeight: 1.25 }}>
+                    <span>{revenueOverview?.mrrFormatted ? revenueOverview.mrrFormatted.replace(' / mo', '') : '₹18,50,000'}</span>
+                    <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--text-secondary)' }}>/ mo</span>
                   </div>
-                  <div style={{ fontSize: '0.72rem', color: '#10b981', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <div style={{ fontSize: '0.72rem', color: '#10b981', marginTop: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <TrendingUp size={12} /> {revenueOverview?.monthlyGrowthRate || '+14.8%'} MoM Growth
                   </div>
                 </div>
 
-                <div className="crm-card" style={{ padding: '20px' }}>
-                  <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '6px' }}>
+                <div className="crm-card" style={{ padding: '16px 18px' }}>
+                  <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '4px' }}>
                     Projected ARR
                   </div>
-                  <div style={{ fontSize: '1.65rem', fontWeight: 800, color: '#3b82f6' }}>
-                    {revenueOverview?.arrFormatted || '₹2,22,00,000 / yr'}
+                  <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#3b82f6', display: 'flex', alignItems: 'baseline', gap: '4px', flexWrap: 'wrap', lineHeight: 1.25 }}>
+                    <span>{revenueOverview?.arrFormatted ? revenueOverview.arrFormatted.replace(' / yr', '') : '₹2,22,00,000'}</span>
+                    <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--text-secondary)' }}>/ yr</span>
                   </div>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: '6px' }}>
                     Across 9 Industry Verticals
                   </div>
                 </div>
 
-                <div className="crm-card" style={{ padding: '20px' }}>
-                  <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '6px' }}>
+                <div className="crm-card" style={{ padding: '16px 18px' }}>
+                  <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '4px' }}>
                     Subscribed Tenants
                   </div>
-                  <div style={{ fontSize: '1.65rem', fontWeight: 800, color: '#d97706' }}>
-                    {tenants.length} Companies
+                  <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#d97706', display: 'flex', alignItems: 'baseline', gap: '5px', lineHeight: 1.25 }}>
+                    <span>{tenants.length}</span>
+                    <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-main)' }}>Companies</span>
                   </div>
-                  <div style={{ fontSize: '0.72rem', color: '#10b981', marginTop: '4px' }}>
+                  <div style={{ fontSize: '0.72rem', color: '#10b981', marginTop: '6px' }}>
                     100% Isolated Databases
                   </div>
                 </div>
 
-                <div className="crm-card" style={{ padding: '20px' }}>
-                  <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '6px' }}>
+                <div className="crm-card" style={{ padding: '16px 18px' }}>
+                  <div style={{ fontSize: '0.7rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '4px' }}>
                     Autonomous AI Fleet
                   </div>
-                  <div style={{ fontSize: '1.65rem', fontWeight: 800, color: '#8b5cf6' }}>
-                    {totalAIEmployees} Live Agents
+                  <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#8b5cf6', display: 'flex', alignItems: 'baseline', gap: '5px', lineHeight: 1.25 }}>
+                    <span>{totalAIEmployees}</span>
+                    <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-main)' }}>Live Agents</span>
                   </div>
-                  <div style={{ fontSize: '0.72rem', color: '#10b981', marginTop: '4px' }}>
+                  <div style={{ fontSize: '0.72rem', color: '#10b981', marginTop: '6px' }}>
                     99.98% Model Uptime
                   </div>
                 </div>
               </div>
 
-              {/* 9 Industry Verticals Quick Launch Matrix */}
+              {/* 9 Industry Verticals Quick Launch Matrix with 6-card View More toggle */}
               <div className="crm-card" style={{ padding: '20px', marginBottom: '20px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '8px' }}>
                   <div>
-                    <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 800 }}>The 9 Industry Tenant Applications</h3>
-                    <p style={{ margin: '4px 0 0 0', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                    <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 800 }}>The 9 Industry Tenant Applications</h3>
+                    <p style={{ margin: '3px 0 0 0', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
                       Each tenant vertical runs isolated CRM pipelines, specialized AI employees, and industry workflows.
                     </p>
                   </div>
                   <button className="btn btn-secondary btn-xs" onClick={() => setActiveNav('tenants')}>
-                    View Full Fleet
+                    View Full Fleet ({tenants.length})
                   </button>
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
-                  {VERTICALS.map((v) => {
+                  {(showAllVerticals ? VERTICALS : VERTICALS.slice(0, 6)).map((v) => {
                     const count = tenants.filter(t => t.industryId === v.id.toLowerCase() || t.industry === v.id).length;
                     return (
                       <div
                         key={v.id}
                         style={{
-                          padding: '14px',
+                          padding: '12px 14px',
                           borderRadius: 'var(--radius-md)',
                           backgroundColor: 'var(--bg-surface)',
                           border: `1px solid var(--border)`,
@@ -781,17 +807,17 @@ export function PlatformAdminView() {
                         }}
                       >
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-                          <span style={{ fontWeight: 800, fontSize: '0.9rem', color: 'var(--text-main)' }}>{v.name}</span>
-                          <span className="badge badge-primary" style={{ fontSize: '0.68rem' }}>{count} Active</span>
+                          <span style={{ fontWeight: 800, fontSize: '0.85rem', color: 'var(--text-main)' }}>{v.name}</span>
+                          <span className="badge badge-primary" style={{ fontSize: '0.65rem' }}>{count} Active</span>
                         </div>
-                        <p style={{ margin: '0 0 8px 0', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{v.desc}</p>
+                        <p style={{ margin: '0 0 8px 0', fontSize: '0.72rem', color: 'var(--text-secondary)', lineHeight: 1.4 }}>{v.desc}</p>
                         <button
                           className="btn btn-ghost btn-xs"
                           onClick={() => {
                             setIndustryFilter(v.name);
                             setActiveNav('tenants');
                           }}
-                          style={{ padding: '2px 6px', fontSize: '0.72rem', color: v.color }}
+                          style={{ padding: '2px 6px', fontSize: '0.7rem', color: v.color }}
                         >
                           <span>Manage Tenants</span>
                           <ArrowRight size={11} style={{ marginLeft: '4px' }} />
@@ -800,6 +826,19 @@ export function PlatformAdminView() {
                     );
                   })}
                 </div>
+
+                {VERTICALS.length > 6 && (
+                  <div className="grid-view-more-bar">
+                    <button
+                      className="btn btn-secondary btn-sm"
+                      onClick={() => setShowAllVerticals(!showAllVerticals)}
+                      style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.78rem', padding: '6px 16px' }}
+                    >
+                      <span>{showAllVerticals ? 'Show Less (First 6)' : `View All ${VERTICALS.length} Industry Verticals (${VERTICALS.length - 6} more)`}</span>
+                      <ChevronDown size={14} style={{ transform: showAllVerticals ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
+                    </button>
+                  </div>
+                )}
               </div>
 
               {/* Recent Invoices & Gateway Health Overview */}
@@ -1305,6 +1344,7 @@ export function PlatformAdminView() {
                       <th>Contract Value</th>
                       <th>Renewal Date</th>
                       <th>Status</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1319,6 +1359,17 @@ export function PlatformAdminView() {
                         <td style={{ fontWeight: 700, color: '#10b981' }}>{t.mrr || '₹7,999/mo'}</td>
                         <td>Nov 28, 2027</td>
                         <td><span className="badge badge-qualified">Active</span></td>
+                        <td>
+                          <button
+                            className="btn btn-primary btn-xs"
+                            onClick={() => openQuotaModal(t)}
+                            title="Application Owner & Ultra Super Admin: Update Subscription, Limits & Tier"
+                            style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.72rem', padding: '4px 10px', backgroundColor: '#3b82f6', color: '#fff', border: 'none', fontWeight: 700 }}
+                          >
+                            <Sliders size={12} />
+                            <span>Update Subscription</span>
+                          </button>
+                        </td>
                       </tr>
                     ))}
                   </tbody>

@@ -26,6 +26,7 @@ export function AIAgentsView() {
   const { aiAgents, setActiveModal, currentIndustry, navigateTo } = useCRM();
   const [viewMode, setViewMode] = useState('workstation'); // 'workstation' | 'roster'
   const [expandedAgentId, setExpandedAgentId] = useState(null);
+  const [showAllAgents, setShowAllAgents] = useState(false);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -130,8 +131,8 @@ export function AIAgentsView() {
           </div>
 
           {/* Agents Cards Grid */}
-          <div className="grid-3" style={{ marginBottom: '24px' }}>
-            {aiAgents.map((agent) => (
+          <div className="grid-3" style={{ marginBottom: '16px' }}>
+            {(showAllAgents ? aiAgents : aiAgents.slice(0, 6)).map((agent) => (
               <div key={agent.id} className="agent-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
                   <div className="agent-card-header">
@@ -329,6 +330,19 @@ export function AIAgentsView() {
               </div>
             ))}
           </div>
+
+          {aiAgents.length > 6 && (
+            <div className="grid-view-more-bar" style={{ marginBottom: '24px' }}>
+              <button
+                className="btn btn-secondary btn-sm"
+                onClick={() => setShowAllAgents(!showAllAgents)}
+                style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', padding: '6px 16px' }}
+              >
+                <span>{showAllAgents ? 'Show Less (First 6)' : `View All ${aiAgents.length} Agents (${aiAgents.length - 6} more)`}</span>
+                <ChevronDown size={14} style={{ transform: showAllAgents ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>
