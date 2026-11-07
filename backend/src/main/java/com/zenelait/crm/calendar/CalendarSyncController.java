@@ -61,3 +61,4 @@ public class CalendarSyncController {
         return ResponseEntity.ok().headers(headers).body(icsContent);
     }
 }
+

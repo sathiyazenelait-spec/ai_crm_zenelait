@@ -36,3 +36,4 @@ public class VisualWorkflowController {
         return ResponseEntity.ok(workflowService.executeWorkflowTest(id));
     }
 }
+

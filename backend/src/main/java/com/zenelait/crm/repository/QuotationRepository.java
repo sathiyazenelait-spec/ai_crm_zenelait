@@ -12,3 +12,4 @@ public interface QuotationRepository extends JpaRepository<Quotation, String> {
     List<Quotation> findByTenantIdAndStatus(String tenantId, String status);
     List<Quotation> findByDealId(String dealId);
 }
+

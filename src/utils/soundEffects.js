@@ -72,3 +72,4 @@ export async function sendDesktopAlert(title, body, icon = '🔔') {
   }
   return false;
 }
+

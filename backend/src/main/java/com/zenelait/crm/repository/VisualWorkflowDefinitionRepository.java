@@ -11,3 +11,4 @@ public interface VisualWorkflowDefinitionRepository extends JpaRepository<Visual
     List<VisualWorkflowDefinition> findByTenantId(String tenantId);
     List<VisualWorkflowDefinition> findByTenantIdAndIsActiveTrue(String tenantId);
 }
+

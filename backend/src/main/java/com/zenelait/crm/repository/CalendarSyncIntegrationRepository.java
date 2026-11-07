@@ -13,3 +13,4 @@ public interface CalendarSyncIntegrationRepository extends JpaRepository<Calenda
     Optional<CalendarSyncIntegration> findByTenantIdAndUserIdAndProvider(String tenantId, String userId, String provider);
     List<CalendarSyncIntegration> findByUserId(String userId);
 }
+
