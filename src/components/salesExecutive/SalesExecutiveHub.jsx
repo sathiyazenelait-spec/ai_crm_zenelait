@@ -1523,7 +1523,7 @@ export function SalesExecutiveHub({ initialSubTab = 'cockpit' }) {
                       Cancel
                     </button>
                     <button type="submit" className="btn btn-primary btn-sm">
-                      Save Demo Outcome & Advance
+                      Save Outcome
                     </button>
                   </div>
                 </div>
@@ -1708,7 +1708,7 @@ export function SalesExecutiveHub({ initialSubTab = 'cockpit' }) {
                     Cancel
                   </button>
                   <button type="submit" className="btn btn-primary btn-sm">
-                    Submit Proposal & Request Sign-off
+                    Submit Proposal
                   </button>
                 </div>
               </form>

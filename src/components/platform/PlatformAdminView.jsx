@@ -505,11 +505,12 @@ export function PlatformAdminView() {
                 color: '#ffffff',
                 border: 'none',
                 fontWeight: 700,
-                boxShadow: '0 2px 8px rgba(59, 130, 246, 0.35)'
+                boxShadow: '0 2px 8px rgba(59, 130, 246, 0.35)',
+                whiteSpace: 'nowrap'
               }}
             >
               <CreditCard size={13} />
-              <span>Update Subscriptions & Plans</span>
+              <span>Update Plans</span>
             </button>
 
             <button

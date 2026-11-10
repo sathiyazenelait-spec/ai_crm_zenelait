@@ -221,6 +221,8 @@ button, input[type="button"], input[type="submit"], input[type="reset"] {
   text-decoration: none;
   font-family: inherit;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   max-width: 100%;
   box-sizing: border-box;
   text-align: center;
@@ -233,6 +235,8 @@ button, input[type="button"], input[type="submit"], input[type="reset"] {
 
 .btn span, button span {
   min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Utilities for gracefully handling overextended button text */

@@ -191,7 +191,7 @@ export function PublicLandingPage() {
               setRegisterModalMode('register');
               setIsRegisterOpen(true);
             }}
-            style={{ fontWeight: 700, padding: '8px 14px', fontSize: '0.82rem' }}
+            style={{ fontWeight: 700, padding: '6px 12px', fontSize: '0.8rem' }}
           >
             Register
           </button>
@@ -200,9 +200,9 @@ export function PublicLandingPage() {
             type="button"
             className="btn btn-secondary btn-sm"
             onClick={() => setViewMode('login')}
-            style={{ fontWeight: 700, padding: '8px 16px', fontSize: '0.82rem' }}
+            style={{ fontWeight: 700, padding: '6px 14px', fontSize: '0.8rem' }}
           >
-            Sign In / Login
+            Sign In
           </button>
 
           {/* Enquire / Get Software CTA */}
@@ -213,10 +213,10 @@ export function PublicLandingPage() {
               setRegisterModalMode('enquiry');
               setIsRegisterOpen(true);
             }}
-            style={{ fontWeight: 700, padding: '8px 18px', fontSize: '0.82rem', display: 'flex', alignItems: 'center', gap: '6px' }}
+            style={{ fontWeight: 700, padding: '6px 14px', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '6px' }}
           >
-            <span>Get Software / Enquire</span>
-            <ArrowRight size={14} />
+            <span>Get Started</span>
+            <ArrowRight size={13} />
           </button>
         </div>
       </header>
@@ -312,30 +312,30 @@ export function PublicLandingPage() {
         </p>
 
         {/* Hero Action Buttons */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', justifyContent: 'center', marginBottom: '44px', position: 'relative', zIndex: 1 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center', marginBottom: '40px', position: 'relative', zIndex: 1 }}>
           <button
             type="button"
             className="btn btn-primary"
-            style={{ padding: '14px 28px', fontSize: '0.95rem', fontWeight: 700, borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 8px 24px rgba(37, 99, 235, 0.35)' }}
+            style={{ padding: '10px 20px', fontSize: '0.875rem', fontWeight: 700, borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 6px 20px rgba(37, 99, 235, 0.35)' }}
             onClick={() => setViewMode('login')}
           >
-            <span>Sign In with Company Credentials</span>
-            <ArrowRight size={17} />
+            <span>Sign In to Workspace</span>
+            <ArrowRight size={15} />
           </button>
 
           <a
             href="#industries-showcase"
             className="btn btn-secondary"
-            style={{ padding: '14px 24px', fontSize: '0.95rem', fontWeight: 600, borderRadius: 'var(--radius-md)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}
+            style={{ padding: '10px 18px', fontSize: '0.875rem', fontWeight: 600, borderRadius: 'var(--radius-md)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}
           >
-            <Building2 size={17} />
-            <span>Explore 9 Company Workspaces</span>
+            <Building2 size={15} />
+            <span>Explore 9 Workspaces</span>
           </a>
 
           <button
             type="button"
             className="btn btn-ghost"
-            style={{ padding: '14px 20px', fontSize: '0.95rem', fontWeight: 600, color: '#d97706', display: 'flex', alignItems: 'center', gap: '6px' }}
+            style={{ padding: '10px 16px', fontSize: '0.875rem', fontWeight: 600, color: '#d97706', display: 'flex', alignItems: 'center', gap: '6px' }}
             onClick={() => {
               login({
                 name: 'Master Chief (God Mode)',
@@ -345,8 +345,8 @@ export function PublicLandingPage() {
               });
             }}
           >
-            <Crown size={16} />
-            <span>Ultra Super Admin Mode</span>
+            <Crown size={15} />
+            <span>👑 Launch God Mode</span>
           </button>
         </div>
 
@@ -697,8 +697,8 @@ export function PublicLandingPage() {
               className="btn btn-primary"
               style={{
                 width: '100%',
-                padding: '12px 18px',
-                fontSize: '0.9rem',
+                padding: '10px 16px',
+                fontSize: '0.85rem',
                 fontWeight: 700,
                 display: 'flex',
                 alignItems: 'center',
@@ -708,8 +708,8 @@ export function PublicLandingPage() {
               }}
               onClick={() => handleLaunchCompanyDashboard(currentTenant.id, currentPreset.id, currentTenant.hrContact)}
             >
-              <span>Open {currentTenant.name} Dashboard</span>
-              <ArrowRight size={16} />
+              <span>Launch {currentTenant.name ? (currentTenant.name.length > 18 ? currentTenant.name.substring(0, 16) + '...' : currentTenant.name) : 'Workspace'}</span>
+              <ArrowRight size={15} />
             </button>
           </div>
 
@@ -1001,7 +1001,15 @@ export function PublicLandingPage() {
                 <button
                   type="button"
                   className={`btn ${plan.popular ? 'btn-primary' : 'btn-secondary'}`}
-                  style={{ width: '100%', padding: '10px 14px', fontSize: '0.85rem', fontWeight: 700 }}
+                  style={{
+                    width: '100%',
+                    padding: '9px 12px',
+                    fontSize: '0.825rem',
+                    fontWeight: 700,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                  }}
                   onClick={() => {
                     if (plan.isGodMode) {
                       login({
@@ -1016,7 +1024,7 @@ export function PublicLandingPage() {
                     }
                   }}
                 >
-                  {plan.isGodMode ? '👑 Launch God Mode' : `Register Tenant with ${plan.name} (₹0)`}
+                  {plan.isGodMode ? '👑 Launch God Mode' : 'Start Free Trial (₹0)'}
                 </button>
               </div>
             ))}
@@ -1100,15 +1108,15 @@ export function PublicLandingPage() {
               <button
                 type="button"
                 className="btn btn-primary btn-sm"
-                style={{ width: '100%', marginBottom: '8px' }}
+                style={{ width: '100%', marginBottom: '8px', fontSize: '0.8rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                 onClick={() => setViewMode('login')}
               >
-                Sign In to Company Dashboard
+                Sign In to Dashboard
               </button>
               <button
                 type="button"
                 className="btn btn-ghost btn-sm"
-                style={{ width: '100%', color: '#d97706', fontSize: '0.75rem' }}
+                style={{ width: '100%', color: '#d97706', fontSize: '0.75rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                 onClick={() => {
                   login({
                     name: 'Master Chief (God Mode)',
@@ -1118,7 +1126,7 @@ export function PublicLandingPage() {
                   });
                 }}
               >
-                👑 Ultra God Mode Master
+                👑 Launch God Mode
               </button>
             </div>
           </div>

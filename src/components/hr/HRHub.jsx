@@ -1046,7 +1046,7 @@ export function HRHub({ initialSubTab = 'employees' }) {
 
               <div className="crm-modal-footer">
                 <button type="button" className="btn btn-secondary" onClick={() => setShowAddEmpModal(false)}>Cancel</button>
-                <button type="submit" className="btn btn-primary">Create Employee & Start Onboarding</button>
+                <button type="submit" className="btn btn-primary">Create Employee</button>
               </div>
             </form>
           </div>

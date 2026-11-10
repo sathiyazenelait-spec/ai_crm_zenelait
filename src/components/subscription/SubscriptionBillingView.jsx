@@ -218,18 +218,18 @@ export function SubscriptionBillingView() {
                 className="btn btn-primary"
                 onClick={() => setIsUpgradeModalOpen(true)}
                 title="Application Owner & Ultra Super Admin: Update Platform Plan & Tier Entitlements"
-                style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: '#3b82f6', color: '#fff', border: 'none', fontWeight: 700 }}
+                style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: '#3b82f6', color: '#fff', border: 'none', fontWeight: 700, whiteSpace: 'nowrap' }}
               >
                 <Sparkles size={15} />
-                <span>Update Subscriptions & Plans</span>
+                <span>Update Plans</span>
               </button>
               <button
                 className="btn btn-secondary"
                 onClick={() => navigateTo('platform-admin')}
-                style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+                style={{ display: 'flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' }}
               >
                 <Building size={15} />
-                <span>Platform Multi-Tenant Hub</span>
+                <span>Platform Hub</span>
               </button>
             </div>
           ) : (
@@ -701,8 +701,9 @@ export function SubscriptionBillingView() {
                 className="btn btn-primary"
                 disabled={isPurchasing}
                 onClick={() => handleSimulateCheckout()}
+                style={{ whiteSpace: 'nowrap' }}
               >
-                {isPurchasing ? 'Initiating Checkout...' : `Confirm & Subscribe with ${selectedGateway === 'RAZORPAY' ? 'Razorpay' : 'Stripe'}`}
+                {isPurchasing ? 'Processing...' : `Subscribe with ${selectedGateway === 'RAZORPAY' ? 'Razorpay' : 'Stripe'}`}
               </button>
             </div>
           </div>

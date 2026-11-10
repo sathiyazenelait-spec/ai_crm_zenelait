@@ -58,18 +58,18 @@ export function IntegrationsView() {
 
       {/* Primary Tabs */}
       <div className="crm-card" style={{ marginBottom: '20px', padding: '10px 18px' }}>
-        <div style={{ display: 'flex', gap: '8px' }}>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           <button
             className={`btn btn-sm ${activeTab === 'integrations' ? 'btn-primary' : 'btn-secondary'}`}
             onClick={() => setActiveTab('integrations')}
           >
-            Connected Channels & APIs ({integrations.length})
+            Channels & APIs ({integrations.length})
           </button>
           <button
             className={`btn btn-sm ${activeTab === 'settings' ? 'btn-primary' : 'btn-secondary'}`}
             onClick={() => setActiveTab('settings')}
           >
-            Company Security & Global Settings
+            Security & Settings
           </button>
         </div>
       </div>
